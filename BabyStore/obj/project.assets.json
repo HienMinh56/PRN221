@@ -3187,19 +3187,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\mtam7\\.nuget\\packages\\": {}
+    "C:\\Users\\ADMIN\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\PRN221\\Project PRN\\BabyStore\\BabyStore.csproj",
+      "projectUniqueName": "D:\\Code semester 7th\\PRN-project\\PRN221\\BabyStore\\BabyStore.csproj",
       "projectName": "BabyStore",
-      "projectPath": "D:\\PRN221\\Project PRN\\BabyStore\\BabyStore.csproj",
-      "packagesPath": "C:\\Users\\mtam7\\.nuget\\packages\\",
-      "outputPath": "D:\\PRN221\\Project PRN\\BabyStore\\obj\\",
+      "projectPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\BabyStore\\BabyStore.csproj",
+      "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+      "outputPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\BabyStore\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\mtam7\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3207,14 +3207,15 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\PRN221\\Project PRN\\Services\\Services.csproj": {
-              "projectPath": "D:\\PRN221\\Project PRN\\Services\\Services.csproj"
+            "D:\\Code semester 7th\\PRN-project\\PRN221\\Services\\Services.csproj": {
+              "projectPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\Services\\Services.csproj"
             }
           }
         }
@@ -3252,7 +3253,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
