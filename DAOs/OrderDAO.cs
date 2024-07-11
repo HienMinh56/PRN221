@@ -8,36 +8,36 @@ using System.Threading.Tasks;
 
 namespace DAOs
 {
-    public class TransactionDAO
+    public class OrderDAO
     {
         private readonly Dbprn221Context _dbprn221Context;
-        private static TransactionDAO instance = null;
+        private static OrderDAO instance = null;
 
-        public static TransactionDAO Instance
+        public static OrderDAO Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new TransactionDAO();
+                    instance = new OrderDAO();
                 }
                 return instance;
             }
         }
 
-        public TransactionDAO()
+        public OrderDAO()
         {
             _dbprn221Context = new Dbprn221Context();
         }
 
-        public List<Transaction> GetTransactions()
+        public List<Order> GetOrders()
         {
-            return _dbprn221Context.Transactions.ToList();
+            return _dbprn221Context.Orders.ToList();
         }
 
-        public Transaction GetTransaction(string TransationId)
+        public Order GetOrder(string OrderId)
         {
-            return _dbprn221Context.Transactions.Find(TransationId);
+            return _dbprn221Context.Orders.Find(OrderId);
         }
     }
 }
