@@ -14,19 +14,3 @@ D:\Code semester 7th\PRN-project\PRN221\DAOs\obj\Debug\net8.0\DAOs.dll
 D:\Code semester 7th\PRN-project\PRN221\DAOs\obj\Debug\net8.0\refint\DAOs.dll
 D:\Code semester 7th\PRN-project\PRN221\DAOs\obj\Debug\net8.0\DAOs.pdb
 D:\Code semester 7th\PRN-project\PRN221\DAOs\obj\Debug\net8.0\ref\DAOs.dll
-D:\PRN221-Projects\DAOs\bin\Debug\net8.0\DAOs.deps.json
-D:\PRN221-Projects\DAOs\bin\Debug\net8.0\DAOs.dll
-D:\PRN221-Projects\DAOs\bin\Debug\net8.0\DAOs.pdb
-D:\PRN221-Projects\DAOs\bin\Debug\net8.0\BOs.dll
-D:\PRN221-Projects\DAOs\bin\Debug\net8.0\BOs.pdb
-D:\PRN221-Projects\DAOs\obj\Debug\net8.0\DAOs.csproj.AssemblyReference.cache
-D:\PRN221-Projects\DAOs\obj\Debug\net8.0\DAOs.GeneratedMSBuildEditorConfig.editorconfig
-D:\PRN221-Projects\DAOs\obj\Debug\net8.0\DAOs.AssemblyInfoInputs.cache
-D:\PRN221-Projects\DAOs\obj\Debug\net8.0\DAOs.AssemblyInfo.cs
-D:\PRN221-Projects\DAOs\obj\Debug\net8.0\DAOs.csproj.CoreCompileInputs.cache
-D:\PRN221-Projects\DAOs\obj\Debug\net8.0\DAOs.sourcelink.json
-D:\PRN221-Projects\DAOs\obj\Debug\net8.0\DAOs.csproj.Up2Date
-D:\PRN221-Projects\DAOs\obj\Debug\net8.0\DAOs.dll
-D:\PRN221-Projects\DAOs\obj\Debug\net8.0\refint\DAOs.dll
-D:\PRN221-Projects\DAOs\obj\Debug\net8.0\DAOs.pdb
-D:\PRN221-Projects\DAOs\obj\Debug\net8.0\ref\DAOs.dll

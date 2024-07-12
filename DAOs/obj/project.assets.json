@@ -3133,19 +3133,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Acer\\.nuget\\packages\\": {}
+    "C:\\Users\\ADMIN\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\PRN221-Projects\\DAOs\\DAOs.csproj",
+      "projectUniqueName": "D:\\Code semester 7th\\PRN-project\\PRN221\\DAOs\\DAOs.csproj",
       "projectName": "DAOs",
-      "projectPath": "D:\\PRN221-Projects\\DAOs\\DAOs.csproj",
-      "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-      "outputPath": "D:\\PRN221-Projects\\DAOs\\obj\\",
+      "projectPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\DAOs\\DAOs.csproj",
+      "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+      "outputPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\DAOs\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3153,14 +3153,15 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\PRN221-Projects\\BOs\\BOs.csproj": {
-              "projectPath": "D:\\PRN221-Projects\\BOs\\BOs.csproj"
+            "D:\\Code semester 7th\\PRN-project\\PRN221\\BOs\\BOs.csproj": {
+              "projectPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\BOs\\BOs.csproj"
             }
           }
         }
@@ -3195,7 +3196,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -16,21 +16,3 @@ D:\Code semester 7th\PRN-project\PRN221\Repos\obj\Debug\net8.0\Repos.dll
 D:\Code semester 7th\PRN-project\PRN221\Repos\obj\Debug\net8.0\refint\Repos.dll
 D:\Code semester 7th\PRN-project\PRN221\Repos\obj\Debug\net8.0\Repos.pdb
 D:\Code semester 7th\PRN-project\PRN221\Repos\obj\Debug\net8.0\ref\Repos.dll
-D:\PRN221-Projects\Repos\bin\Debug\net8.0\Repos.deps.json
-D:\PRN221-Projects\Repos\bin\Debug\net8.0\Repos.dll
-D:\PRN221-Projects\Repos\bin\Debug\net8.0\Repos.pdb
-D:\PRN221-Projects\Repos\bin\Debug\net8.0\BOs.dll
-D:\PRN221-Projects\Repos\bin\Debug\net8.0\DAOs.dll
-D:\PRN221-Projects\Repos\bin\Debug\net8.0\DAOs.pdb
-D:\PRN221-Projects\Repos\bin\Debug\net8.0\BOs.pdb
-D:\PRN221-Projects\Repos\obj\Debug\net8.0\Repos.csproj.AssemblyReference.cache
-D:\PRN221-Projects\Repos\obj\Debug\net8.0\Repos.GeneratedMSBuildEditorConfig.editorconfig
-D:\PRN221-Projects\Repos\obj\Debug\net8.0\Repos.AssemblyInfoInputs.cache
-D:\PRN221-Projects\Repos\obj\Debug\net8.0\Repos.AssemblyInfo.cs
-D:\PRN221-Projects\Repos\obj\Debug\net8.0\Repos.csproj.CoreCompileInputs.cache
-D:\PRN221-Projects\Repos\obj\Debug\net8.0\Repos.sourcelink.json
-D:\PRN221-Projects\Repos\obj\Debug\net8.0\Repos.csproj.Up2Date
-D:\PRN221-Projects\Repos\obj\Debug\net8.0\Repos.dll
-D:\PRN221-Projects\Repos\obj\Debug\net8.0\refint\Repos.dll
-D:\PRN221-Projects\Repos\obj\Debug\net8.0\Repos.pdb
-D:\PRN221-Projects\Repos\obj\Debug\net8.0\ref\Repos.dll

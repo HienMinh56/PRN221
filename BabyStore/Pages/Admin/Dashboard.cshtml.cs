@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Services;
 using Services.Interfaces;
 
 namespace BabyStore.Pages.Admin
@@ -10,17 +9,14 @@ namespace BabyStore.Pages.Admin
         private readonly IUserService _userService;
         private readonly ITransactionService _transactionService;
         private readonly IOrderService _orderService;
-        private readonly IProductService _productService;
 
         public DashboardModel(IUserService userService,
                               ITransactionService transactionService,
-                              IOrderService orderService,
-                              IProductService productService)
+                              IOrderService orderService)
         {
             _userService = userService;
             _transactionService = transactionService;
             _orderService = orderService;
-            _productService = productService;
         }
 
         public int UserCount { get; private set; }
@@ -28,7 +24,6 @@ namespace BabyStore.Pages.Admin
         public int OrderCount { get; private set; }
         public int Account1 { get; private set; }
         public int Account0 { get; private set; }
-        public int ProductCount { get; private set; }
 
         public IActionResult OnGet()
         {
@@ -49,7 +44,6 @@ namespace BabyStore.Pages.Admin
             OrderCount = _orderService.GetOrders().Count;
             Account1 = _userService.GetUsers().Where(s => s.Status == 1).ToList().Count();
             Account0 = _userService.GetUsers().Where(s => s.Status == 0).ToList().Count();
-            ProductCount = _productService.GetProducts().Count;
 
             return Page();
         }
