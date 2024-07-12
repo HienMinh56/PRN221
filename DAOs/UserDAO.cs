@@ -1,5 +1,7 @@
 ﻿using BOs;
 using BOs.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 
 namespace DAOs
 {
@@ -32,14 +34,17 @@ namespace DAOs
             return _context.Users.ToList();
         }
 
-        
+        public User getUserByid(string UserId)
+        {
+            return  _context.Users.FirstOrDefault(u => u.UserId == UserId);
+        }
 
         public User GetUser(string username, string password)
         {
             return _context.Users.FirstOrDefault(u => u.UserName == username && u.Password == password);
         }
 
-        public void AddUser(User user)
+        public async Task AddUser(User user)
         {
             var userIsExisted = _context.Users.Any(u => u.UserName == user.UserName || u.Phone == user.Phone || u.Email == user.Email);
             if (!userIsExisted)
@@ -62,7 +67,7 @@ namespace DAOs
 
                 // Thêm người dùng mới vào cơ sở dữ liệu
                 _context.Users.Add(user);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             else
             {
@@ -71,9 +76,9 @@ namespace DAOs
         }
 
 
-        public void UpdateUser(User user)
+        public async Task UpdateUser(string UserId, User user)
         {
-            User existingUser = _context.Users.FirstOrDefault(u => u.UserId == user.UserId);
+            User existingUser = getUserByid(UserId);
             if (existingUser != null)
             {
                 existingUser.FullName = user.FullName;
@@ -81,7 +86,11 @@ namespace DAOs
                 existingUser.Phone = user.Phone;
                 existingUser.Address = user.Address;
                 existingUser.Email = user.Email;
-                _context.SaveChanges();
+                existingUser.Role = user.Role;
+                existingUser.Balance = user.Balance;
+                existingUser.Status = user.Status;
+                _context.Update(existingUser);
+                await _context.SaveChangesAsync();
             }
             else
             {
@@ -89,24 +98,21 @@ namespace DAOs
             }
         }
 
-        public void RemoveUser(string userId)
+        public async Task RemoveUser(string userId)
         {
             try
             {
-                var user = _context.Users.SingleOrDefault(u => u.UserId == userId);
+                var user = getUserByid(userId);
                 if (user != null)
                 {
-                    user.Status = 1;
+                    user.Status = 0;
                     _context.Users.Update(user);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                 }
 
             } catch(Exception e) {
                 throw new Exception(e.Message);
             }
         }
-
-        
-
     }
 }
