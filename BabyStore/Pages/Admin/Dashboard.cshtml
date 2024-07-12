@@ -2,6 +2,7 @@
 @model BabyStore.Pages.Admin.DashboardModel
 @{
     Layout = "/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Dashboard | Baby Store";
 }
 
 <head>
@@ -109,7 +110,7 @@
                 label: 'Compare StockOut & Lot',
                 data: [@Model.TransactionCount, @Model.OrderCount],
                 backgroundColor: [
-                    'black'
+                    '#ff469e'
                 ],
                 borderWidth: 1
             }]
@@ -136,7 +137,7 @@
                 label: 'Account active & inactive',
                 data: [@Model.Account1, @Model.Account0],
                 backgroundColor: [
-                    'black',
+                    '#ff469e',
                     'deepskyblue'
                 ],
                 borderWidth: 1

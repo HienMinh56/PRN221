@@ -9,11 +9,11 @@ namespace Repos.Interfaces
 {
     public interface IUserRepository
     {
+        User getUserByid(string UserId);
         List<User> GetUsers();
         User GetUser(string username, string password);
-        void Add(User user);
-        void Update(User user);
-        void Remove(string userId);
-
+        Task Add(User user);
+        Task Update(string UserId, User user);
+        Task Remove(string userId);
     }
 }

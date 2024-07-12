@@ -4,6 +4,7 @@ using Repos.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,21 +31,24 @@ namespace Repos
             return _userDAO.GetUsers();
         }
 
-        public void Add(User user)
+        public async Task Add(User user)
         {
-             _userDAO.AddUser(user);
+             await _userDAO.AddUser(user);
         }
 
-        public void Update(User user)
+        public async Task Update(string UserId, User user)
         {
-            _userDAO.UpdateUser(user);
+            await _userDAO.UpdateUser(UserId, user);
         }
 
-        public void Remove(string userId)
+        public async Task Remove(string userId)
         {
-            _userDAO.RemoveUser(userId);
+            await _userDAO.RemoveUser(userId);
         }
 
-        
+        public User getUserByid(string UserId)
+        {
+            return _userDAO.getUserByid(UserId);
+        }
     }
 }

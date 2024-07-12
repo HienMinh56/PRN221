@@ -19,12 +19,7 @@ namespace Services
             {
                 userRepository = new UserRepository();
             }
-        }
-
-        public void Add(User user)
-        {
-            userRepository.Add(user);
-        }
+        }        
 
         public List<User> GetUsers()
         {
@@ -36,14 +31,24 @@ namespace Services
             return userRepository.GetUser(username, password);
         }
 
-        public void Remove(string userId)
+        public async Task Add(User user)
         {
-            userRepository.Remove(userId);
+            await userRepository.Add(user);
         }
 
-        public void Update(User user)
+        public async Task Remove(string userId)
         {
-            userRepository.Update(user);
+            await userRepository.Remove(userId);
+        }
+
+        public async Task Update(string UserId, User user)
+        {
+            await userRepository.Update(UserId, user);
+        }
+
+        public User getUserByid(string UserId)
+        {
+            return userRepository.getUserByid(UserId);
         }
     }
 }
