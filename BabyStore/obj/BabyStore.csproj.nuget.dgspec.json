@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\PRN221-Projects\\BabyStore\\BabyStore.csproj": {}
+    "D:\\Code semester 7th\\PRN-project\\PRN221\\BabyStore\\BabyStore.csproj": {}
   },
   "projects": {
-    "D:\\PRN221-Projects\\BabyStore\\BabyStore.csproj": {
+    "D:\\Code semester 7th\\PRN-project\\PRN221\\BabyStore\\BabyStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN221-Projects\\BabyStore\\BabyStore.csproj",
+        "projectUniqueName": "D:\\Code semester 7th\\PRN-project\\PRN221\\BabyStore\\BabyStore.csproj",
         "projectName": "BabyStore",
-        "projectPath": "D:\\PRN221-Projects\\BabyStore\\BabyStore.csproj",
-        "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN221-Projects\\BabyStore\\obj\\",
+        "projectPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\BabyStore\\BabyStore.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\BabyStore\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,14 +22,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\PRN221-Projects\\Services\\Services.csproj": {
-                "projectPath": "D:\\PRN221-Projects\\Services\\Services.csproj"
+              "D:\\Code semester 7th\\PRN-project\\PRN221\\Services\\Services.csproj": {
+                "projectPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\Services\\Services.csproj"
               }
             }
           }
@@ -67,21 +68,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\PRN221-Projects\\BOs\\BOs.csproj": {
+    "D:\\Code semester 7th\\PRN-project\\PRN221\\BOs\\BOs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN221-Projects\\BOs\\BOs.csproj",
+        "projectUniqueName": "D:\\Code semester 7th\\PRN-project\\PRN221\\BOs\\BOs.csproj",
         "projectName": "BOs",
-        "projectPath": "D:\\PRN221-Projects\\BOs\\BOs.csproj",
-        "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN221-Projects\\BOs\\obj\\",
+        "projectPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\BOs\\BOs.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\BOs\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -89,6 +90,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -157,21 +159,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\PRN221-Projects\\DAOs\\DAOs.csproj": {
+    "D:\\Code semester 7th\\PRN-project\\PRN221\\DAOs\\DAOs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN221-Projects\\DAOs\\DAOs.csproj",
+        "projectUniqueName": "D:\\Code semester 7th\\PRN-project\\PRN221\\DAOs\\DAOs.csproj",
         "projectName": "DAOs",
-        "projectPath": "D:\\PRN221-Projects\\DAOs\\DAOs.csproj",
-        "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN221-Projects\\DAOs\\obj\\",
+        "projectPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\DAOs\\DAOs.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\DAOs\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -179,14 +181,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\PRN221-Projects\\BOs\\BOs.csproj": {
-                "projectPath": "D:\\PRN221-Projects\\BOs\\BOs.csproj"
+              "D:\\Code semester 7th\\PRN-project\\PRN221\\BOs\\BOs.csproj": {
+                "projectPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\BOs\\BOs.csproj"
               }
             }
           }
@@ -221,21 +224,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\PRN221-Projects\\Repos\\Repos.csproj": {
+    "D:\\Code semester 7th\\PRN-project\\PRN221\\Repos\\Repos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN221-Projects\\Repos\\Repos.csproj",
+        "projectUniqueName": "D:\\Code semester 7th\\PRN-project\\PRN221\\Repos\\Repos.csproj",
         "projectName": "Repos",
-        "projectPath": "D:\\PRN221-Projects\\Repos\\Repos.csproj",
-        "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN221-Projects\\Repos\\obj\\",
+        "projectPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\Repos\\Repos.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\Repos\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -243,14 +246,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\PRN221-Projects\\DAOs\\DAOs.csproj": {
-                "projectPath": "D:\\PRN221-Projects\\DAOs\\DAOs.csproj"
+              "D:\\Code semester 7th\\PRN-project\\PRN221\\DAOs\\DAOs.csproj": {
+                "projectPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\DAOs\\DAOs.csproj"
               }
             }
           }
@@ -285,21 +289,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\PRN221-Projects\\Services\\Services.csproj": {
+    "D:\\Code semester 7th\\PRN-project\\PRN221\\Services\\Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN221-Projects\\Services\\Services.csproj",
+        "projectUniqueName": "D:\\Code semester 7th\\PRN-project\\PRN221\\Services\\Services.csproj",
         "projectName": "Services",
-        "projectPath": "D:\\PRN221-Projects\\Services\\Services.csproj",
-        "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN221-Projects\\Services\\obj\\",
+        "projectPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\Services\\Services.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\Services\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -307,14 +311,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\PRN221-Projects\\Repos\\Repos.csproj": {
-                "projectPath": "D:\\PRN221-Projects\\Repos\\Repos.csproj"
+              "D:\\Code semester 7th\\PRN-project\\PRN221\\Repos\\Repos.csproj": {
+                "projectPath": "D:\\Code semester 7th\\PRN-project\\PRN221\\Repos\\Repos.csproj"
               }
             }
           }
@@ -349,7 +354,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
