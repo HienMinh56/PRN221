@@ -38,7 +38,7 @@ namespace BabyStore.Pages
                     return RedirectToPage("/Admin/Dashboard");
                 }
                 // Đăng nhập thành công, chuyển hướng đến trang khác hoặc lưu thông tin đăng nhập
-                return RedirectToPage("/Admin/UserManagement/User");
+                return RedirectToPage("/Admin/ProductManagement/Index");
             }
             else
             {
