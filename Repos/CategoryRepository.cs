@@ -11,14 +11,16 @@ namespace Repos
 {
     public class CategoryRepository : ICategoryRepository
     {
-        public List<Category> GetCategories()
+        private readonly CategoryDAO _categoryDAO = null;
+        public CategoryRepository()
         {
-            return CategoryDAO.Instance.GetCategories();
+            if (_categoryDAO == null)
+            {
+                _categoryDAO = new CategoryDAO();
+            }
         }
+        public List<Category> GetCategories() => _categoryDAO.GetCategories();
 
-        public Category GetCategoryById(string cateid)
-        {
-            return CategoryDAO.Instance.GetCategoryById(cateid);
-        }
+        public Category GetCategoryById(string cateid) => _categoryDAO.GetCategoryById(cateid);
     }
 }
