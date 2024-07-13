@@ -23,8 +23,6 @@ public partial class User
 
     public int Role { get; set; }
 
-    public int Balance { get; set; }
-
     public int Status { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();

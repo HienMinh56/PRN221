@@ -17,8 +17,6 @@ public partial class Order
 
     public int Quantity { get; set; }
 
-    public string StoreId { get; set; } = null!;
-
     public string TransationId { get; set; } = null!;
 
     public int Status { get; set; }
