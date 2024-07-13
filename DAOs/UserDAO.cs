@@ -87,7 +87,6 @@ namespace DAOs
                 existingUser.Address = user.Address;
                 existingUser.Email = user.Email;
                 existingUser.Role = user.Role;
-                existingUser.Balance = user.Balance;
                 existingUser.Status = user.Status;
                 _context.Update(existingUser);
                 await _context.SaveChangesAsync();
