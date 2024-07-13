@@ -39,5 +39,18 @@ namespace DAOs
         {
             return _dbprn221Context.Orders.Find(OrderId);
         }
+
+        public async Task AddOrder(Order order)
+        {
+            try
+            {
+                _dbprn221Context.Orders.Add(order);
+                await _dbprn221Context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

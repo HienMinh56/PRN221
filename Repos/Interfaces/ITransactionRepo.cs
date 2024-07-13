@@ -13,5 +13,7 @@ namespace Repos.Interfaces
         public List<Transaction> GetTransactions();
 
         public Transaction GetTransaction(string TransactionId);
+
+        public Task AddTransaction(Transaction transaction);
     }
 }

@@ -14,6 +14,11 @@ namespace Services
             transactionRepo = new TransactionRepo();
         }
 
+        public async Task AddTransaction(Transaction transaction)
+        {
+            await transactionRepo.AddTransaction(transaction);
+        }
+
         public Transaction GetTransaction(string TransactionId)
         {
             return transactionRepo.GetTransaction(TransactionId);
@@ -23,5 +28,6 @@ namespace Services
         {
             return transactionRepo.GetTransactions();
         }
+
     }
 }
