@@ -1,5 +1,6 @@
 ﻿using BOs.Entities;
 using Repos;
+using Repos.Interfaces;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,21 +12,18 @@ namespace Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly CategoryRepository categoryRepository;
+        private readonly ICategoryRepository categoryRepository = null;
 
         public CategoryService()
         {
-            categoryRepository = new CategoryRepository();
+            if(categoryRepository == null) 
+            {
+                categoryRepository = new CategoryRepository();
+            }
+            
         }
 
-        public Category GetCategoryById(string cateId)
-        {
-            return categoryRepository.GetCategoryById(cateId);
-        }
-
-        public List<Category> GetCategories()
-        {
-            return categoryRepository.GetCategories();
-        }
+        public Category GetCategoryById(string cateId) => categoryRepository.GetCategoryById(cateId);
+        public List<Category> GetCategories() => categoryRepository.GetCategories();
     }
 }

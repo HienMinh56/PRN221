@@ -1,5 +1,6 @@
 ﻿using BOs;
 using BOs.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,16 @@ namespace DAOs
 
         public List<Category> GetCategories()
         {
-            return _dbprn221Context.Categories.ToList();
+            List<Category> listCategory = null;
+            try
+            {
+                listCategory = _dbprn221Context.Categories.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return listCategory;
         }
 
         public Category GetCategoryById(string cateId)

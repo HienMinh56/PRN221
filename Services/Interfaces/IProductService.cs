@@ -1,4 +1,5 @@
 ﻿using BOs.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace Services
         public Product GetProductById(string productId);
         public void UpdateProduct(string productId, Product product);
         public void DeleteProduct(string productId);
+        Task<string?> AddImage(IFormFile file, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment);
     }
 }

@@ -7,39 +7,62 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BOs;
 using BOs.Entities;
+using Services.Interfaces;
+using Services;
+using Microsoft.Identity.Client.Extensions.Msal;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace BabyStore.Pages.Admin.ProductManagement
 {
     public class CreateModel : PageModel
     {
-        private readonly BOs.Dbprn221Context _context;
+        //private readonly Dbprn221Context _context;
+        private readonly IProductService _product;
+        private readonly ICategoryService _category;
+        //private readonly IImageHandle _imageHandle;
+        private Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
 
-        public CreateModel(BOs.Dbprn221Context context)
+        public CreateModel(ICategoryService category, IProductService product, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment)
         {
-            _context = context;
+            _category = category;
+            _product = product;
+            _environment = environment;
         }
 
         public IActionResult OnGet()
         {
-        ViewData["CateId"] = new SelectList(_context.Categories, "CateId", "CateId");
+            InitializeSelectLists();
             return Page();
         }
 
         [BindProperty]
         public Product Product { get; set; } = default!;
+        [Required(ErrorMessage = "Choose one File!")]
+        [DataType(DataType.Upload)]
+        [FileExtensions(Extensions = "jpg,jpeg,jpe,bmp,gif,png")]
+        [BindProperty]
+        public IFormFile Image { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            try
             {
+                Product.Image = await _product.AddImage(Image, _environment);
+                _product.AddProduct(Product);
+            }
+            catch
+            {
+                ViewData["Error"] = "Product code already exists!";
+                InitializeSelectLists();
                 return Page();
             }
-
-            _context.Products.Add(Product);
-            await _context.SaveChangesAsync();
-
             return RedirectToPage("./Index");
+        }
+        private void InitializeSelectLists()
+        {
+            ViewData["CategoryId"] = new SelectList(_category.GetCategories(), "CategoryId", "Name");
         }
     }
 }
