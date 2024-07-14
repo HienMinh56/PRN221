@@ -18,6 +18,11 @@ namespace Services
             orderRepo = new OrderRepo();
         }
 
+        public async Task AddOrder(Order order)
+        {
+            await orderRepo.AddOrder(order);
+        }
+
         public Order GetOrder(string OrderId)
         {
             return orderRepo.GetOrder(OrderId);

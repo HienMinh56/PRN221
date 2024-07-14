@@ -30,6 +30,7 @@ namespace BabyStore.Pages.Admin.UserManagement
 
         public async Task<IActionResult> OnPostAsync()
         {
+            User.Password= BCrypt.Net.BCrypt.HashPassword(User.Password);
             _userService.Add(User);
 
             return RedirectToPage("./User");

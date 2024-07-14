@@ -1,100 +1,79 @@
 ﻿@page
-@model IndexModel
+@model BabyStore.Pages.IndexModel
 @{
-    ViewData["Title"] = "Login page";
-    Layout = "_Layout";
+    ViewData["Title"] = "Login Page";
+    Layout = "~/Pages/Shared/_Layout_Login.cshtml"; // Đảm bảo bạn đã có file Layout để sử dụng
 }
+
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Login Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background-color: #f0f8ff;
-            color: #333;
+        /* Thêm CSS cho field-wrapper và các phần tử khác nếu cần */
+        .field-wrapper {
+            margin-bottom: 20px;
         }
 
-        .text-center {
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        h1.display-4 {
-            font-size: 2.5rem;
-            color: #ff69b4;
-        }
-
-        form {
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .form-group input {
+        input[type="text"], input[type="password"] {
             width: 100%;
             padding: 10px;
-            border-radius: 5px;
+            font-size: 16px;
             border: 1px solid #ccc;
-        }
-
-        .text-danger {
-            color: #ff0000;
-        }
-
-        .btn-primary {
-            background-color: #ff69b4;
-            border-color: #ff69b4;
-            color: white;
-            padding: 10px 20px;
             border-radius: 5px;
         }
 
-        .btn-primary:hover {
-            background-color: #ff85c2;
-            border-color: #ff85c2;
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
-        a {
-            color: #ff69b4;
+            input[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+
+        .field-wrapper label {
+            position: absolute;
+            top: 14px;
+            left: 10px;
+            color: #888;
+            pointer-events: none;
+            transition: 0.25s;
         }
 
-        a:hover {
-            color: #ff85c2;
+        .field-wrapper input:focus ~ label,
+        .field-wrapper input:not(:placeholder-shown) ~ label {
+            top: 2px;
+            font-size: 12px;
+            color: #007bff;
         }
     </style>
 </head>
-
 <body>
-    <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-        <form method="post" asp-page-handler="Login">
-            <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group text-danger">
-                @ViewData["error"]
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
-    </div>
+    <h2>Sign in</h2>
+    <form method="post" asp-page-handler="Login">
+        <div class="field-wrapper">
+            <input type="text" asp-for="Username" placeholder=" ">
+            <label asp-for="Username">Username</label>
+        </div>
+        <div class="field-wrapper">
+            <input type="password" asp-for="Password" placeholder=" " autocomplete="new-password">
+            <label asp-for="Password">Password</label>
+        </div>
+        <div class="field-wrapper">
+            <input type="submit" value="Sign in">
+        </div>
+        <div>
+            <a asp-page="SignUp">Already have not an account? Register</a>
+        </div>
+
+    </form>
 </body>
+</html>

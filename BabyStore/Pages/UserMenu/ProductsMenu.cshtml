@@ -1,0 +1,29 @@
+﻿@page
+@model BabyStore.Pages.UserMenu.ProductsMenuModel
+
+@{
+    ViewData["Title"] = "ProductsMenu";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>ProductsMenu</h1>
+
+<link rel="stylesheet" href="~/css/products.css" />
+
+<div class="product-grid">
+    @foreach (var product in Model.Product)
+    {
+        <div class="product-card">
+            <a href="@Url.Page("/ProductDetail", new { id = product.ProductId })">
+                <img src="@product.Image" alt="@product.Name" class="product-image" />
+                <div class="product-info">
+                    <h2 class="product-title">@product.Name</h2>
+                    <p class="product-price">
+                        @string.Format("{0:n0} VNĐ", product.Price)
+                        <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" />
+                    </p>
+                </div>
+            </a>
+        </div>
+    }
+</div>

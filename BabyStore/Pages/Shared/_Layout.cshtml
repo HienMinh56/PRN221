@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var httpContext = ViewContext.HttpContext;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,47 +11,71 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/product.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BabyStore.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMjO9wi8PIQv6MO/sX3BnI6pYZZ2yb8z7gXw6vH" crossorigin="anonymous">
     @RenderSection("Styles", required: false)
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">BabyStore</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+                <!-- Để đảm bảo các thành phần trong navbar được căn giữa -->
+                <a href="/UserMenu/ProductsMenu" class="navbar-brand" style="color: hotpink;">BabyStore</a>
+
+                <form class="form-inline">
+                    <div class="input-group">
+                        <input class="form-control search-bar" type="search" placeholder="Search..." aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+
+                <a href="/Cart" class="nav-link cart-link">
+                    <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" />
+                </a>
+
+                <!-- Kiểm tra Session để hiển thị tên người dùng hoặc nút đăng nhập -->
+                @if (!string.IsNullOrEmpty(httpContext.Session.GetString("username")))
+                {
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" onclick="toggleDropdown()" aria-haspopup="true" aria-expanded="false">
+                            @httpContext.Session.GetString("username")
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/UserMenu/UserProfileMenu?id=@httpContext.Session.GetString("id")">Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/Logout">Logout</a>
+                        </div>
+
+                        <script>
+                            function toggleDropdown() {
+                                var dropdownMenu = document.querySelector('.dropdown-menu');
+                                dropdownMenu.classList.toggle('show');
+                            }
+                        </script>
+                    </div>
+                }
+                else
+                {
+                    <a href="/Login" class="nav-link">Login</a>
+                }
+
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - BabyStore - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
+    <main role="main" class="container">
+        @RenderBody()
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 - BabyStore</p>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
-    @await RenderSectionAsync("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

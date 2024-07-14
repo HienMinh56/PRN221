@@ -1,5 +1,6 @@
 ﻿using BOs;
 using BOs.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,12 @@ namespace DAOs
         public Transaction GetTransaction(string TransationId)
         {
             return _dbprn221Context.Transactions.Find(TransationId);
+        }
+
+        public async Task AddTransaction(Transaction transaction)
+        {
+            _dbprn221Context.Transactions.Add(transaction);
+            await _dbprn221Context.SaveChangesAsync();
         }
     }
 }
