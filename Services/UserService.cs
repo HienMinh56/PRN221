@@ -12,14 +12,14 @@ namespace Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository userRepository=null;    
+        private readonly IUserRepository userRepository = null;
         public UserService()
         {
-            if(userRepository==null)
+            if (userRepository == null)
             {
                 userRepository = new UserRepository();
             }
-        }        
+        }
 
         public List<User> GetUsers()
         {
@@ -50,5 +50,7 @@ namespace Services
         {
             return userRepository.getUserByid(UserId);
         }
+
+
     }
 }

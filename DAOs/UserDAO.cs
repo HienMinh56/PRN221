@@ -1,4 +1,5 @@
-﻿using BOs;
+﻿using BCrypt.Net;
+using BOs;
 using BOs.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
@@ -41,7 +42,12 @@ namespace DAOs
 
         public User GetUser(string username, string password)
         {
-            return _context.Users.FirstOrDefault(u => u.UserName == username && u.Password == password);
+            var user = _context.Users.FirstOrDefault(u => u.UserName == username);
+            if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
+            {
+                return user;
+            }
+            return null;
         }
 
         public async Task AddUser(User user)

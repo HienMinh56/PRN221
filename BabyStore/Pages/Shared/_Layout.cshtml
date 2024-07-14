@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var httpContext = ViewContext.HttpContext;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -31,14 +35,36 @@
                 <a href="/Cart" class="nav-link cart-link">
                     <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" />
                 </a>
+
+                <!-- Kiểm tra Session để hiển thị tên người dùng hoặc nút đăng nhập -->
+                @if (!string.IsNullOrEmpty(httpContext.Session.GetString("username")))
+                {
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" onclick="toggleDropdown()" aria-haspopup="true" aria-expanded="false">
+                            @httpContext.Session.GetString("username")
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/UserMenu/UserProfileMenu?id=@httpContext.Session.GetString("id")">Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/Logout">Logout</a>
+                        </div>
+
+                        <script>
+                            function toggleDropdown() {
+                                var dropdownMenu = document.querySelector('.dropdown-menu');
+                                dropdownMenu.classList.toggle('show');
+                            }
+                        </script>
+                    </div>
+                }
+                else
+                {
+                    <a href="/Login" class="nav-link">Login</a>
+                }
+
             </div>
         </nav>
     </header>
-
-
-
-
-
 
     <main role="main" class="container">
         @RenderBody()

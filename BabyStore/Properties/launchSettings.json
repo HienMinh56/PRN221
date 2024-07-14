@@ -17,7 +17,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "launchUrl": "Login"
+      "launchUrl": "UserMenu/ProductsMenu"
     },
     "https": {
       "commandName": "Project",
@@ -27,7 +27,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "launchUrl": "Login"
+      "launchUrl": "UserMenu/ProductsMenu"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -35,7 +35,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "launchUrl": "Login"
+      "launchUrl": "UserMenu/ProductsMenu"
     }
   }
 }
