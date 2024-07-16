@@ -1,4 +1,5 @@
 ﻿using BOs.Entities;
+using DAOs;
 using Repos;
 using Repos.Interfaces;
 using Services.Interfaces;
@@ -16,11 +17,11 @@ namespace Services
 
         public CategoryService()
         {
-            if(categoryRepository == null) 
+            if (categoryRepository == null)
             {
                 categoryRepository = new CategoryRepository();
             }
-            
+
         }
 
         public Category GetCategoryById(string cateId) => categoryRepository.GetCategoryById(cateId);

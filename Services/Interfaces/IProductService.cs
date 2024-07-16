@@ -15,6 +15,5 @@ namespace Services
         public Product GetProductById(string productId);
         public void UpdateProduct(string productId, Product product);
         public void DeleteProduct(string productId);
-        Task<string?> AddImage(IFormFile file, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment);
     }
 }

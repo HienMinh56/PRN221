@@ -69,41 +69,9 @@ namespace DAOs
         {
             try
             {
-                var lastProduct = _dbprn221Context.Products
-            .OrderByDescending(p => p.ProductId)
-            .FirstOrDefault();
-
-                if (lastProduct != null)
-                {
-                    // Assuming ProductId is in the format "product001", extract the numeric part
-                    string lastProductId = lastProduct.ProductId;
-                    string numericPart = lastProductId.Substring(7); // Adjust based on your format
-
-                    if (int.TryParse(numericPart, out int number))
-                    {
-                        // Increment the number part
-                        number++;
-                        string newProductId = "PRODUCT" + number.ToString().PadLeft(3, '0'); // Format back to "product001"
-                        product.ProductId = newProductId;
-                    }
-                    else
-                    {
-                        throw new Exception("Invalid ProductId format in the database.");
-                    }
-                }
-                else
-                {
-                    // If there are no existing products, start with product001
-                    product.ProductId = "PRODUCT001";
-                }
-
-                // Set other default values if necessary
-                product.Quantity = 0;
-                product.Status = 1;
-
                 // Add the product to the context and save changes
                 _dbprn221Context.Products.Add(product);
-                _dbprn221Context.SaveChanges();
+                _dbprn221Context.SaveChangesAsync();
             }
             catch (Exception ex)
             {

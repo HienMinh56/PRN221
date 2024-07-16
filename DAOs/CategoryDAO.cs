@@ -33,16 +33,7 @@ namespace DAOs
 
         public List<Category> GetCategories()
         {
-            List<Category> listCategory = null;
-            try
-            {
-                listCategory = _dbprn221Context.Categories.ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            return listCategory;
+            return _dbprn221Context.Categories.ToList();
         }
 
         public Category GetCategoryById(string cateId)

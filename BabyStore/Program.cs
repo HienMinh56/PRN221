@@ -1,3 +1,5 @@
+using BOs;
+using PerfumeStores.Services.Services;
 using Repos;
 using Repos.Interfaces;
 using Services;
@@ -9,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddSession();
 
+builder.Services.AddDbContext<Dbprn221Context>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITransactionRepo, TransactionRepo>();
@@ -19,6 +22,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IImageHandle, ImageHandle>();
 
 var app = builder.Build();
 
