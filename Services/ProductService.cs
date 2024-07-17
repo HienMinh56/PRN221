@@ -1,4 +1,5 @@
 ﻿using BOs.Entities;
+using Microsoft.AspNetCore.Http;
 using Repos;
 using Repos.Interfaces;
 using Services.Interfaces;
@@ -25,5 +26,6 @@ namespace Services
         public Product GetProductById(string productId) => productRepo.GetProductById(productId);
         public void UpdateProduct(string productId, Product product) => productRepo.UpdateProduct(productId, product);
         public void DeleteProduct(string productId) => productRepo.DeleteProduct(productId);
+        
     }
 }
