@@ -32,6 +32,8 @@ namespace BabyStore.Pages.Admin.ProductManagement
         public string cateid { get; set; }
         [BindProperty(SupportsGet = true)]
         public string SearchText { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string name { get; set; }
 
         public IActionResult OnGet(int? pageIndex, string? cateid)
         {
@@ -73,6 +75,23 @@ namespace BabyStore.Pages.Admin.ProductManagement
                     .Count();
                 Product = productService.GetProducts()
             .Where(x => x.CateId.Equals(cateid, StringComparison.OrdinalIgnoreCase))
+            .Skip((currentPage - 1) * pageSize).Take(pageSize)
+            .ToList();
+            }
+            else
+            {
+                count = productService.GetProducts().Count();
+                Product = productService.GetProducts()
+                        .Skip((currentPage - 1) * pageSize).Take(pageSize)
+                        .ToList();
+            }
+            if (name != null)
+            {
+                count = productService.GetProducts()
+                    .Where(x => x.Name.ToUpper().Contains(name.Trim().ToUpper()))
+                    .Count();
+                Product = productService.GetProducts()
+            .Where(x => x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase))
             .Skip((currentPage - 1) * pageSize).Take(pageSize)
             .ToList();
             }
