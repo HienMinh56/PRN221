@@ -7,32 +7,61 @@
 }
 
 <h1>ProductsMenu</h1>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 <link rel="stylesheet" href="~/css/products.css" />
 
 <div class="product-grid">
     @foreach (var product in Model.Product)
     {
         <div class="product-card">
-            <a href="@Url.Page("/ProductDetail", new { id = product.ProductId })">
+            <a href="@Url.Page("/UserMenu/ProductDetailsMenu", new { id = product.ProductId })">
                 <img src="@product.Image" alt="@product.Name" class="product-image" />
                 <div class="product-info">
                     <h2 class="product-title">@product.Name</h2>
                     <p class="product-price">
                         @string.Format("{0:n0} VNĐ", product.Price)
-                        <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" />
                     </p>
                 </div>
             </a>
-            <form method="post" asp-page-handler="AddToCart">
-                <input type="hidden" name="productId" value="@product.ProductId" />
-                <input type="hidden" name="productName" value="@product.Name" />
-                <input type="hidden" name="price" value="@product.Price" />
-                <input type="hidden" name="productImage" value="@product.Image" />
-                <button type="submit" class="add-to-cart-button">
-                    Add to Cart
+            <form method="post" asp-page-handler="AddToCart" asp-route-productId="@product.ProductId" asp-route-productName="@product.Name" asp-route-price="@product.Price" asp-route-productImage="@product.Image">
+                <button type="submit" class="btn btn-primary">
+                    <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" />
                 </button>
             </form>
         </div>
     }
+    }
 </div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.add-to-cart-form').forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                var formData = new FormData(this);
+                fetch(this.action, {
+                    method: this.method,
+                    body: formData,
+                }).then(response => {
+                    if (response.ok) {
+                        alert('Product added to cart');
+                    } else {
+                        alert('Failed to add product to cart');
+                    }
+                });
+            });
+        });
+    </script>
+}

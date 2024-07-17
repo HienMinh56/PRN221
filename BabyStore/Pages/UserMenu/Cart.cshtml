@@ -6,39 +6,47 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Cart</h1>
+<h1>Your Cart</h1>
 
-<link rel="stylesheet" href="~/css/cart.css" />
-
-<div class="cart">
-    @if (Model.CartItems.Count == 0)
-    {
-        <p>Your cart is empty.</p>
-    }
-    else
-    {
-        <table class="cart-table">
-            <thead>
+@if (Model.CartItems.Count == 0)
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
                 <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
+                    <td><img src="@item.ProductImage"style="width:100px; height:100px;" /></td>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@string.Format("{0:n0} VNĐ", item.Price)</td>
+                    <td>@string.Format("{0:n0} VNĐ", item.Quantity * item.Price)</td>
+                    <td>
+                        <form method="post" asp-page-handler="RemoveItem">
+                            <input type="hidden" name="ProductId" value="@item.ProductId" />
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                        </form>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.CartItems)
-                {
-                    <tr>
-                        <td><img src="@item.ProductImage" alt="@item.ProductName" class="cart-image" /></td>
-                        <td>@item.ProductName</td>
-                        <td>@string.Format("{0:n0} VNĐ", item.Price)</td>
-                        <td>@item.Quantity</td>
-                        <td>@string.Format("{0:n0} VNĐ", item.Price * item.Quantity)</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-</div>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"><strong>Total:</strong></td>
+                <td colspan="2"><strong>@string.Format("{0:n0} VNĐ", Model.TotalPrice)</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+}

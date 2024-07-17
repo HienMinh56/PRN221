@@ -8,37 +8,40 @@ using Microsoft.EntityFrameworkCore;
 using BOs;
 using BOs.Entities;
 using Services;
-using Services.Interfaces;
 using BabyStore.Extensions;
 using BOs.Model.CartModel;
-using Microsoft.CodeAnalysis;
 
 namespace BabyStore.Pages.UserMenu
 {
-    public class ProductsMenuModel : PageModel
+    public class ProductDetailsMenuModel : PageModel
     {
         private readonly IProductService _productService;
 
-        public ProductsMenuModel(IProductService productService)
+        public ProductDetailsMenuModel(IProductService productService)
         {
             _productService = productService;
         }
 
-        public IList<Product> Product { get;set; } = default!;
-        [BindProperty]
-        public string ProductId { get; set; }
-        [BindProperty]
-        public string ProductName { get; set; }
-        [BindProperty]
-        public int Price { get; set; }
-        [BindProperty]
-        public string ProductImage { get; set; }
+        public Product Product { get; set; } = default!;
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(string id)
         {
-            Product =  _productService.GetProducts();
-        }
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var product = _productService.GetProductById(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                Product = product;
+            }
+            return Page();
+        }
         public IActionResult OnPostAddToCart(string productId, string productName, int price, string productImage)
         {
             try
@@ -71,9 +74,8 @@ namespace BabyStore.Pages.UserMenu
                 TempData["ErrorMessage"] = "Failed to add product to cart.";
             }
 
-            return RedirectToPage("/UserMenu/ProductsMenu");
+            return RedirectToPage("/UserMenu/ProductDetailsMenu", new { id = productId });
 
         }
-
     }
 }
