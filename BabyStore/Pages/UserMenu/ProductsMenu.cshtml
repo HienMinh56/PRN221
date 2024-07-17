@@ -24,6 +24,15 @@
                     </p>
                 </div>
             </a>
+            <form method="post" asp-page-handler="AddToCart">
+                <input type="hidden" name="productId" value="@product.ProductId" />
+                <input type="hidden" name="productName" value="@product.Name" />
+                <input type="hidden" name="price" value="@product.Price" />
+                <input type="hidden" name="productImage" value="@product.Image" />
+                <button type="submit" class="add-to-cart-button">
+                    Add to Cart
+                </button>
+            </form>
         </div>
     }
 </div>
