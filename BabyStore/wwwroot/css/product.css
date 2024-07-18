@@ -68,11 +68,13 @@ h1 {
     color: #ff5722;
     margin: 5px 0;
 }
+
 .cart-icon {
     margin-left: 8px;
     width: 16px; /* Adjust size as needed */
     height: auto;
 }
+
 .product-rating {
     display: flex;
     justify-content: center;

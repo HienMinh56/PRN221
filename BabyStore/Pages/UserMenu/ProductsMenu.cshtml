@@ -4,22 +4,11 @@
 @{
     ViewData["Title"] = "ProductsMenu";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+    bool isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
 }
 
 <h1>ProductsMenu</h1>
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
-    </div>
-}
 
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
-}
 <link rel="stylesheet" href="~/css/products.css" />
 
 <div class="product-grid">
@@ -35,11 +24,21 @@
                     </p>
                 </div>
             </a>
-            <form method="post" asp-page-handler="AddToCart" asp-route-productId="@product.ProductId" asp-route-productName="@product.Name" asp-route-price="@product.Price" asp-route-productImage="@product.Image">
-                <button type="submit" class="btn btn-primary">
-                    <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" />
+            @if (isAuthenticated)
+            {
+                <form method="post" asp-page-handler="AddToCart" asp-route-productId="@product.ProductId" asp-route-productName="@product.Name" asp-route-price="@product.Price" asp-route-productImage="@product.Image" class="d-inline add-to-cart-form">
+                    <button type="submit" class="btn btn-primary">
+                        <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
+                    </button>
+                </form>
+            }
+            else
+            {
+                <button class="btn btn-primary login-required">
+                    <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
+                    
                 </button>
-            </form>
+            }
         </div>
     }
     }
@@ -47,9 +46,16 @@
 
 @section Scripts {
     <script>
+        document.querySelectorAll('.login-required').forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                alert('Please log in to add items to your cart.');
+            });
+        });
+
         document.querySelectorAll('.add-to-cart-form').forEach(form => {
             form.addEventListener('submit', function (event) {
-                event.preventDefault();
+                event.preventDefault(); // Prevent default form submission
                 var formData = new FormData(this);
                 fetch(this.action, {
                     method: this.method,

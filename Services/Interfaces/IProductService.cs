@@ -1,4 +1,5 @@
-﻿using BOs.Entities;
+﻿using BabyStore.Helper;
+using BOs.Entities;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,6 @@ namespace Services
         public Product GetProductById(string productId);
         public void UpdateProduct(string productId, Product product);
         public void DeleteProduct(string productId);
+        public Task<PaginatedList<Product>> GetProductsByCategoryAsync(string category, int pageIndex, int pageSize);
     }
 }

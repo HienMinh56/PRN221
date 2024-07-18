@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "defaultProvider": "unpkg",
+  "libraries": [
+    {
+      "library": "@popperjs/core@2.11.8",
+      "destination": "wwwroot/lib/popper.js"
+    }
+  ]
+}

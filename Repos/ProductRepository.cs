@@ -1,4 +1,5 @@
-﻿using BOs.Entities;
+﻿using BabyStore.Helper;
+using BOs.Entities;
 using DAOs;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,10 @@ namespace Repos
 
         public List<Product> GetProducts() => _productDAO.GetProducts();
 
-
+        public Task<PaginatedList<Product>> GetProductsByCategoryAsync(string category, int pageIndex, int pageSize)
+        {
+            return _productDAO.GetProductsByCategoryAsync(category, pageIndex, pageSize);
+        }
 
         public void UpdateProduct(string productId, Product product) => _productDAO.UpdateProduct(productId, product);
     }
