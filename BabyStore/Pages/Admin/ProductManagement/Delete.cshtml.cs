@@ -21,15 +21,16 @@ namespace BabyStore.Pages.Admin.ProductManagement
 
         [BindProperty]
         public Product Product { get; set; } = default!;
+        public Category Category { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(string? id)
         {
-            if (id == null)
+            if (id == null || _context.Products == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products.FirstOrDefaultAsync(m => m.Id == id);
+            var product = await _context.Products.Include(x => x.Cate).FirstOrDefaultAsync(m => m.ProductId.Equals(id));
 
             if (product == null)
             {
@@ -42,18 +43,18 @@ namespace BabyStore.Pages.Admin.ProductManagement
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(string? id)
         {
-            if (id == null)
+            if (id == null || _context.Products == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == id);
             if (product != null)
             {
-                Product = product;
-                _context.Products.Remove(Product);
+                product.Status = 0; // Corrected order
+                _context.Products.Update(product);
                 await _context.SaveChangesAsync();
             }
 

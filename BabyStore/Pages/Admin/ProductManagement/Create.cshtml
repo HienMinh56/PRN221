@@ -16,7 +16,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 Product Name
@@ -39,18 +39,18 @@
                 <span asp-validation-for="Product.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                Image
-                <input asp-for="@Model.Image" class="form-control" />
+                <label asp-for="@Model.Image" class="control-label"></label>
+                <input asp-for="@Model.Image" type="file" class="form-control" required />
                 <span asp-validation-for="@Model.Image" class="text-danger"></span>
             </div>
             <div class="form-group">
-                Price
-                <input asp-for="Product.Price" class="form-control" />
-                <span asp-validation-for="Product.Price" class="text-danger"></span>
+                Quantity
+                <input asp-for="Product.Quantity" class="form-control" />
+                <span asp-validation-for="Product.Quantity" class="text-danger"></span>
             </div>
             <div class="form-group">
                 Category
-                <select asp-for="Product.CateId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                <select asp-for="Product.CateId" class="form-control" asp-items="ViewBag.CateId"></select>
             </div>
             <div class="form-group mt-4">
                 <a asp-page="./Index" class="btn text-white" style="background-color: #F37021"><i class="fa-solid fa-right-from-bracket"></i></a>
@@ -65,35 +65,43 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
     <script>
-        var duplicateError = '@ViewData["Error"]';
-        if (duplicateError) {
-            showErrorPopup(duplicateError);
-        }
+        // var duplicateError = '@ViewData["Error"]';
+        // if (duplicateError) {
+        //     showErrorPopup(duplicateError);
+        // }
 
-        function showErrorPopup(errorMessage) {
-            alert(errorMessage);
-        }
+        // function showErrorPopup(errorMessage) {
+        //     alert(errorMessage);
+        // }
 
-        function validateProductId() {
-            var productIdInput = document.getElementById("PRODUCT_ProductId");
-            var productIdValue = productCodeInput.value.trim();
-            var regex = /^prod\d{3}$/i;
+        // function validateProductId() {
+        //     var productIdInput = document.getElementById("PRODUCT_ProductId");
+        //     var productIdValue = productCodeInput.value.trim();
+        //     var regex = /^prod\d{3}$/i;
 
-            if (!regex.test(productCodeValue)) {
-                alert("ProductId must start with 'prod' or 'PROD' followed by 3 digits.");
-                productCodeInput.focus();
-                return false;
-            }
+        //     if (!regex.test(productCodeValue)) {
+        //         alert("ProductId must start with 'prod' or 'PROD' followed by 3 digits.");
+        //         productCodeInput.focus();
+        //         return false;
+        //     }
 
-            return true;
-        }
+        //     return true;
+        // }
 
-        document.querySelector('form').addEventListener('submit', function (event) {
-            if (!validateProductCode()) {
-                event.preventDefault();
-            }
-        });
+        // document.querySelector('form').addEventListener('submit', function (event) {
+        //     if (!validateProductCode()) {
+        //         event.preventDefault();
+        //     }
+        // });
+        // $(document).ready(function () {
+        //     $('.custom-file-input').on("change", function () {
+        //         var fileName = $(this).val().split("\\").pop();
+        //         $(this).next('custom-file-label').html(fileName);
+        //     });
+        // });
     </script>
 }

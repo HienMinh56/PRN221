@@ -1,0 +1,92 @@
+﻿@page
+@model BabyStore.Pages.UserMenu.ProductDetailsMenuModel
+
+@{
+    ViewData["Title"] = "ProductDetailsMenu";
+    bool isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
+}
+
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="@Model.Product.Image" class="img-fluid" alt="@Model.Product.Name" />
+                        </div>
+                        <div class="col-md-6">
+                            <h2 class="text-primary">@Model.Product.Name</h2>
+                            <p class="text-muted">@Model.Product.Title</p>
+                            <h4 class="text-danger">@Model.Product.Price.ToString("C")</h4>
+
+                            <div class="my-4">
+                                @if (Model.Product.Quantity > 0)
+                                {
+                                    @if (isAuthenticated)
+                                    {
+                                        <form method="post" asp-page-handler="AddToCart" asp-route-productId="@Model.Product.ProductId" asp-route-productName="@Model.Product.Name" asp-route-price="@Model.Product.Price" asp-route-productImage="@Model.Product.Image" class="d-inline add-to-cart-form">
+                                            <button type="submit" class="btn btn-secondary btn-lg">
+                                                Thêm vào giỏ hàng
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-secondary btn-lg login-required">
+                                            Thêm vào giỏ hàng
+                                        </button>
+                                    }
+                                }
+                                else
+                                {
+                                    <button class="btn btn-secondary btn-lg" disabled>
+                                        Sản phẩm này đã hết
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <h3>Thông tin chi tiết</h3>
+                            <ul class="list-group">
+                                <li class="list-group-item"><strong>Mã sản phẩm:</strong> @Model.Product.ProductId</li>
+                                <li class="list-group-item"><strong>Mô tả:</strong> @Model.Product.Description</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.login-required').forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                alert('Please log in to add items to your cart.');
+            });
+        });
+
+        document.querySelectorAll('.add-to-cart-form').forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent default form submission
+                var formData = new FormData(this);
+                fetch(this.action, {
+                    method: this.method,
+                    body: formData,
+                }).then(response => {
+                    if (response.ok) {
+                        alert('Product added to cart');
+                    } else {
+                        alert('Failed to add product to cart');
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using BOs;
 using BOs.Entities;
 using Services;
+using Services.Interfaces;
+using BabyStore.Extensions;
+using BOs.Model.CartModel;
+using Microsoft.CodeAnalysis;
 
 namespace BabyStore.Pages.UserMenu
 {
@@ -21,10 +25,55 @@ namespace BabyStore.Pages.UserMenu
         }
 
         public IList<Product> Product { get;set; } = default!;
+        [BindProperty]
+        public string ProductId { get; set; }
+        [BindProperty]
+        public string ProductName { get; set; }
+        [BindProperty]
+        public int Price { get; set; }
+        [BindProperty]
+        public string ProductImage { get; set; }
 
         public async Task OnGetAsync()
         {
             Product =  _productService.GetProducts();
         }
+
+        public IActionResult OnPostAddToCart(string productId, string productName, int price, string productImage)
+        {
+            try
+            {
+                var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+                var cartItem = cart.FirstOrDefault(c => c.ProductId == productId);
+                if (cartItem == null)
+                {
+                    cart.Add(new CartItem
+                    {
+                        ProductId = productId,
+                        ProductName = productName,
+                        Price = price,
+                        ProductImage = productImage,
+                        Quantity = 1
+                    });
+                }
+                else
+                {
+                    cartItem.Quantity++;
+                }
+
+                HttpContext.Session.SetObjectAsJson("Cart", cart);
+
+                TempData["SuccessMessage"] = "Product added to cart successfully!";
+            }
+            catch
+            {
+                TempData["ErrorMessage"] = "Failed to add product to cart.";
+            }
+
+            return RedirectToPage("/UserMenu/ProductsMenu");
+
+        }
+
     }
 }

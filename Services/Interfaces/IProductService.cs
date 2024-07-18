@@ -13,8 +13,7 @@ namespace Services
         public List<Product> GetProducts();
         public Product AddProduct(Product product);
         public Product GetProductById(string productId);
-        public void UpdateProduct(string productId, Product product);
+        Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment);
         public void DeleteProduct(string productId);
-        Task<string?> AddImage(IFormFile file, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment);
     }
 }

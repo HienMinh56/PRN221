@@ -1,0 +1,109 @@
+﻿@page
+@model BabyStore.Pages.UserMenu.CartModel
+
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2>Giỏ hàng</h2>
+
+    @if (Model.CartItems.Count == 0)
+    {
+        <p>Giỏ hàng của bạn trống.</p>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>Baby Store</span>
+                            <a href="#" class="text-muted" onclick="clearCart()">Xóa tất cả</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @foreach (var item in Model.CartItems)
+                        {
+                            <div class="d-flex mb-3" id="cart-item-@item.ProductId">
+                                <div class="ms-3">
+                                    <img src="@item.ProductImage" class="img-thumbnail" style="width: 100px; height: 100px;" />
+                                </div>
+                                <div class="ms-3">
+                                    <h5>@item.ProductName</h5>
+                                    <p class="text-muted">SKU: @item.ProductId</p>
+                                </div>
+                                <div class="ms-auto text-end">
+                                    <h5 class="text-danger">@string.Format("{0:n0}₫", item.Price)</h5>
+                                </div>
+                                <div class="ms-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm text-center" id="quantity-@item.ProductId" value="@item.Quantity" readonly />
+                                    </div>
+                                    <div class="text-end mt-2">
+                                        <form method="post" asp-page-handler="RemoveItem">
+                                            <input type="hidden" name="ProductId" value="@item.ProductId" />
+                                            <button type="submit" class="btn btn-link text-muted">Xóa</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="ms-3 text-end">
+                                    <h5 id="total-@item.ProductId">@string.Format("{0:n0}₫", item.Quantity * item.Price)</h5>
+                                </div>
+                            </div>
+                            <hr />
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <span>Khuyến mãi</span>
+                    </div>
+                    <div class="card-body">
+                        <!-- Promotion content here -->
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span>Thanh toán</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <span>Tổng tạm tính</span>
+                            <span id="total-price">@string.Format("{0:n0}₫", Model.TotalPrice)</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Thành tiền</span>
+                            <span id="final-price">@string.Format("{0:n0}₫", Model.TotalPrice)</span>
+                        </div>
+                        <button class="btn btn-primary btn-lg btn-block mt-3">THANH TOÁN</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function clearCart() {
+            if (confirm('Bạn có chắc muốn xóa tất cả sản phẩm khỏi giỏ hàng?')) {
+                // Remove all cart items
+                var cartItems = document.querySelectorAll('[id^="cart-item-"]');
+                cartItems.forEach(function (item) {
+                    item.remove();
+                });
+
+                // Update total prices to 0
+                document.getElementById('total-price').innerHTML = '0₫';
+                document.getElementById('final-price').innerHTML = '0₫';
+            }
+        }
+    </script>
+}

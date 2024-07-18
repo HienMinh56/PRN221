@@ -32,7 +32,7 @@ namespace DAOs
 
         public List<User> GetUsers()
         {
-            return _context.Users.ToList();
+            return _context.Users.OrderByDescending(u=>u.UserId).ToList();
         }
 
         public User getUserByid(string UserId)
