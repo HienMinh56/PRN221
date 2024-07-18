@@ -20,15 +20,16 @@ namespace BabyStore.Pages.Admin.ProductManagement
         }
 
         public Product Product { get; set; } = default!;
+        public Category Category { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(string? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products.FirstOrDefaultAsync(m => m.Id == id);
+            var product = await _context.Products.Include(m => m.Cate).FirstOrDefaultAsync(m => m.ProductId.Equals(id));
             if (product == null)
             {
                 return NotFound();
