@@ -1,5 +1,4 @@
-﻿using BabyStore.Helper;
-using BOs.Entities;
+﻿using BOs.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +14,5 @@ namespace Repos
         public Product GetProductById(string productId);
         public List<Product> GetProducts();
         public void UpdateProduct(string productId, Product product);
-        public Task<PaginatedList<Product>> GetProductsByCategoryAsync(string category, int pageIndex, int pageSize);
     }
 }

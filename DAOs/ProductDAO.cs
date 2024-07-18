@@ -1,5 +1,4 @@
-﻿using BabyStore.Helper;
-using BOs;
+﻿using BOs;
 using BOs.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -66,11 +65,7 @@ namespace DAOs
             }
             return product;
         }
-        public async Task<PaginatedList<Product>> GetProductsByCategoryAsync(string category, int pageIndex, int pageSize)
-        {
-            var query = _dbprn221Context.Products.Where(p => p.CateId == category);
-            return await PaginatedList<Product>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
-        }
+        
         public Product AddProduct(Product product)
         {
             try
