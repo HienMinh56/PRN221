@@ -1,5 +1,3 @@
-
-﻿using BabyStore.Helper;
 using BOs.Entities;
 
 using Microsoft.AspNetCore.Http;
@@ -18,11 +16,6 @@ namespace Repos
         public void DeleteProduct(string productId);
         public Product GetProductById(string productId);
         public List<Product> GetProducts();
-
-
-        public Task<PaginatedList<Product>> GetProductsByCategoryAsync(string category, int pageIndex, int pageSize);
-
-        Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment);
-
+        public Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment);
     }
 }

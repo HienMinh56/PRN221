@@ -1,5 +1,3 @@
-
-﻿using BabyStore.Helper;
 using BOs.Entities;
 
 using DAOs;
@@ -35,9 +33,6 @@ namespace Services
         }
         public void DeleteProduct(string productId) => productRepo.DeleteProduct(productId);
 
-        public Task<PaginatedList<Product>> GetProductsByCategoryAsync(string category, int pageIndex, int pageSize)
-        {
-            return productRepo.GetProductsByCategoryAsync(category, pageIndex, pageSize);
-        }
+        
     }
 }
