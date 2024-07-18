@@ -15,12 +15,21 @@
     <link rel="stylesheet" href="~/BabyStore.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMjO9wi8PIQv6MO/sX3BnI6pYZZ2yb8z7gXw6vH" crossorigin="anonymous">
     @RenderSection("Styles", required: false)
+    <style>
+        .cart-icon {
+            width: 24px; /* Adjust the size as needed */
+            height: auto;
+        }
+
+        .navbar {
+            padding: 0.5rem 1rem; /* Adjust the padding to make the header smaller */
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <!-- Để đảm bảo các thành phần trong navbar được căn giữa -->
                 <a href="/UserMenu/ProductsMenu" class="navbar-brand" style="color: hotpink;">BabyStore</a>
 
                 <form class="form-inline">
@@ -36,7 +45,6 @@
                     <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" />
                 </a>
 
-                <!-- Kiểm tra Session để hiển thị tên người dùng hoặc nút đăng nhập -->
                 @if (!string.IsNullOrEmpty(httpContext.Session.GetString("username")))
                 {
                     <div class="nav-item dropdown">
@@ -61,17 +69,18 @@
                 {
                     <a href="/Login" class="nav-link">Login</a>
                 }
-
             </div>
         </nav>
     </header>
 
-    <main role="main" class="container">
+    <main role="main" class="container-fluid" style="padding-top: 80px;">
         @RenderBody()
     </main>
 
-    <footer class="footer">
-        <p>&copy; 2024 - BabyStore</p>
+    <footer class="footer mt-4">
+        <div class="container">
+            <p>&copy; 2024 - BabyStore</p>
+        </div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

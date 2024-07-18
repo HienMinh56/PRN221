@@ -9,6 +9,12 @@ a.navbar-brand {
 /* Optional adjustments based on your provided CSS */
 .navbar {
     padding: 10px 0; /* Khoảng cách ngoài bố cục thanh điều hướng */
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+    border-bottom: 1px solid #e5e5e5; /* Optional: border at the bottom for better visibility */
 }
 
 .navbar-brand {
@@ -25,11 +31,9 @@ a.navbar-brand {
     height: auto; /* Maintain aspect ratio */
 }
 
-
 .cart-link {
     margin-left: 10px; /* Adjust spacing as needed */
 }
-
 
 .footer {
     position: absolute;
@@ -40,6 +44,7 @@ a.navbar-brand {
     background-color: #f8f9fa; /* Added background color for visibility */
     border-top: 1px solid #e5e5e5; /* Added border top */
 }
+
 .dropdown-menu {
     display: none;
     position: absolute;
@@ -51,4 +56,15 @@ a.navbar-brand {
 
 .show {
     display: block;
+}
+
+body {
+    padding-top: 60px; /* Adjust padding to avoid content being hidden under the fixed header */
+}
+header {
+    position: fixed;
+    width: 100%;
+    z-index: 1000; /* Chọn một giá trị z-index cao hơn các phần tử khác */
+    background-color: #ffffff; /* Đảm bảo màu nền cho header */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Đổ bóng cho header */
 }

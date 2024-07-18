@@ -1,4 +1,5 @@
-﻿using BOs.Entities;
+﻿using BabyStore.Helper;
+using BOs.Entities;
 using DAOs;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -33,7 +34,10 @@ namespace Repos
 
         public List<Product> GetProducts() => _productDAO.GetProducts();
 
-
+        public Task<PaginatedList<Product>> GetProductsByCategoryAsync(string category, int pageIndex, int pageSize)
+        {
+            return _productDAO.GetProductsByCategoryAsync(category, pageIndex, pageSize);
+        }
 
         public async Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
         {

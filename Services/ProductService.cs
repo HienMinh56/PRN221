@@ -1,5 +1,9 @@
-﻿using BOs.Entities;
+
+﻿using BabyStore.Helper;
+using BOs.Entities;
+
 using DAOs;
+
 using Microsoft.AspNetCore.Http;
 using Repos;
 using Repos.Interfaces;
@@ -30,6 +34,10 @@ namespace Services
             return await productRepo.UpdateProduct(productId, product, image, enviroment);
         }
         public void DeleteProduct(string productId) => productRepo.DeleteProduct(productId);
-        
+
+        public Task<PaginatedList<Product>> GetProductsByCategoryAsync(string category, int pageIndex, int pageSize)
+        {
+            return productRepo.GetProductsByCategoryAsync(category, pageIndex, pageSize);
+        }
     }
 }

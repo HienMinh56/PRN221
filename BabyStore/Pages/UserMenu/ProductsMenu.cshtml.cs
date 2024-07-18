@@ -26,7 +26,7 @@ namespace BabyStore.Pages.UserMenu
 
         public IList<Product> Product { get;set; } = default!;
         [BindProperty]
-        public int ProductId { get; set; }
+        public string ProductId { get; set; }
         [BindProperty]
         public string ProductName { get; set; }
         [BindProperty]
@@ -39,30 +39,40 @@ namespace BabyStore.Pages.UserMenu
             Product =  _productService.GetProducts();
         }
 
-        public IActionResult OnPostAddToCart(int productId, string productName, int price, string productImage)
+        public IActionResult OnPostAddToCart(string productId, string productName, int price, string productImage)
         {
-            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
-
-            var cartItem = cart.FirstOrDefault(c => c.ProductId == productId);
-            if (cartItem == null)
+            try
             {
-                cart.Add(new CartItem
+                var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+                var cartItem = cart.FirstOrDefault(c => c.ProductId == productId);
+                if (cartItem == null)
                 {
-                    ProductId = productId,
-                    ProductName = productName,
-                    Price = price,
-                    ProductImage = productImage,
-                    Quantity = 1
-                });
-            }
-            else
-            {
-                cartItem.Quantity++;
-            }
+                    cart.Add(new CartItem
+                    {
+                        ProductId = productId,
+                        ProductName = productName,
+                        Price = price,
+                        ProductImage = productImage,
+                        Quantity = 1
+                    });
+                }
+                else
+                {
+                    cartItem.Quantity++;
+                }
 
-            HttpContext.Session.SetObjectAsJson("Cart", cart);
+                HttpContext.Session.SetObjectAsJson("Cart", cart);
+
+                TempData["SuccessMessage"] = "Product added to cart successfully!";
+            }
+            catch
+            {
+                TempData["ErrorMessage"] = "Failed to add product to cart.";
+            }
 
             return RedirectToPage("/UserMenu/ProductsMenu");
+
         }
 
     }
