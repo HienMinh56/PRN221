@@ -14,33 +14,49 @@
 <div class="product-grid">
     @foreach (var product in Model.Product)
     {
-        <div class="product-card">
-            <a href="@Url.Page("/UserMenu/ProductDetailsMenu", new { id = product.ProductId })">
-                <img src="@product.Image" alt="@product.Name" class="product-image" />
-                <div class="product-info">
-                    <h2 class="product-title">@product.Name</h2>
-                    <p class="product-price">
-                        @string.Format("{0:n0} VNĐ", product.Price)
-                    </p>
-                </div>
-            </a>
-            @if (isAuthenticated)
-            {
-                <form method="post" asp-page-handler="AddToCart" asp-route-productId="@product.ProductId" asp-route-productName="@product.Name" asp-route-price="@product.Price" asp-route-productImage="@product.Image" class="d-inline add-to-cart-form">
-                    <button type="submit" class="btn btn-primary">
+        if (product.Quantity > 0)
+        {
+            <div class="product-card">
+                <a href="@Url.Page("/UserMenu/ProductDetailsMenu", new { id = product.ProductId })">
+                    <img src="@product.Image" alt="@product.Name" class="product-image" />
+                    <div class="product-info">
+                        <h2 class="product-title">@product.Name</h2>
+                        <p class="product-price">
+                            @string.Format("{0:n0} VNĐ", product.Price)
+                        </p>
+                    </div>
+                </a>
+                @if (isAuthenticated)
+                {
+                    <form method="post" asp-page-handler="AddToCart" asp-route-productId="@product.ProductId" asp-route-productName="@product.Name" asp-route-price="@product.Price" asp-route-productImage="@product.Image" class="d-inline add-to-cart-form">
+                        <button type="submit" class="btn btn-primary">
+                            <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <button class="btn btn-primary login-required">
                         <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
                     </button>
-                </form>
-            }
-            else
-            {
-                <button class="btn btn-primary login-required">
-                    <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
-                    
-                </button>
-            }
-        </div>
-    }
+                }
+            </div>
+        }
+        else
+        {
+            <div class="product-card">
+                <a href="@Url.Page("/UserMenu/ProductDetailsMenu", new { id = product.ProductId })">
+                    <img src="@product.Image" alt="@product.Name" class="product-image" />
+                    <div class="product-info">
+                        <h2 class="product-title">@product.Name</h2>
+                        <p class="product-price">
+                            @string.Format("{0:n0} VNĐ", product.Price)
+                        </p>
+                        <p class="out-of-stock">Sản phẩm này đã hết</p>
+                    </div>
+                </a>
+            </div>
+        }
     }
 </div>
 

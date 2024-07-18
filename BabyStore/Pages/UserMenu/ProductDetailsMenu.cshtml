@@ -21,18 +21,27 @@
                             <h4 class="text-danger">@Model.Product.Price.ToString("C")</h4>
 
                             <div class="my-4">
-                                @if (isAuthenticated)
+                                @if (Model.Product.Quantity > 0)
                                 {
-                                    <form method="post" asp-page-handler="AddToCart" asp-route-productId="@Model.Product.ProductId" asp-route-productName="@Model.Product.Name" asp-route-price="@Model.Product.Price" asp-route-productImage="@Model.Product.Image" class="d-inline add-to-cart-form">
-                                        <button type="submit" class="btn btn-secondary btn-lg">
+                                    @if (isAuthenticated)
+                                    {
+                                        <form method="post" asp-page-handler="AddToCart" asp-route-productId="@Model.Product.ProductId" asp-route-productName="@Model.Product.Name" asp-route-price="@Model.Product.Price" asp-route-productImage="@Model.Product.Image" class="d-inline add-to-cart-form">
+                                            <button type="submit" class="btn btn-secondary btn-lg">
+                                                Thêm vào giỏ hàng
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-secondary btn-lg login-required">
                                             Thêm vào giỏ hàng
                                         </button>
-                                    </form>
+                                    }
                                 }
                                 else
                                 {
-                                    <button class="btn btn-secondary btn-lg login-required">
-                                        Thêm vào giỏ hàng
+                                    <button class="btn btn-secondary btn-lg" disabled>
+                                        Sản phẩm này đã hết
                                     </button>
                                 }
                             </div>
