@@ -32,21 +32,6 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-12">
-        <label for="filter">Filter: </label>
-        <select onchange="location = this.value;">
-            <option value="">Select a Category</option>
-            @foreach (var category in Model.Categories)
-            {
-                <option value="@Url.Page("./Index", new { cateid = category.CateId })"
-                        selected="@(category.CateId == Model.cateid)">
-                    @category.Name
-                </option>
-            }
-        </select>
-    </div>
-</div>
 
 
 <table class="table table-hover">
@@ -118,9 +103,10 @@
                 <td class="text-center">
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
-                <td class="text-center"> |
-                <a asp-page="./Delete" asp-route-id="@item.ProductId">Delete</a>
-            </td>
+                <td class="text-center">
+                    <a asp-page="./Delete" asp-route-id="@item.ProductId">Delete</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ProductId">Details</a>
+                </td>
             </tr>
         }
     </tbody>
