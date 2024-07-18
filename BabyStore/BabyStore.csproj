@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\login.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\login.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 
@@ -17,6 +25,10 @@
 
     <Folder Include="Pages\Admin\TransactionManagement\" />
 
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\login.js" />
   </ItemGroup>
 
   <ItemGroup>
