@@ -1,12 +1,14 @@
 ﻿using BabyStore.Helper;
 using BOs;
 using BOs.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace DAOs
@@ -14,6 +16,7 @@ namespace DAOs
     public class ProductDAO
     {
         private readonly Dbprn221Context _dbprn221Context;
+        public static readonly List<string> ImageExtensions = new List<string> { ".jpg", ".jpeg", ".jpe", ".bmp", ".gif", ".png" };
         private static ProductDAO instance = null;
 
         public static ProductDAO Instance
@@ -53,12 +56,7 @@ namespace DAOs
             Product product = null;
             try
             {
-                product = _dbprn221Context.Products
-                            .AsNoTracking()
-                            .Include(c => c.Cate)
-                            .Include(c => c.Orders)
-                            .Include(c => c.OrderDetails)
-                            .FirstOrDefault(p => p.ProductId == productId);
+                product = _dbprn221Context.Products.FirstOrDefault(p => p.ProductId == productId);
             }
             catch (Exception ex)
             {
@@ -96,7 +94,7 @@ namespace DAOs
             }
         }
 
-        public void UpdateProduct(string productId, Product product)
+        public async Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment)
         {
             Product p = GetProductById(productId);
             if (p != null)
@@ -106,14 +104,38 @@ namespace DAOs
                 p.Price = product.Price;
                 p.Title = product.Title;
                 p.Description = product.Description;
-                p.Image = product.Image;
                 p.Quantity = product.Quantity;
-                p.Status = product.Status;
+
+                // Update the image if a new one is provided
+                if (image != null)
+                {
+                    p.Image = await AddImage(image, environment);
+                }
 
                 _dbprn221Context.Update(p);
-                _dbprn221Context.SaveChanges();
-
+                await _dbprn221Context.SaveChangesAsync();
             }
+            return p;
+        }
+
+        public async Task<string?> AddImage(IFormFile file, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
+        {
+            if (file != null)
+            {
+                foreach (var f in ImageExtensions)
+                {
+                    if (file.FileName.Contains(f))
+                    {
+                        var fileUp = Path.Combine(enviroment.WebRootPath, "images", file.FileName);
+                        using (var fileStream = new FileStream(fileUp, FileMode.Create))
+                        {
+                            await file.CopyToAsync(fileStream);
+                            return $"/images/{file.FileName}";
+                        }
+                    }
+                }
+            }
+            return null;
         }
     }
 }

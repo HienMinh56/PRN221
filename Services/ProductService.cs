@@ -1,5 +1,9 @@
+
 ﻿using BabyStore.Helper;
 using BOs.Entities;
+
+using DAOs;
+
 using Microsoft.AspNetCore.Http;
 using Repos;
 using Repos.Interfaces;
@@ -25,7 +29,10 @@ namespace Services
         public List<Product> GetProducts() => productRepo.GetProducts();
         public Product AddProduct(Product product) => productRepo.AddProduct(product);
         public Product GetProductById(string productId) => productRepo.GetProductById(productId);
-        public void UpdateProduct(string productId, Product product) => productRepo.UpdateProduct(productId, product);
+        public async Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
+        {
+            return await productRepo.UpdateProduct(productId, product, image, enviroment);
+        }
         public void DeleteProduct(string productId) => productRepo.DeleteProduct(productId);
 
         public Task<PaginatedList<Product>> GetProductsByCategoryAsync(string category, int pageIndex, int pageSize)

@@ -25,6 +25,9 @@ namespace Services
         }
 
         public Category GetCategoryById(string cateId) => categoryRepository.GetCategoryById(cateId);
-        public List<Category> GetCategories() => categoryRepository.GetCategories();
+        public List<Category> GetCategories()
+        {
+            return categoryRepository.GetCategories();
+        }
     }
 }

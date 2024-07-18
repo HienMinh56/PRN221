@@ -53,9 +53,8 @@ namespace BabyStore.Pages.Admin.ProductManagement
             var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == id);
             if (product != null)
             {
-                Product.Status = 1;
-                Product = product;
-                _context.Products.Update(Product);
+                product.Status = 0; // Corrected order
+                _context.Products.Update(product);
                 await _context.SaveChangesAsync();
             }
 

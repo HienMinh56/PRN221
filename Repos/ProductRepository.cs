@@ -1,6 +1,7 @@
 ﻿using BabyStore.Helper;
 using BOs.Entities;
 using DAOs;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,9 @@ namespace Repos
             return _productDAO.GetProductsByCategoryAsync(category, pageIndex, pageSize);
         }
 
-        public void UpdateProduct(string productId, Product product) => _productDAO.UpdateProduct(productId, product);
+        public async Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
+        {
+            return await _productDAO.UpdateProduct(productId, product, image, enviroment);
+        }
     }
 }

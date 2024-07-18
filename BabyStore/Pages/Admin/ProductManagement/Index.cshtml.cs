@@ -35,7 +35,77 @@ namespace BabyStore.Pages.Admin.ProductManagement
         [BindProperty(SupportsGet = true)]
         public string name { get; set; }
 
-        public IActionResult OnGet(int? pageIndex, string? cateid)
+        //public IActionResult OnGet(int? pageIndex, string? cateid)
+        //{
+        //    //if (HttpContext.Session.GetString("account") is null)
+        //    //{
+        //    //    return RedirectToPage("/Login");
+        //    //}
+
+        //    //var role = HttpContext.Session.GetString("account");
+
+        //    //if (role != "admin")
+        //    //{
+        //    //    return RedirectToPage("/Login");
+        //    //}
+
+        //    Categories = categoryService.GetCategories().ToList();
+
+        //    if (SearchText != null)
+        //    {
+        //        count = productService.GetProducts()
+        //            .Where(a => a.ProductId.ToUpper().Contains(SearchText.Trim().ToUpper()))
+        //            .Count();
+        //        Product = productService.GetProducts()
+        //    .Where(a => a.ProductId.Equals(SearchText.Trim(), StringComparison.OrdinalIgnoreCase))
+        //    .Skip((currentPage - 1) * pageSize).Take(pageSize)
+        //    .ToList();
+        //    }
+        //    else
+        //    {
+        //        count = productService.GetProducts().Count();
+        //        Product = productService.GetProducts()
+        //                .Skip((currentPage - 1) * pageSize).Take(pageSize)
+        //                .ToList();
+        //    }
+        //    if (cateid != null)
+        //    {
+        //        count = productService.GetProducts()
+        //                .Where(a => a.CateId.ToUpper().Contains(cateid.Trim().ToUpper()))
+        //                .Count();
+        //        Product = productService
+        //            .GetProducts()
+        //            .Where(a => a.CateId.Equals(cateid.Trim(), StringComparison.OrdinalIgnoreCase))
+        //            .Skip((currentPage - 1) * pageSize).Take(pageSize)
+        //            .ToList();
+        //    }
+        //    else
+        //    {
+        //        count = productService.GetProducts().Count();
+        //        Product = productService.GetProducts()
+        //                .Skip((currentPage - 1) * pageSize).Take(pageSize)
+        //                .ToList();
+        //    }
+        //    if (name != null)
+        //    {
+        //        count = productService.GetProducts()
+        //            .Where(x => x.Name.ToUpper().Contains(name.Trim().ToUpper()))
+        //            .Count();
+        //        Product = productService.GetProducts()
+        //    .Where(x => x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase))
+        //    .Skip((currentPage - 1) * pageSize).Take(pageSize)
+        //    .ToList();
+        //    }
+        //    else
+        //    {
+        //        count = productService.GetProducts().Count();
+        //        Product = productService.GetProducts()
+        //                .Skip((currentPage - 1) * pageSize).Take(pageSize)
+        //                .ToList();
+        //    }
+        //    return Page();
+        //}
+        public IActionResult OnGet(int? pageIndex, string? cateid, string? name)
         {
             //if (HttpContext.Session.GetString("account") is null)
             //{
@@ -51,58 +121,27 @@ namespace BabyStore.Pages.Admin.ProductManagement
 
             Categories = categoryService.GetCategories().ToList();
 
-            if (SearchText != null)
+            var productsQuery = productService.GetProducts().AsQueryable();
+
+            if (!string.IsNullOrEmpty(cateid))
             {
-                count = productService.GetProducts()
-                    .Where(a => a.ProductId.ToUpper().Contains(SearchText.Trim().ToUpper()))
-                    .Count();
-                Product = productService.GetProducts()
-            .Where(a => a.ProductId.Equals(SearchText.Trim(), StringComparison.OrdinalIgnoreCase))
-            .Skip((currentPage - 1) * pageSize).Take(pageSize)
-            .ToList();
+                productsQuery = productsQuery.Where(a => a.CateId.Equals(cateid.Trim(), StringComparison.OrdinalIgnoreCase));
             }
-            else
+
+            if (!string.IsNullOrEmpty(name))
             {
-                count = productService.GetProducts().Count();
-                Product = productService.GetProducts()
-                        .Skip((currentPage - 1) * pageSize).Take(pageSize)
-                        .ToList();
+                productsQuery = productsQuery.Where(x => x.Name.Contains(name.Trim(), StringComparison.OrdinalIgnoreCase));
             }
-            if (cateid != null)
-            {
-                count = productService.GetProducts()
-                    .Where(x => x.CateId.ToUpper().Contains(cateid.Trim().ToUpper()))
-                    .Count();
-                Product = productService.GetProducts()
-            .Where(x => x.CateId.Equals(cateid, StringComparison.OrdinalIgnoreCase))
-            .Skip((currentPage - 1) * pageSize).Take(pageSize)
-            .ToList();
-            }
-            else
-            {
-                count = productService.GetProducts().Count();
-                Product = productService.GetProducts()
-                        .Skip((currentPage - 1) * pageSize).Take(pageSize)
-                        .ToList();
-            }
-            if (name != null)
-            {
-                count = productService.GetProducts()
-                    .Where(x => x.Name.ToUpper().Contains(name.Trim().ToUpper()))
-                    .Count();
-                Product = productService.GetProducts()
-            .Where(x => x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase))
-            .Skip((currentPage - 1) * pageSize).Take(pageSize)
-            .ToList();
-            }
-            else
-            {
-                count = productService.GetProducts().Count();
-                Product = productService.GetProducts()
-                        .Skip((currentPage - 1) * pageSize).Take(pageSize)
-                        .ToList();
-            }
+
+            count = productsQuery.Count(); // Hoặc giá trị pageSize bạn muốn sử dụng
+
+            Product = productsQuery
+                .Skip((currentPage - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
             return Page();
         }
+
     }
 }
