@@ -62,7 +62,6 @@ namespace BabyStore.Pages.Admin.ProductManagement
         public string GenerateNewProductId()
         {
             string newProductId = "PRODUCT001"; // Default starting value
-
             // Find the last product in the database to determine the next number
             var lastProduct = _context.Products
                 .OrderByDescending(p => p.ProductId)
