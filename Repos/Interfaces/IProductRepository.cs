@@ -16,6 +16,6 @@ namespace Repos
         public void DeleteProduct(string productId);
         public Product GetProductById(string productId);
         public List<Product> GetProducts();
-        public void UpdateProduct(string productId, Product product);
+        public Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment);
     }
 }
