@@ -18,7 +18,7 @@
         {
             <div class="product-card">
                 <a href="@Url.Page("/UserMenu/ProductDetailsMenu", new { id = product.ProductId })">
-                    <img src="@product.Image" alt="@product.Name" class="product-image" />
+                    <img src="@product.Image" style="height:100px; width:100%" alt="@product.Name" class="product-image" />
                     <div class="product-info">
                         <h2 class="product-title">@product.Name</h2>
                         <p class="product-price">
