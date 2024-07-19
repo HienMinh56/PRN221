@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\Admin\Profile.cshtml" />
     <Content Remove="wwwroot\js\login.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Admin\Profile.cshtml" />
     <_ContentIncludedByDefault Remove="wwwroot\js\login.js" />
   </ItemGroup>
 
@@ -29,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Pages\Admin\Profile.cshtml" />
     <None Include="wwwroot\js\login.js" />
   </ItemGroup>
 
@@ -40,6 +43,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Admin\Profile.cshtml" />
   </ItemGroup>
 
 </Project>
