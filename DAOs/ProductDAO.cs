@@ -88,7 +88,7 @@ namespace DAOs
             }
         }
 
-        public async Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment)
+        public async Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
         {
             Product p = GetProductById(productId);
             if (p != null)
@@ -103,7 +103,7 @@ namespace DAOs
                 // Update the image if a new one is provided
                 if (image != null)
                 {
-                    p.Image = await AddImage(image, environment);
+                    p.Image = await AddImage(image, enviroment);
                 }
 
                 _dbprn221Context.Update(p);
