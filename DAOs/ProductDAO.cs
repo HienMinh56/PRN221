@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
+
 namespace DAOs
 {
     public class ProductDAO
@@ -62,7 +63,7 @@ namespace DAOs
             }
             return product;
         }
-
+        
         public Product AddProduct(Product product)
         {
             try

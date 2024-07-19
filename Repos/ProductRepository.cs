@@ -33,7 +33,7 @@ namespace Repos
 
         public List<Product> GetProducts() => _productDAO.GetProducts();
 
-
+       
 
         public async Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
         {

@@ -4,29 +4,33 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using BOs;
 using BOs.Entities;
 using Services.Interfaces;
-using Services;
 
 namespace BabyStore.Pages.Admin.UserManagement
 {
     public class IndexModel : PageModel
     {
         private readonly IUserService _userService;
-        private const int PageSize = 10;
+        private const int PageSize = 8;
 
         public IndexModel(IUserService userService)
         {
             _userService = userService;
         }
 
-        public IList<User> User { get;set; } = default!;
+        public IList<User> User { get; set; } = default!;
         public int PageIndex { get; set; }
         public int TotalPages { get; set; }
-        [BindProperty] public string? SearchBy { get; set; }
-        [BindProperty] public string? Keyword { get; set; }
+
+        [BindProperty]
+        public string? UserId { get; set; }
+        [BindProperty]
+        public string? UserName { get; set; }
+        [BindProperty]
+        public int? Status { get; set; }
+        [BindProperty]
+        public int? Role { get; set; }
 
         public IActionResult OnGet(int? pageIndex)
         {
@@ -42,25 +46,39 @@ namespace BabyStore.Pages.Admin.UserManagement
             return Page();
         }
 
-        public async Task OnPost(int? pageIndex)
+        public IActionResult OnPost(int? pageIndex)
         {
-            if (Keyword == null)
+            var UserList = _userService.GetUsers();
+
+            if (!string.IsNullOrEmpty(UserId))
             {
-                OnGet(pageIndex);
+                UserList = UserList.Where(a => a.UserId.ToUpper().Contains(UserId.Trim().ToUpper())).ToList();
             }
-            else
+
+            if (!string.IsNullOrEmpty(UserName))
             {
-                if (SearchBy.Equals("UserId"))
-                {
-                    User = _userService.GetUsers().Where(a => a.UserId.ToUpper().Contains(Keyword.Trim().ToUpper())).ToList();
-                }
-                else if (SearchBy.Equals("Email"))
-                {
-                    User = _userService.GetUsers().Where(a => a.Email.ToUpper().Contains(Keyword.Trim().ToUpper())).ToList();
-                }
-                PageIndex = 1;
-                TotalPages = 1;
+                UserList = UserList.Where(a => a.UserName.ToUpper().Contains(UserName.Trim().ToUpper())).ToList();
             }
+
+            if (Status.HasValue)
+            {
+                UserList = UserList.Where(a => a.Status == Status.Value).ToList();
+            }
+
+            if (Role.HasValue)
+            {
+                UserList = UserList.Where(a => a.Role == Role.Value).ToList();
+            }
+
+            PageIndex = pageIndex ?? 1;
+
+            // Paginate the filtered list
+            var count = UserList.Count();
+            TotalPages = (int)Math.Ceiling(count / (double)PageSize);
+            var items = UserList.Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
+
+            User = items;
+            return Page();
         }
     }
 }

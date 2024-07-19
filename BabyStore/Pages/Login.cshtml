@@ -1,8 +1,8 @@
 ﻿@page
-@model BabyStore.Pages.IndexModel
+@model BabyStore.Pages.AuthenModel
 @{
-    ViewData["Title"] = "Login Page";
-    Layout = "~/Pages/Shared/_Layout_Login.cshtml"; // Đảm bảo bạn đã có file Layout để sử dụng
+    ViewData["Title"] = "Login | Baby Store";
+    Layout = "~/Pages/Shared/_Layout_Login.cshtml";
 }
 
 <!DOCTYPE html>
@@ -11,69 +11,326 @@
     <title>Login Page</title>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
     <style>
-        /* Thêm CSS cho field-wrapper và các phần tử khác nếu cần */
-        .field-wrapper {
-            margin-bottom: 20px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #444;
         }
 
-        input[type="submit"] {
+        .container {
+            position: relative;
+            width: 70vw;
+            height: 80vh;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+            .container::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -50%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(-45deg, #df4adf, #520852);
+                z-index: 6;
+                transform: translateX(100%);
+                transition: 1s ease-in-out;
+            }
+
+        .signin-signup {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: white;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            z-index: 5;
+        }
+
+        form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            width: 40%;
+            min-width: 238px;
+            padding: 0 10px;
+        }
+
+            form.sign-in-form {
+                opacity: 1;
+                transition: 0.5s ease-in-out;
+                transition-delay: 1s;
+            }
+
+            form.sign-up-form {
+                opacity: 0;
+                transition: 0.5s ease-in-out;
+                transition-delay: 1s;
+            }
+
+        .title {
+            font-size: 35px;
+            color: #df4adf;
+            margin-bottom: 10px;
+        }
+
+        .input-field {
+            width: 100%;
+            height: 50px;
+            background: #f0f0f0;
+            margin: 10px 0;
+            border: 2px solid #df4adf;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+        }
+
+            .input-field i {
+                flex: 1;
+                text-align: center;
+                color: #666;
+                font-size: 18px;
+            }
+
+            .input-field input {
+                flex: 5;
+                background: none;
+                border: none;
+                outline: none;
+                width: 100%;
+                font-size: 18px;
+                font-weight: 600;
+                color: #444;
+            }
+
+        .btn {
+            width: 150px;
+            height: 50px;
             border: none;
-            border-radius: 5px;
+            border-radius: 50px;
+            background: #df4adf;
+            color: #fff;
+            font-weight: 600;
+            margin: 10px 0;
+            text-transform: uppercase;
             cursor: pointer;
         }
 
-            input[type="submit"]:hover {
-                background-color: #0056b3;
+            .btn:hover {
+                background: #c03cc0;
             }
 
-        .field-wrapper label {
-            position: absolute;
-            top: 14px;
-            left: 10px;
-            color: #888;
-            pointer-events: none;
-            transition: 0.25s;
+        .social-text {
+            margin: 10px 0;
+            font-size: 16px;
         }
 
-        .field-wrapper input:focus ~ label,
-        .field-wrapper input:not(:placeholder-shown) ~ label {
-            top: 2px;
-            font-size: 12px;
-            color: #007bff;
+        .social-media {
+            display: flex;
+            justify-content: center;
+        }
+
+        .social-icon {
+            height: 45px;
+            width: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #444;
+            border: 1px solid #444;
+            border-radius: 50px;
+            margin: 0 5px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            color: #df4adf;
+            border-color: #df4adf;
+        }
+
+        .panels-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            width: 35%;
+            min-width: 238px;
+            padding: 0 10px;
+            text-align: center;
+            z-index: 6;
+        }
+
+        .left-panel {
+            pointer-events: none;
+        }
+
+        .content {
+            color: #fff;
+            transition: 1.1s ease-in-out;
+            transition-delay: 0.5s;
+        }
+
+        .panel h3 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .panel p {
+            font-size: 15px;
+            padding: 10px 0;
+        }
+
+        .image {
+            width: 100%;
+            transition: 1.1s ease-in-out;
+            transition-delay: 0.4s;
+        }
+
+        .left-panel .image,
+        .left-panel .content {
+            transform: translateX(-200%);
+        }
+
+        .right-panel .image,
+        .right-panel .content {
+            transform: translateX(0);
+        }
+
+        .account-text {
+            display: none;
+        }
+        /*Animation*/
+        .container.sign-up-mode::before {
+            transform: translateX(0);
+        }
+
+        .container.sign-up-mode .right-panel .image,
+        .container.sign-up-mode .right-panel .content {
+            transform: translateX(200%);
+        }
+
+        .container.sign-up-mode .left-panel .image,
+        .container.sign-up-mode .left-panel .content {
+            transform: translateX(0);
+        }
+
+        .container.sign-up-mode form.sign-in-form {
+            opacity: 0;
+        }
+
+        .container.sign-up-mode form.sign-up-form {
+            opacity: 1;
+        }
+
+        .container.sign-up-mode .right-panel {
+            pointer-events: none;
+        }
+
+        .container.sign-up-mode .left-panel {
+            pointer-events: all;
         }
     </style>
 </head>
 <body>
-    <h2>Sign in</h2>
-    <form method="post" asp-page-handler="Login">
-        <div class="field-wrapper">
-            <input type="text" asp-for="Username" placeholder=" ">
-            <label asp-for="Username">Username</label>
+    <div class="container">
+        <div class="signin-signup">
+            <form method="post" class="sign-in-form" asp-page-handler="Login">
+                <h2 class="title">Sign in</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" asp-for="loginModel.Username" placeholder="Username" />
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" asp-for="loginModel.Password" placeholder="Password" autocomplete="new-password" />
+                </div>
+                <div class="form-group text-danger">
+                    @ViewData["error"]
+                </div>
+                <input type="submit" class="btn" value="Sign in">
+                <p class="account-text">Don't have an account? <a href="#" id="sign-up-btn2">Sign up</a></p>
+            </form>
+            <form method="post" class="sign-up-form" asp-page-handler="Register">
+                <h2 class="title">Sign up</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" asp-for="registerModel.FullName" placeholder="Fullname" />
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" asp-for="registerModel.Username" placeholder="Username" />
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="text" asp-for="registerModel.Email" placeholder="Email" />
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-home"></i>
+                    <input type="text" asp-for="registerModel.Address" placeholder="Address" />
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-phone"></i>
+                    <input type="number" asp-for="registerModel.Phone" placeholder="Phone" />
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" asp-for="registerModel.Password" placeholder="Password" />
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="confirmPassword" asp-for="registerModel.ConfirmPassword" placeholder="Confirm Password" />
+                </div>
+                <input type="submit" value="Sign up" class="btn">
+                <p class="account-text">Already have an account? <a href="#" id="sign-in-btn2">Sign in</a></p>
+            </form>
         </div>
-        <div class="field-wrapper">
-            <input type="password" asp-for="Password" placeholder=" " autocomplete="new-password">
-            <label asp-for="Password">Password</label>
+        <div class="panels-container">
+            <div class="panel left-panel">
+                <div class="content">
+                    <h3>Member of Brand?</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque accusantium dolor, eos incidunt minima iure?</p>
+                    <button class="btn" id="sign-in-btn">Sign in</button>
+                </div>
+                <img src="~/images/signin.svg" alt="" class="image">
+            </div>
+            <div class="panel right-panel">
+                <div class="content">
+                    <h3>New to Brand?</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque accusantium dolor, eos incidunt minima iure?</p>
+                    <button class="btn" id="sign-up-btn">Sign up</button>
+                </div>
+                <img src="~/images/password.svg" alt="" class="image">
+            </div>
         </div>
-        <div class="field-wrapper">
-            <input type="submit" value="Sign in">
-        </div>
-        <div>
-            <a asp-page="SignUp">Already have not an account? Register</a>
-        </div>
-
-    </form>
+    </div>
 </body>
 </html>

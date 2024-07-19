@@ -1,5 +1,7 @@
-﻿using BOs.Entities;
+using BOs.Entities;
+
 using DAOs;
+
 using Microsoft.AspNetCore.Http;
 using Repos;
 using Repos.Interfaces;
@@ -30,6 +32,7 @@ namespace Services
             return await productRepo.UpdateProduct(productId, product, image, enviroment);
         }
         public void DeleteProduct(string productId) => productRepo.DeleteProduct(productId);
+
         
     }
 }
