@@ -25,32 +25,41 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <div class="row mb-3 align-items-center">
+                            <div class="col-2 text-center"><strong>Hình ảnh</strong></div>
+                            <div class="col-4"><strong>Tên sản phẩm</strong></div>
+                            <div class="col-2 text-center"><strong>Số lượng</strong></div>
+                            <div class="col-2 text-end"><strong>Thành tiền</strong></div>
+                            <div class="col-2 text-end"><strong>Xóa</strong></div>
+                        </div>
+                        <hr />
                         @foreach (var item in Model.CartItems)
                         {
-                            <div class="d-flex mb-3" id="cart-item-@item.ProductId">
-                                <div class="ms-3">
-                                    <img src="@item.ProductImage" class="img-thumbnail" style="width: 100px; height: 100px;" />
+                            <div class="row mb-3 align-items-center cart-item" id="cart-item-@item.ProductId">
+                                <div class="col-2 text-center">
+                                    <a asp-page="/UserMenu/ProductDetailsMenu" asp-route-id="@item.ProductId">
+                                        <img src="@item.ProductImage" class="img-thumbnail" style="width: 100px; height: 100px;" />
+                                    </a>
                                 </div>
-                                <div class="ms-3">
-                                    <h5>@item.ProductName</h5>
+                                <div class="col-4">
+                                    <h5 class="product-name">
+                                        <a asp-page="/UserMenu/ProductDetailsMenu" asp-route-id="@item.ProductId" class="text-primary">@item.ProductName</a>
+                                    </h5>
                                     <p class="text-muted">SKU: @item.ProductId</p>
                                 </div>
-                                <div class="ms-auto text-end">
-                                    <h5 class="text-danger">@string.Format("{0:n0}₫", item.Price)</h5>
-                                </div>
-                                <div class="ms-3">
-                                    <div class="input-group">
+                                <div class="col-2 text-center">
+                                    <div class="input-group quantity-group">
                                         <input type="text" class="form-control form-control-sm text-center" id="quantity-@item.ProductId" value="@item.Quantity" readonly />
                                     </div>
-                                    <div class="text-end mt-2">
-                                        <form method="post" asp-page-handler="RemoveItem">
-                                            <input type="hidden" name="ProductId" value="@item.ProductId" />
-                                            <button type="submit" class="btn btn-link text-muted">Xóa</button>
-                                        </form>
-                                    </div>
                                 </div>
-                                <div class="ms-3 text-end">
+                                <div class="col-2 text-end">
                                     <h5 id="total-@item.ProductId">@string.Format("{0:n0}₫", item.Quantity * item.Price)</h5>
+                                </div>
+                                <div class="col-2 text-end">
+                                    <form method="post" asp-page-handler="RemoveItem">
+                                        <input type="hidden" name="ProductId" value="@item.ProductId" />
+                                        <button type="submit" class="btn btn-link text-muted">Xóa</button>
+                                    </form>
                                 </div>
                             </div>
                             <hr />
@@ -107,3 +116,22 @@
         }
     </script>
 }
+
+<style>
+    .cart-item .product-name {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .quantity-group {
+        width: 80px;
+    }
+
+    .cart-item h5 {
+        margin: 0;
+    }
+
+    .card-header, .card-body {
+        padding: 0.75rem 1rem;
+    }
+</style>
