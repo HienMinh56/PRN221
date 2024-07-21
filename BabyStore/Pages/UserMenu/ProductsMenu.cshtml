@@ -5,6 +5,8 @@
     ViewData["Title"] = "ProductsMenu";
     Layout = "~/Pages/Shared/_Layout.cshtml";
     bool isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
+    var message = Request.Query["message"];
+    var messageType = Request.Query["messageType"];
 }
 
 <h1>ProductsMenu</h1>
@@ -29,7 +31,7 @@
                     </div>
                 </a>
                 <form method="post" asp-page-handler="AddToCart" asp-route-productId="@product.ProductId" asp-route-productName="@product.Name" asp-route-price="@product.Price" asp-route-productImage="@product.Image" class="full-width-form">
-                    <button type="submit" class="btn btn-primary full-width-button">
+                    <button type="submit" class="btn btn-primary full-width-button @(!isAuthenticated ? "login-required" : "")">
                         <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
                     </button>
                 </form>
@@ -55,13 +57,61 @@
     }
 </div>
 
+<!-- Notification Modal -->
+<div id="notificationModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+            <p id="notificationMessage"></p>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
-        document.querySelectorAll('.login-required').forEach(button => {
-            button.addEventListener('click', function (event) {
-                event.preventDefault();
-                alert('Please log in to add items to your cart.');
-            });
-        });
+        function showNotification(message, type) {
+            var modal = document.getElementById("notificationModal");
+            var notificationMessage = document.getElementById("notificationMessage");
+            notificationMessage.textContent = message;
+
+            // Apply styles based on message type
+            if (type === "success") {
+                notificationMessage.style.color = "green";
+            } else if (type === "error") {
+                notificationMessage.style.color = "red";
+            }
+
+            modal.style.display = "block";
+
+            setTimeout(function () {
+                modal.style.display = "none";
+
+                // Clear query parameters from the URL
+                var url = new URL(window.location.href);
+                url.searchParams.delete('message');
+                url.searchParams.delete('messageType');
+                window.history.replaceState({}, document.title, url.toString());
+            }, 1500); // Duration of 3 seconds
+        }
+
+        var modal = document.getElementById("notificationModal");
+        var span = document.getElementsByClassName("close")[0];
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Show notification if there are query parameters
+        var message = "@message";
+        var messageType = "@messageType";
+        if (message) {
+            showNotification(message, messageType);
+        }
     </script>
 }
