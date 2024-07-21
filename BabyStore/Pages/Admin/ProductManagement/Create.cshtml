@@ -69,39 +69,39 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
-        // var duplicateError = '@ViewData["Error"]';
-        // if (duplicateError) {
-        //     showErrorPopup(duplicateError);
-        // }
+         var duplicateError = '@ViewData["Error"]';
+         if (duplicateError) {
+             showErrorPopup(duplicateError);
+         }
 
-        // function showErrorPopup(errorMessage) {
-        //     alert(errorMessage);
-        // }
+         function showErrorPopup(errorMessage) {
+             alert(errorMessage);
+         }
 
-        // function validateProductId() {
-        //     var productIdInput = document.getElementById("PRODUCT_ProductId");
-        //     var productIdValue = productCodeInput.value.trim();
-        //     var regex = /^prod\d{3}$/i;
+         function validateProductId() {
+             var productIdInput = document.getElementById("PRODUCT_ProductId");
+             var productIdValue = productCodeInput.value.trim();
+             var regex = /^prod\d{3}$/i;
 
-        //     if (!regex.test(productCodeValue)) {
-        //         alert("ProductId must start with 'prod' or 'PROD' followed by 3 digits.");
-        //         productCodeInput.focus();
-        //         return false;
-        //     }
+             if (!regex.test(productCodeValue)) {
+                 alert("ProductId must start with 'prod' or 'PROD' followed by 3 digits.");
+                 productCodeInput.focus();
+                 return false;
+             }
 
-        //     return true;
-        // }
+             return true;
+         }
 
-        // document.querySelector('form').addEventListener('submit', function (event) {
-        //     if (!validateProductCode()) {
-        //         event.preventDefault();
-        //     }
-        // });
-        // $(document).ready(function () {
-        //     $('.custom-file-input').on("change", function () {
-        //         var fileName = $(this).val().split("\\").pop();
-        //         $(this).next('custom-file-label').html(fileName);
-        //     });
-        // });
+         document.querySelector('form').addEventListener('submit', function (event) {
+             if (!validateProductCode()) {
+                 event.preventDefault();
+             }
+         });
+         $(document).ready(function () {
+             $('.custom-file-input').on("change", function () {
+                 var fileName = $(this).val().split("\\").pop();
+                 $(this).next('custom-file-label').html(fileName);
+             });
+         });
     </script>
 }

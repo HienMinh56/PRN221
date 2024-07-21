@@ -87,20 +87,20 @@ namespace BabyStore.Pages.Admin.ProductManagement
 
             return newProductId;
         }
-        //public string UploadFile()
-        //{
-        //    string uniqueFileName = null;
-        //    if (FrontImage != null)
-        //    {
-        //        string fileUp = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-        //        uniqueFileName = Guid.NewGuid().ToString() + "_" + FrontImage.FileName;
-        //        string filePath = Path.Combine(fileUp, uniqueFileName);
-        //        using (var fileStream = new FileStream(filePath, FileMode.Create))
-        //        {
-        //            FrontImage.CopyTo(fileStream);
-        //        }
-        //    }
-        //    return uniqueFileName;
-        //}
+        public string UploadFile()
+        {
+            string uniqueFileName = null;
+            if (Image != null)
+            {
+                string fileUp = Path.Combine(_environment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
+                string filePath = Path.Combine(fileUp, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    Image.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
+        }
     }
 }

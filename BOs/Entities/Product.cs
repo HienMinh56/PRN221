@@ -25,6 +25,10 @@ public partial class Product
 
     public int Status { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
+    public string? CreatedBy { get; set; }
+
     public virtual Category? Cate { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
