@@ -1,4 +1,4 @@
-using BabyStore.Extensions;
+﻿using BabyStore.Extensions;
 using BOs.Model.CartModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,11 +11,12 @@ namespace BabyStore.Pages.UserMenu
 
         public List<CartItem> CartItems { get; set; }
         public decimal TotalPrice { get; set; }
-
+        public string ShippingAddress { get; set; }
         public void OnGet()
         {
             CartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
             TotalPrice = CartItems.Sum(item => item.Quantity * item.Price);
+            ShippingAddress = HttpContext.Session.GetString("address") ?? "Pls Update your address.";
         }
 
         public IActionResult OnPostRemoveItem(string productId)
