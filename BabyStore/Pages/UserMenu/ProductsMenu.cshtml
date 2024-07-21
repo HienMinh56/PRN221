@@ -25,12 +25,15 @@
                     </div>
                     <div class="product-info">
                         <h2 class="product-title">@product.Name</h2>
-                        <p class="product-price">
-                            @string.Format("{0:n0} VNĐ", product.Price)
-                        </p>
+                        <div class="product-details">
+                            <p class="product-quantity">Số lượng: @product.Quantity</p>
+                            <p class="product-price">
+                                @string.Format("{0:n0} VNĐ", product.Price)
+                            </p>
+                        </div>
                     </div>
                 </a>
-                <form method="post" asp-page-handler="AddToCart" asp-route-productId="@product.ProductId" asp-route-productName="@product.Name" asp-route-price="@product.Price" asp-route-productImage="@product.Image" class="full-width-form">
+                <form method="post" asp-page-handler="AddToCart" asp-route-productId="@product.ProductId" asp-route-productName="@product.Name" asp-route-price="@product.Price" asp-route-productImage="@product.Image" asp-route-availableQuantity="@product.Quantity" class="full-width-form">
                     <button type="submit" class="btn btn-primary full-width-button @(!isAuthenticated ? "login-required" : "")">
                         <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
                     </button>
@@ -46,9 +49,12 @@
                     </div>
                     <div class="product-info">
                         <h2 class="product-title">@product.Name</h2>
-                        <p class="product-price">
-                            @string.Format("{0:n0} VNĐ", product.Price)
-                        </p>
+                        <div class="product-details">
+                            <p class="product-quantity">Số lượng: @product.Quantity</p>
+                            <p class="product-price">
+                                @string.Format("{0:n0} VNĐ", product.Price)
+                            </p>
+                        </div>
                         <p class="out-of-stock">Sản phẩm này đã hết</p>
                     </div>
                 </a>
@@ -91,7 +97,7 @@
                 url.searchParams.delete('message');
                 url.searchParams.delete('messageType');
                 window.history.replaceState({}, document.title, url.toString());
-            }, 1500); // Duration of 3 seconds
+            }, 1500); // Duration of 1.5 seconds
         }
 
         var modal = document.getElementById("notificationModal");
@@ -115,3 +121,21 @@
         }
     </script>
 }
+
+<style>
+    .product-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .product-quantity {
+        font-size: 14px;
+        color: #555;
+    }
+
+    .product-price {
+        font-size: 14px;
+        color: #000;
+    }
+</style>

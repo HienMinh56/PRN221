@@ -5,7 +5,6 @@
     ViewData["Title"] = "Cart";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
-
 <div class="container mt-5">
     <h2>Giỏ hàng</h2>
 
@@ -45,18 +44,22 @@
                                     <h5 class="product-name">
                                         <a asp-page="/UserMenu/ProductDetailsMenu" asp-route-id="@item.ProductId" class="text-primary">@item.ProductName</a>
                                     </h5>
-                                    <p class="text-muted">SKU: @item.ProductId</p>
+                                    <p class="text-muted">ProCode: @item.ProductId</p>
                                 </div>
                                 <div class="col-2 text-center">
-                                    <div class="input-group quantity-group">
-                                        <input type="text" class="form-control form-control-sm text-center" id="quantity-@item.ProductId" value="@item.Quantity" readonly />
-                                    </div>
+                                    <form method="post" asp-page-handler="UpdateQuantity" class="quantity-form">
+                                        <div class="quantity-group">
+                                            <input type="hidden" name="ProductId" value="@item.ProductId" />
+                                            <input type="number" name="Quantity" class="form-control form-control-sm text-center quantity-input" value="@item.Quantity" min="1" max="@item.AvailableQuantity" id="quantity-@item.ProductId" oninput="validateQuantity(this)" />
+                                            <button type="submit" class="btn btn-primary btn-sm quantity-button">Cập nhật</button>
+                                        </div>
+                                    </form>
                                 </div>
                                 <div class="col-2 text-end">
                                     <h5 id="total-@item.ProductId">@string.Format("{0:n0}₫", item.Quantity * item.Price)</h5>
                                 </div>
                                 <div class="col-2 text-end">
-                                    <form method="post" asp-page-handler="RemoveItem">
+                                    <form method="post" asp-page-handler="RemoveItem" onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng không?');">
                                         <input type="hidden" name="ProductId" value="@item.ProductId" />
                                         <button type="submit" class="btn btn-link text-muted">Xóa</button>
                                     </form>
@@ -69,14 +72,8 @@
             </div>
 
             <div class="col-md-3">
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <span>Khuyến mãi</span>
-                    </div>
-                    <div class="card-body">
-                        <!-- Promotion content here -->
-                    </div>
-                </div>
+                <!-- Các card khác (Khuyến mãi, Địa chỉ giao hàng, Thanh toán) -->
+                <!-- Địa chỉ giao hàng card -->
                 <div class="card mb-3">
                     <div class="card-header">
                         <span>Địa chỉ giao hàng</span>
@@ -85,6 +82,7 @@
                         <p>@Model.ShippingAddress</p>
                     </div>
                 </div>
+                <!-- Thanh toán card -->
                 <div class="card">
                     <div class="card-header">
                         <span>Thanh toán</span>
@@ -95,13 +93,16 @@
                             <span id="total-price">@string.Format("{0:n0}₫", Model.TotalPrice)</span>
                         </div>
                         <div class="d-flex justify-content-between">
+                            <span>Voucher</span>
+                            <span id="voucher-discount">- @string.Format("{0:n0}₫", (Model.TotalPrice * 0.1))</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
                             <span>Thành tiền</span>
-                            <span id="final-price">@string.Format("{0:n0}₫", Model.TotalPrice)</span>
+                            <span id="final-price">@string.Format("{0:n0}₫", Model.TotalPrice - (Model.TotalPrice * 0.1))</span>
                         </div>
                         <button class="btn btn-primary btn-lg btn-block mt-3">THANH TOÁN</button>
                     </div>
                 </div>
-                
             </div>
         </div>
     }
@@ -109,6 +110,43 @@
 
 @section Scripts {
     <script>
+        function updateQuantity(productId, change) {
+            var quantityInput = document.getElementById(`quantity-${productId}`);
+            var currentQuantity = parseInt(quantityInput.value);
+            var newQuantity = currentQuantity + change;
+
+            if (newQuantity <= 0) {
+                // Xóa sản phẩm nếu số lượng là 0 hoặc âm
+                document.querySelector(`#cart-item-${productId} form`).submit();
+                return;
+            }
+
+            // Cập nhật số lượng trên giao diện
+            quantityInput.value = newQuantity;
+
+            // Tính toán và cập nhật giá thành
+            var pricePerItem = parseFloat(document.querySelector(`#total-${productId}`).innerText.replace('₫', '').replace(',', ''));
+            var newTotal = newQuantity * pricePerItem;
+            document.querySelector(`#total-${productId}`).innerText = `${newTotal.toFixed(0)}₫`;
+
+            // Gửi yêu cầu AJAX để cập nhật số lượng
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/UserMenu/Cart?handler=UpdateQuantity', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // Cập nhật tổng tiền
+                    var totalPrice = parseFloat(document.getElementById('total-price').innerText.replace('₫', '').replace(',', ''));
+                    var voucherDiscount = totalPrice * 0.1;
+                    var finalPrice = totalPrice - voucherDiscount;
+                    document.getElementById('total-price').innerText = `${totalPrice.toFixed(0)}₫`;
+                    document.getElementById('voucher-discount').innerText = `- ${voucherDiscount.toFixed(0)}₫`;
+                    document.getElementById('final-price').innerText = `${finalPrice.toFixed(0)}₫`;
+                }
+            };
+            xhr.send(`ProductId=${productId}&Quantity=${newQuantity}`);
+        }
+
         function clearCart() {
             if (confirm('Bạn có chắc muốn xóa tất cả sản phẩm khỏi giỏ hàng?')) {
                 // Remove all cart items
@@ -122,6 +160,16 @@
                 document.getElementById('final-price').innerHTML = '0₫';
             }
         }
+
+        function validateQuantity(input) {
+            var maxQuantity = parseInt(input.getAttribute('max'));
+            var currentQuantity = parseInt(input.value);
+
+            if (currentQuantity > maxQuantity) {
+                alert(`Số lượng tối đa cho sản phẩm này là ${maxQuantity}.`);
+                input.value = maxQuantity;
+            }
+        }
     </script>
 }
 
@@ -131,8 +179,32 @@
         font-weight: bold;
     }
 
+    .quantity-form {
+        display: flex;
+        align-items: center;
+    }
+
     .quantity-group {
-        width: 80px;
+        display: flex;
+        width: 200px; /* Điều chỉnh theo nhu cầu */
+        align-items: center;
+    }
+
+    .quantity-input,
+    .quantity-button {
+        flex: 1; /* Đảm bảo các phần tử có cùng kích thước */
+    }
+
+    .quantity-input {
+        margin-right: 5px; /* Khoảng cách giữa ô nhập và nút */
+    }
+
+    .quantity-button {
+        height: calc(1.5em + .75rem + 2px); /* Same height as the input */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.375rem 0.75rem; /* Same padding as the input */
     }
 
     .cart-item h5 {

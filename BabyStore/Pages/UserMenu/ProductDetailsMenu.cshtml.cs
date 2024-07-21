@@ -42,7 +42,7 @@ namespace BabyStore.Pages.UserMenu
             }
             return Page();
         }
-        public IActionResult OnPostAddToCart(string productId, string productName, int price, string productImage)
+        public IActionResult OnPostAddToCart(string productId, string productName, int price, string productImage, int availableQunatity)
         {
             var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
             if (!isAuthenticated)
@@ -64,7 +64,8 @@ namespace BabyStore.Pages.UserMenu
                         ProductName = productName,
                         Price = price,
                         ProductImage = productImage,
-                        Quantity = 1
+                        Quantity = 1,
+                        AvailableQuantity = availableQunatity
                     });
                 }
                 else

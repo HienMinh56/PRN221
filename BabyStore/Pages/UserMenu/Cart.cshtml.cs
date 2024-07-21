@@ -10,7 +10,7 @@ namespace BabyStore.Pages.UserMenu
     {
 
         public List<CartItem> CartItems { get; set; }
-        public decimal TotalPrice { get; set; }
+        public double TotalPrice { get; set; }
         public string ShippingAddress { get; set; }
         public void OnGet()
         {
@@ -32,5 +32,25 @@ namespace BabyStore.Pages.UserMenu
 
             return RedirectToPage();
         }
+        public IActionResult OnPostUpdateQuantity(string productId, int quantity)
+    {
+        var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+        var cartItem = cart.FirstOrDefault(c => c.ProductId == productId);
+        if (cartItem != null)
+        {
+            if (quantity > 0)
+            {
+                cartItem.Quantity = quantity;
+            }
+            else
+            {
+                cart.Remove(cartItem);
+            }
+            HttpContext.Session.SetObjectAsJson("Cart", cart);
+        }
+
+        return RedirectToPage();
+    }
     }
 }
