@@ -23,7 +23,18 @@ namespace Repos
             await _orderDAO.AddOrder(order);
         }
 
+
         public async Task UpdateOrderStatus(string orderId, int status)
+        {
+            await _orderDAO.UpdateOrderStatus(orderId, status);
+        }
+
+        public List<Order> GetOrderbyUserId(string userId)
+        {
+            return OrderDAO.Instance.GetOrderbyUserId(userId);
+        }
+
+        public List<Order> GetOrders()
         {
             await _orderDAO.UpdateOrderStatus(orderId, status);
         }

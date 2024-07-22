@@ -78,7 +78,7 @@ namespace BabyStore.Pages
                     if (user.Role == 1)
                     {
                         // Nếu là admin
-                        return RedirectToPage("/Admin/VoucherManagement/Index");
+                        return RedirectToPage("/Admin/Dashboard");
                     }
                     // Nếu là người dùng
                     return RedirectToPage("/UserMenu/ProductsMenu");

@@ -11,7 +11,13 @@ namespace Services.Interfaces
 {
     public interface IOrderService
     {
+
         Task<string> CreateOrder(string userId, decimal totalAmount, List<CartItem> cartItems);
         Task UpdateOrderStatus(string orderId, int status);
+
+        List<Order> GetOrders();
+        Order GetOrder(string OrderId);
+        List<Order> GetOrderbyUserId(string userId);
+
     }
 }

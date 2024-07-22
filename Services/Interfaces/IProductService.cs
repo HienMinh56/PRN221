@@ -11,7 +11,7 @@ namespace Services
     public interface IProductService
     {
         public List<Product> GetProducts();
-        public Product AddProduct(Product product);
+        Task<Product> AddProduct(Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment);
         public Product GetProductById(string productId);
         Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment);
         public void DeleteProduct(string productId);

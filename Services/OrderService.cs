@@ -48,7 +48,19 @@ namespace Services
             return orderId;
         }
 
+
         public async Task UpdateOrderStatus(string orderId, int status)
+        {
+            await _orderRepo.UpdateOrderStatus(orderId, status);
+        }
+
+        public List<Order> GetOrderbyUserId(string userId)
+        {
+            return orderRepo.GetOrderbyUserId(userId);
+        }
+
+        public List<Order> GetOrders()
+
         {
             await _orderRepo.UpdateOrderStatus(orderId, status);
         }

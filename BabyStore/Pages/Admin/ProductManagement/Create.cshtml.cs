@@ -19,16 +19,12 @@ namespace BabyStore.Pages.Admin.ProductManagement
 {
     public class CreateModel : PageModel
     {
-        private readonly Dbprn221Context _context;
-        private readonly IImageHandle _imageHandle;
         private readonly IProductService _product;
         private readonly ICategoryService _category;
         private Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
 
-        public CreateModel(Dbprn221Context context, IImageHandle imageHandle, ICategoryService category, IProductService product, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment)
+        public CreateModel(ICategoryService category, IProductService product, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment)
         {
-            _context = context;
-            _imageHandle = imageHandle;
             _category = category;
             _product = product;
             _environment = environment;
@@ -49,58 +45,11 @@ namespace BabyStore.Pages.Admin.ProductManagement
         public IFormFile Image { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(Product product)
         {
-            Product.ProductId = GenerateNewProductId();
-            Product.Status = 1;
-            Product.Image = await _imageHandle.AddImage(Image, _environment);
-            _context.Products.Add(Product);
-            await _context.SaveChangesAsync();
+            Product = await _product.AddProduct(product, Image, _environment);
 
             return RedirectToPage("./Product");
         }
-        public string GenerateNewProductId()
-        {
-            string newProductId = "PRODUCT001"; // Default starting value
-            // Find the last product in the database to determine the next number
-            var lastProduct = _context.Products
-                .OrderByDescending(p => p.ProductId)
-                .FirstOrDefault();
-
-            if (lastProduct != null)
-            {
-                // Assuming ProductId is in the format "PRODUCT001", extract the numeric part
-                string lastProductId = lastProduct.ProductId;
-                string numericPart = lastProductId.Substring(7); // Adjust based on your format
-
-                if (int.TryParse(numericPart, out int number))
-                {
-                    // Increment the number part
-                    number++;
-                    newProductId = "PRODUCT" + number.ToString().PadLeft(3, '0'); // Format back to "PRODUCT001"
-                }
-                else
-                {
-                    throw new Exception("Invalid ProductId format in the database.");
-                }
-            }
-
-            return newProductId;
-        }
-        //public string UploadFile()
-        //{
-        //    string uniqueFileName = null;
-        //    if (Image != null)
-        //    {
-        //        string fileUp = Path.Combine(_environment.WebRootPath, "images");
-        //        uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
-        //        string filePath = Path.Combine(fileUp, uniqueFileName);
-        //        using (var fileStream = new FileStream(filePath, FileMode.Create))
-        //        {
-        //            Image.CopyTo(fileStream);
-        //        }
-        //    }
-        //    return uniqueFileName;
-        //}
     }
 }

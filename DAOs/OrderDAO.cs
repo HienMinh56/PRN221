@@ -30,6 +30,10 @@ namespace DAOs
         {
             _context = new Dbprn221Context();
         }
+        public List<Order> GetOrderbyUserId(string userId)
+        {
+            return _dbprn221Context.Orders.Where(o => o.UserId==userId).ToList();
+        }
 
         public async Task AddOrder(Order order)
         {
