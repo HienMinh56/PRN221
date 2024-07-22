@@ -30,6 +30,11 @@ namespace Repos
             return OrderDAO.Instance.GetOrder(OrderId);
         }
 
+        public List<Order> GetOrderbyUserId(string userId)
+        {
+            return OrderDAO.Instance.GetOrderbyUserId(userId);
+        }
+
         public List<Order> GetOrders()
         {
             return OrderDAO.Instance.GetOrders();

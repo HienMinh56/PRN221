@@ -12,6 +12,7 @@ namespace Repos.Interfaces
         public List<Order> GetOrders();
 
         public Order GetOrder(string OrderId);
+        public List<Order> GetOrderbyUserId(string userId);
 
         public Task AddOrder(Order order);
     }

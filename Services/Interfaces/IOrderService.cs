@@ -12,6 +12,7 @@ namespace Services.Interfaces
     {
         List<Order> GetOrders();
         Order GetOrder(string OrderId);
+        List<Order> GetOrderbyUserId(string userId);
         Task AddOrder(Order order);
     }
 }

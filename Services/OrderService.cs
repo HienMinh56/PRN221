@@ -28,6 +28,11 @@ namespace Services
             return orderRepo.GetOrder(OrderId);
         }
 
+        public List<Order> GetOrderbyUserId(string userId)
+        {
+            return orderRepo.GetOrderbyUserId(userId);
+        }
+
         public List<Order> GetOrders()
         {
             return orderRepo.GetOrders();
