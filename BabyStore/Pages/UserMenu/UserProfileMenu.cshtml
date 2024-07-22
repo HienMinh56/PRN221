@@ -2,40 +2,168 @@
 @model BabyStore.Pages.UserMenu.UserProfileMenuModel
 
 @{
-    ViewData["Title"] = "UserProfileMenu";
+    ViewData["Title"] = "UserProfile | Baby Store";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>User Profile</h1>
-
-<div>
-    <h4>User Information</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User.FullName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.FullName)
-        </dd>
-        <dt class="col-sm-2">
-            Address to ship
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.Address)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User.Phone)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.Phone)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.Email)
-        </dd>
-        <!-- Add more fields as needed -->
-    </dl>
+<div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
+    <span class="mask bg-primary opacity-6"></span>
 </div>
 
+<div class="main-content position-relative max-height-vh-100 h-100">
+
+    <div class="card shadow-lg mx-4 card-profile-bottom" style="max-height: 300px">
+        <div class="card-body p-3" style="max-height: 300px">
+            <div class="row gx-4">
+                <div class="col-auto">
+                    <div class="avatar avatar-xl position-relative">
+                        <img src="@(Model.User.Role == 1 ? Url.Content("~/images/admin.png") : Url.Content("~/images/user.png"))" alt="profile_image" class="w-100 border-radius-lg shadow-sm" style="max-height: 200px">
+                    </div>
+                </div>
+                <div class="col-auto my-auto">
+                    <div class="h-100">
+                        <h5 class="mb-1">@Model.User.FullName</h5>
+                        <p class="mb-0 font-weight-bold text-sm">@Model.User.UserId</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-md-8">
+                <form method="post">
+                    <div class="card">
+                        <div class="card-header pb-0" style="height: 50px">
+                            <div class="d-flex align-items-center">
+                                <p class="mb-0">Edit Profile</p>
+                                <input type="submit" class="btn btn-primary btn-sm ms-auto" value="Save changes" />
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="text" asp-for="User.UserId" hidden/>
+                            <p class="text-uppercase text-sm">User Information</p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="User.FullName" class="form-control-label">FullName</label>
+                                        <input class="form-control" asp-for="User.FullName" />
+                                        <span asp-validation-for="User.FullName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="User.UserName" class="form-control-label">Username</label>
+                                        <input class="form-control" asp-for="User.UserName" />
+                                        <span asp-validation-for="User.UserName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Password</label>
+                                        <input class="form-control"  />@Model.User.Password
+                                        <span asp-validation-for="User.Password" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="User.Address" class="form-control-label">Address</label>
+                                        <input class="form-control" asp-for="User.Address" />
+                                        <span asp-validation-for="User.Address" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="User.Email" class="form-control-label">Email</label>
+                                        <input class="form-control" asp-for="User.Email" />
+                                        <span asp-validation-for="User.Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="User.Phone" class="form-control-label">Phone</label>
+                                        <input class="form-control" asp-for="User.Phone" />
+                                        <span asp-validation-for="User.Phone" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="horizontal dark">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <img src="~/images/user_bg.png" alt="Image placeholder" class="card-img-top">
+                    <div class="row justify-content-center">
+                        <div class="col-4 col-lg-4 order-lg-2">
+                            <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
+                                <a href="javascript:;">
+                                    <img src="@(Model.User.Role == 1 ? Url.Content("~/images/admin.png") : Url.Content("~/images/user.png"))" class="rounded-circle img-fluid border border-2 border-white">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col">
+                                <div class="d-flex justify-content-center">
+                                    <div class="d-grid text-center">
+                                        <span class="text-lg font-weight-bolder"></span>
+                                        <span class="text-sm opacity-8"></span>
+                                    </div>
+                                    <div class="d-grid text-center mx-4">
+                                        <span class="text-lg font-weight-bolder"></span>
+                                        <span class="text-sm opacity-8"></span>
+                                    </div>
+                                    <div class="d-grid text-center">
+                                        <span class="text-lg font-weight-bolder"></span>
+                                        <span class="text-sm opacity-8"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <h5>
+                                @Model.User.FullName<span class="font-weight-light"></span>
+                            </h5>
+                            <div class="h6 font-weight-300">
+                                <i class="ni location_pin mr-2">
+                                    @if (@Model.User.Role == 1)
+                                    {
+                                        <span>Working as </span>
+                                    }
+                                    else if (@Model.User.Role == 2)
+                                    {
+                                        <span>Using website as </span>
+                                    }
+                                    @if (@Model.User.Role == 1)
+                                    {
+                                        <span>Admin</span>
+                                    }
+                                    else if (@Model.User.Role == 2)
+                                    {
+                                        <span>Customer</span>
+                                    }
+                                </i>
+                            </div>
+                            <div class="h6 mt-4">
+                                <i class="ni business_briefcase-24 mr-2"></i>
+                            </div>
+                            <div>
+                                <i class="ni education_hat mr-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

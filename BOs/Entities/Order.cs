@@ -11,8 +11,6 @@ public partial class Order
 
     public string UserId { get; set; } = null!;
 
-    public string ProductId { get; set; } = null!;
-
     public int TotalAmount { get; set; }
 
     public int Status { get; set; }
@@ -24,8 +22,6 @@ public partial class Order
     public string? VoucherCode { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
-
-    public virtual Product Product { get; set; } = null!;
 
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 
