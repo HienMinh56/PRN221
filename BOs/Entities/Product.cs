@@ -32,6 +32,4 @@ public partial class Product
     public virtual Category? Cate { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
-
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

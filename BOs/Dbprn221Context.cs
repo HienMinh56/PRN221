@@ -76,19 +76,10 @@ public partial class Dbprn221Context : DbContext
             entity.Property(e => e.OrderId)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.ProductId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.UserId)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.VoucherCode).HasMaxLength(50);
-
-            entity.HasOne(d => d.Product).WithMany(p => p.Orders)
-                .HasPrincipalKey(p => p.ProductId)
-                .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Order_Product");
 
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasPrincipalKey(p => p.UserId)
