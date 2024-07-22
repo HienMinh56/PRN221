@@ -60,7 +60,7 @@
                             <div class="my-4">
                                 @if (Model.Product.Quantity > 0)
                                 {
-                                    <form method="post" asp-page-handler="AddToCart" asp-route-productId="@Model.Product.ProductId" asp-route-productName="@Model.Product.Name" asp-route-price="@Model.Product.Price" asp-route-productImage="@Model.Product.Image" class="full-width-form">
+                                    <form method="post" asp-page-handler="AddToCart" asp-route-productId="@Model.Product.ProductId" asp-route-productName="@Model.Product.Name" asp-route-price="@Model.Product.Price" asp-route-productImage="@Model.Product.Image" asp-route-availableQuantity="@Model.Product.Quantity" class="full-width-form">
                                         <button type="submit" class="btn btn-primary full-width-button @(!isAuthenticated ? "login-required" : "")">
                                             <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
                                         </button>
@@ -82,6 +82,7 @@
                             <ul class="list-group">
                                 <li class="list-group-item"><strong>Mã sản phẩm:</strong> @Model.Product.ProductId</li>
                                 <li class="list-group-item"><strong>Mô tả:</strong> @Model.Product.Description</li>
+                                <li class="list-group-item"><strong>Số lượng còn:</strong> @Model.Product.Quantity</li>
                             </ul>
                         </div>
                     </div>

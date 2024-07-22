@@ -67,6 +67,7 @@ namespace BabyStore.Pages
                 HttpContext.Session.SetString("id", user.UserId);
                 HttpContext.Session.SetString("email", user.Email);
                 HttpContext.Session.SetInt32("role", user.Role);
+                HttpContext.Session.SetString("address", user.Address);
                 if (user.Status == 0)
                 {
                     ViewData["error"] = "Your account has been blocked";
@@ -77,7 +78,7 @@ namespace BabyStore.Pages
                     if (user.Role == 1)
                     {
                         // Nếu là admin
-                        return RedirectToPage("/Admin/Dashboard");
+                        return RedirectToPage("/Admin/VoucherManagement/Index");
                     }
                     // Nếu là người dùng
                     return RedirectToPage("/UserMenu/ProductsMenu");

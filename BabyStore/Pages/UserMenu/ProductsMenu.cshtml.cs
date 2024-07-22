@@ -52,7 +52,7 @@ namespace BabyStore.Pages.UserMenu
             TempData.Remove("ErrorMessage");
         }
 
-        public IActionResult OnPostAddToCart(string productId, string productName, int price, string productImage)
+        public IActionResult OnPostAddToCart(string productId, string productName, int price, string productImage, int availableQuantity)
         {
             var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
             if (!isAuthenticated)
@@ -78,7 +78,8 @@ namespace BabyStore.Pages.UserMenu
                         ProductName = productName,
                         Price = price,
                         ProductImage = productImage,
-                        Quantity = 1
+                        Quantity = 1,
+                        AvailableQuantity = availableQuantity
                     });
                 }
                 else
