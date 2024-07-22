@@ -94,7 +94,6 @@
                 <tr>
                     <th>Order ID</th>
                     <th>User ID</th>
-                    <th>Product ID</th>
                     <th>Total Amount</th>
                     <th>Status</th>
                     <th>Created Date</th>
@@ -108,7 +107,6 @@
                     <tr>
                         <td>@order.OrderId</td>
                         <td>@order.UserId</td>
-                        <td>@order.ProductId</td>
                         <td>@order.TotalAmount.ToString("N0")</td> <!-- Format total amount -->
                         <td>
                             @if (order.Status == 1)

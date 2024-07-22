@@ -32,9 +32,16 @@ namespace DAOs
         }
         public List<Order> GetOrderbyUserId(string userId)
         {
-            return _dbprn221Context.Orders.Where(o => o.UserId==userId).ToList();
+            return _context.Orders.Where(o => o.UserId==userId).ToList();
         }
-
+        public List<Order> GetOrders()
+        {
+            return _context.Orders.ToList();
+        }
+        public Order GetOrder(string orderId)
+        {
+            return _context.Orders.FirstOrDefault(o => o.OrderId == orderId);
+        }
         public async Task AddOrder(Order order)
         {
             try
