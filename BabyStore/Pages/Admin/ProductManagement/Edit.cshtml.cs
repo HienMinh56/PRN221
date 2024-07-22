@@ -16,16 +16,12 @@ namespace BabyStore.Pages.Admin.ProductManagement
 {
     public class EditModel : PageModel
     {
-        private readonly BOs.Dbprn221Context _context;
-        private readonly IImageHandle _imageHandle;
         private readonly IProductService _product;
         private readonly ICategoryService _category;
         private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
 
-        public EditModel(BOs.Dbprn221Context context, IImageHandle imageHandle, ICategoryService category, IProductService product, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment)
+        public EditModel(ICategoryService category, IProductService product, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment)
         {
-            _context = context;
-            _imageHandle = imageHandle;
             _environment = environment;
             _product = product;
             _category = category;
@@ -80,7 +76,7 @@ namespace BabyStore.Pages.Admin.ProductManagement
 
         private bool ProductExists(string? id)
         {
-            return (_context.Products?.Any(e => e.ProductId == id)).GetValueOrDefault();
+            return _product.GetProductById(id) != null;
         }
     }
 }

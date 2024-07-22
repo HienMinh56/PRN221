@@ -19,7 +19,10 @@ namespace Repos
                 _productDAO = new ProductDAO();
             }
         }
-        public Product AddProduct(Product product) => _productDAO.AddProduct(product);
+        public async Task<Product> AddProduct(Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
+        {
+            return await _productDAO.AddProduct(product, image, enviroment);
+        }
 
 
 
