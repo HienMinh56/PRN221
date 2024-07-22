@@ -1,19 +1,15 @@
 ﻿@page
-@model BabyStore.Pages.UserMenu.UserProfileMenuModel
-
+@model BabyStore.Pages.Admin.ProfileModel
 @{
-    ViewData["Title"] = "UserProfile | Baby Store";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Profile | BabyStore";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+
+    var httpContext = ViewContext.HttpContext;
 }
 
-<div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
-    <span class="mask bg-primary opacity-6"></span>
-</div>
-
 <div class="main-content position-relative max-height-vh-100 h-100">
-
-    <div class="card shadow-lg mx-4 card-profile-bottom" style="max-height: 300px">
-        <div class="card-body p-3" style="max-height: 300px">
+    <div class="card shadow-lg mx-4 card-profile-bottom" style="max-height: 300px; padding-top: 50px">
+        <div class="card-body p-3">
             <div class="row gx-4">
                 <div class="col-auto">
                     <div class="avatar avatar-xl position-relative">
@@ -34,15 +30,15 @@
             <div class="col-md-8">
                 <form method="post">
                     <div class="card">
-                        <div class="card-header pb-0" style="height: 50px">
-                            <div class="d-flex align-items-center">
+                        <div class="card-header pb-0">
+                            <div class="d-flex align-items-center" style="min-height: 60px">
                                 <p class="mb-0">Edit Profile</p>
                                 <input type="submit" class="btn btn-primary btn-sm ms-auto" value="Save changes" />
                             </div>
                         </div>
                         <div class="card-body">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input type="text" asp-for="User.UserId" hidden/>
+                            <input type="hidden" asp-for="User.UserId" />
                             <p class="text-uppercase text-sm">User Information</p>
                             <div class="row">
                                 <div class="col-md-6">
@@ -61,8 +57,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">Password</label>
-                                        <input class="form-control"  />@Model.User.Password
+                                        <label asp-for="User.Password" class="form-control-label">Password</label>
+                                        <input class="form-control" asp-for="User.Password" readonly />
                                         <span asp-validation-for="User.Password" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -85,6 +81,26 @@
                                         <label asp-for="User.Phone" class="form-control-label">Phone</label>
                                         <input class="form-control" asp-for="User.Phone" />
                                         <span asp-validation-for="User.Phone" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="horizontal dark">
+                            <p class="text-uppercase text-sm">Important Settings</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="User.Role" class="form-control-label">Role</label>
+                                        <select class="form-control" asp-for="User.Role">
+                                            <option value="2">Customer</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="User.Status" class="form-control-label">Status</label>
+                                        <select class="form-control" asp-for="User.Status">
+                                            <option value="1">Active</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
