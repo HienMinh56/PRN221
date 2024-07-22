@@ -6,16 +6,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BabyStore.Pages.UserMenu
 {
     public class CartModel : PageModel
     {
         private readonly IVoucherService _voucherService;
+        private readonly IPaymentService _paymentService;
 
-        public CartModel(IVoucherService voucherService)
+        public CartModel(IVoucherService voucherService, IPaymentService paymentService)
         {
             _voucherService = voucherService;
+            _paymentService = paymentService;
         }
 
         public List<CartItem> CartItems { get; set; } = new List<CartItem>();
@@ -55,7 +58,6 @@ namespace BabyStore.Pages.UserMenu
                 FinalPrice = TotalPrice;
             }
         }
-
 
         public IActionResult OnPostRemoveItem(string productId)
         {
@@ -143,6 +145,20 @@ namespace BabyStore.Pages.UserMenu
             return RedirectToPage();
         }
 
+        public async Task<IActionResult> OnPostCheckout()
+        {
+            CartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+            TotalPrice = CartItems.Sum(item => item.Quantity * item.Price);
 
+            string userId = HttpContext.Session.GetString("id");
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToPage("/Login", new { returnUrl = "/UserMenu/Cart" });
+            }
+
+            string paymentUrl = await _paymentService.Checkout(userId, (decimal)TotalPrice, CartItems);
+
+            return Redirect(paymentUrl); 
+        }
     }
 }

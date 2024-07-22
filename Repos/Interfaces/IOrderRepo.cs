@@ -9,11 +9,15 @@ namespace Repos.Interfaces
 {
     public interface IOrderRepo
     {
+
+        Task AddOrder(Order order);
+        Task UpdateOrderStatus(string orderId, int status);
+
         public List<Order> GetOrders();
 
         public Order GetOrder(string OrderId);
         public List<Order> GetOrderbyUserId(string userId);
 
-        public Task AddOrder(Order order);
+
     }
 }

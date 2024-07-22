@@ -6,6 +6,7 @@ using BOs.Entities;
 using Services.Interfaces;
 using Services.Utilities;
 using Microsoft.AspNetCore.Http.Extensions;
+using BOs.Model.CartModel;
 
 namespace Services
 {
@@ -13,12 +14,14 @@ namespace Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ITransactionService _transactionService;
+        private readonly IOrderService _orderService;
         private readonly IUrlHelper _urlHelper;
 
-        public PaymentService(IHttpContextAccessor httpContextAccessor, ITransactionService transactionService, IUrlHelper urlHelper)
+        public PaymentService(IHttpContextAccessor httpContextAccessor, ITransactionService transactionService, IOrderService orderService, IUrlHelper urlHelper)
         {
             _httpContextAccessor = httpContextAccessor;
             _transactionService = transactionService;
+            _orderService = orderService;
             _urlHelper = urlHelper;
         }
 
@@ -58,6 +61,12 @@ namespace Services
 
             string paymentUrl = vnpay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
             return paymentUrl;
+        }
+
+        public async Task<string> Checkout(string userId, decimal totalAmount, List<CartItem> cartItems)
+        {
+            var orderId = await _orderService.CreateOrder(userId, totalAmount, cartItems);
+            return await CreatePaymentUrl(userId, totalAmount, orderId);
         }
     }
 }
