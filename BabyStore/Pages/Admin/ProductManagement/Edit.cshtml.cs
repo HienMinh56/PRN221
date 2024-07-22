@@ -75,7 +75,7 @@ namespace BabyStore.Pages.Admin.ProductManagement
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Product");
         }
 
         private bool ProductExists(string? id)

@@ -1,0 +1,67 @@
+﻿@page
+@model BabyStore.Pages.Admin.VoucherManagement.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Voucher</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Voucher.Id" />
+            <div class="form-group">
+                <label asp-for="Voucher.VoucherCode" class="control-label"></label>
+                <input asp-for="Voucher.VoucherCode" class="form-control" />
+                <span asp-validation-for="Voucher.VoucherCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Voucher.Description" class="control-label"></label>
+                <input asp-for="Voucher.Description" class="form-control" />
+                <span asp-validation-for="Voucher.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Voucher.Discount" class="control-label"></label>
+                <input asp-for="Voucher.Discount" class="form-control" />
+                <span asp-validation-for="Voucher.Discount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Voucher.StartDate" class="control-label"></label>
+                <input asp-for="Voucher.StartDate" class="form-control" type="date" />
+                <span asp-validation-for="Voucher.StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Voucher.EndDate" class="control-label"></label>
+                <input asp-for="Voucher.EndDate" class="form-control" type="date" />
+                <span asp-validation-for="Voucher.EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Voucher.MinimumOrderAmount" class="control-label"></label>
+                <input asp-for="Voucher.MinimumOrderAmount" class="form-control" />
+                <span asp-validation-for="Voucher.MinimumOrderAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Voucher.Quantity" class="control-label"></label>
+                <input asp-for="Voucher.Quantity" class="form-control" />
+                <span asp-validation-for="Voucher.Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -42,8 +42,15 @@ namespace BabyStore.Pages.UserMenu
             }
             return Page();
         }
-        public IActionResult OnPostAddToCart(string productId, string productName, int price, string productImage)
+        public IActionResult OnPostAddToCart(string productId, string productName, int price, string productImage, int availableQunatity)
         {
+            var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
+            if (!isAuthenticated)
+            {
+                // Redirect to the same page with a message indicating login is required
+                return RedirectToPage("/UserMenu/ProductDetailsMenu", new { id = productId, message = "Please log in to add items to your cart", messageType = "error" });
+            }
+
             try
             {
                 var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
@@ -57,7 +64,8 @@ namespace BabyStore.Pages.UserMenu
                         ProductName = productName,
                         Price = price,
                         ProductImage = productImage,
-                        Quantity = 1
+                        Quantity = 1,
+                        AvailableQuantity = availableQunatity
                     });
                 }
                 else
@@ -67,15 +75,14 @@ namespace BabyStore.Pages.UserMenu
 
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
 
-                TempData["SuccessMessage"] = "Product added to cart successfully!";
+                return RedirectToPage("/UserMenu/ProductDetailsMenu", new { id = productId, message = "Add Successful", messageType = "success" });
             }
             catch
             {
-                TempData["ErrorMessage"] = "Failed to add product to cart.";
+                return RedirectToPage("/UserMenu/ProductDetailsMenu", new { id = productId, message = "Add Failed", messageType = "error" });
             }
-
-            return RedirectToPage("/UserMenu/ProductDetailsMenu", new { id = productId });
-
         }
+
+
     }
 }

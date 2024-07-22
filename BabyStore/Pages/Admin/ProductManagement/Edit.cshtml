@@ -2,11 +2,316 @@
 @model BabyStore.Pages.Admin.ProductManagement.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "EditProduct | BabyStore";
+    Layout = "/Pages/Shared/_Layout_Admin.cshtml";
+
+    var httpContext = ViewContext.HttpContext;
 }
 
-<h1>Edit</h1>
+<div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
+    <span class="mask bg-primary opacity-6"></span>
+</div>
+
+<aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
+    <div class="sidenav-header">
+        <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+        <a class="navbar-brand m-0" asp-area="" asp-page="/Admin/Dashboard">
+            <img src="~/images/logo.png" class="navbar-brand-img h-100" alt="main_logo">
+            <span class="ms-1 font-weight-bold">Baby Store</span>
+        </a>
+    </div>
+    <hr class="horizontal dark mt-0">
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-page="/Admin/Dashboard">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " asp-area="" asp-page="/Admin/UserManagement/User">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-user-run text-warning text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Account</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" asp-area="" asp-page="/Admin/ProductManagement/Product">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-box-2 text-success text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Product</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " asp-area="" asp-page="/Admin/TransactionManagement/Transaction">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-credit-card text-info text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Transaction</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " asp-area="" asp-page="/Admin/OrderManagement/Order">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-cart text-danger text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Order</span>
+                </a>
+            </li>
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account Page</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="./pages/profile.html">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Profile</span>
+                </a>
+            </li>
+            <li class="nav-item" id="logoutButton" style="cursor: pointer">
+                <a class="nav-link " href="/Logout">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-button-power text-warning text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>
+
+<div class="main-content position-relative max-height-vh-100 h-100">
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
+                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Product</li>
+                </ol>
+                <h6 class="font-weight-bolder text-white mb-0">Dashboard</h6>
+            </nav>
+            <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                    <!-- <div class="input-group">
+                      <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                      <input type="text" class="form-control" placeholder="What are you looking for ?">
+                    </div> -->
+                </div>
+                <ul class="navbar-nav  justify-content-end">
+                    <li class="nav-item d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                            <i class="fa fa-user me-sm-1"></i>
+                            @if (!string.IsNullOrEmpty(httpContext.Session.GetString("username")))
+                            {
+                                <span class="d-sm-inline d-none">Welcome back, @httpContext.Session.GetString("username") !!</span>
+                            }
+                        </a>
+                    </li>
+                    <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                            <div class="sidenav-toggler-inner">
+                                <i class="sidenav-toggler-line bg-white"></i>
+                                <i class="sidenav-toggler-line bg-white"></i>
+                                <i class="sidenav-toggler-line bg-white"></i>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="card shadow-lg mx-4 card-profile-bottom">
+        <div class="card-body p-3">
+            <div class="row gx-4">
+                <div class="col-auto">
+                    <div class="avatar avatar-xl position-relative">
+                        <img src="~/images/product.png" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                    </div>
+                </div>
+                <div class="col-auto my-auto">
+                    <div class="h-100">
+                        <h5 class="mb-1">@Model.Product.Name</h5>
+                        <p class="mb-0 font-weight-bold text-sm">@Model.Product.ProductId</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-md-8">
+                <form method="post">
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <div class="d-flex align-items-center">
+                                <p class="mb-0">Edit Profile</p>
+                                <input type="submit" class="btn btn-primary btn-sm ms-auto" value="Save changes" />
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <p class="text-uppercase text-sm"></p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Product.Name" class="form-control-label">ProductName</label>
+                                        <input class="form-control" asp-for="Product.Name" />
+                                        <span asp-validation-for="Product.Name" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Product.Title" class="form-control-label">ProductTitle</label>
+                                        <input class="form-control" asp-for="Product.Title" />
+                                        <span asp-validation-for="Product.Title" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Product.Price" class="form-control-label">Price</label>
+                                        <input class="form-control" asp-for="Product.Price" />
+                                        <span asp-validation-for="Product.Price" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Product.Quantity" class="form-control-label">Quantity</label>
+                                        <input class="form-control" asp-for="Product.Quantity" />
+                                        <span asp-validation-for="Product.Quantity" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Product.Description" class="form-control-label">Description</label>
+                                        <textarea class="form-control" asp-for="Product.Description"></textarea>
+                                        <span asp-validation-for="Product.Description" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Product.CateId" class="form-control-label">Category</label>
+                                        <select asp-for="Product.CateId" class="form-control" asp-items="ViewBag.CateId"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="@Model.Image" class="form-control-label">Images</label>
+                                        <input class="form-control" asp-for="@Model.Image" type="file" />
+                                        <span asp-validation-for="@Model.Image" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="horizontal dark">
+                            <p class="text-uppercase text-sm">Important Settings</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="Product.Status" class="form-control-label">Status</label>
+                                        <select class="form-control" asp-for="Product.Status">
+                                            <option value="1">Active</option>
+                                            <option value="0">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="horizontal dark">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <img src="~/images/user_bg.png" alt="Image placeholder" class="card-img-top">
+                    <div class="row justify-content-center">
+                        <div class="col-4 col-lg-4 order-lg-2">
+                            <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
+                                <a href="javascript:;">
+                                    <img src="~/images/product.png" class="rounded-circle img-fluid border border-2 border-white">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col">
+                                <div class="d-flex justify-content-center">
+                                    <div class="d-grid text-center">
+                                        <span class="text-lg font-weight-bolder"></span>
+                                        <span class="text-sm opacity-8"></span>
+                                    </div>
+                                    <div class="d-grid text-center mx-4">
+                                        <span class="text-lg font-weight-bolder"></span>
+                                        <span class="text-sm opacity-8"></span>
+                                    </div>
+                                    <div class="d-grid text-center">
+                                        <span class="text-lg font-weight-bolder"></span>
+                                        <span class="text-sm opacity-8"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <h5>
+                                @Model.Product.Name<span class="font-weight-light"></span>
+                            </h5>
+                            <div class="h6 font-weight-300">
+                                <i class="ni location_pin mr-2">
+                                    <p>@Model.Product.Description</p>
+                                </i>
+                            </div>
+                            <div class="h6 mt-4">
+                                <i class="ni business_briefcase-24 mr-2"></i>
+                            </div>
+                            <div>
+                                <i class="ni education_hat mr-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer pt-3  ">
+            <div class="container-fluid">
+                <div class="row align-items-center justify-content-lg-between">
+                    <div class="col-lg-6 mb-lg-0 mb-4">
+                        <div class="copyright text-center text-sm text-muted text-lg-start">
+                            © <script>
+                                  document.write(new Date().getFullYear())
+                            </script>,
+                            -
+                            <a href="#" class="font-weight-bold" target="_blank">Baby Store</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                            <li class="nav-item">
+                                <a href="https://github.com/HienMinh56" class="nav-link text-muted" target="_blank">Github</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" class="nav-link text-muted" target="_blank">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.apache.org/licenses/" class="nav-link text-muted" target="_blank">Licenses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://hienminh56-contact.netlify.app/" class="nav-link pe-0 text-muted" target="_blank">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
 
 <h4>Product</h4>
 <hr />

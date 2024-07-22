@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BOs.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace BOs;
 
@@ -28,9 +29,21 @@ public partial class Dbprn221Context : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    public virtual DbSet<Voucher> Vouchers { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=swdproject.database.windows.net,1433;Initial Catalog=DBPRN221;Persist Security Info=False;User ID=linhdeptrai;Password=admin12345@;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+    {
+        optionsBuilder.UseSqlServer(GetConnectionString());
+    }
+
+    private string GetConnectionString()
+    {
+        IConfiguration configuration = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", true, true).Build();
+        return configuration["ConnectionStrings:DefaultConnectionStringDB"];
+    }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -45,6 +58,8 @@ public partial class Dbprn221Context : DbContext
             entity.Property(e => e.CateId)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.CreatedBy).HasMaxLength(255);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.Name).HasMaxLength(50);
         });
 
@@ -56,18 +71,18 @@ public partial class Dbprn221Context : DbContext
 
             entity.HasIndex(e => e.OrderId, "UQ__Order__C3905BCE07D0629F").IsUnique();
 
+            entity.Property(e => e.CreatedBy).HasMaxLength(255);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.OrderId)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.ProductId)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.TransationId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.UserId)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.VoucherCode).HasMaxLength(50);
 
             entity.HasOne(d => d.Product).WithMany(p => p.Orders)
                 .HasPrincipalKey(p => p.ProductId)
@@ -75,17 +90,16 @@ public partial class Dbprn221Context : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Order_Product");
 
-            entity.HasOne(d => d.Transation).WithMany(p => p.Orders)
-                .HasPrincipalKey(p => p.TransationId)
-                .HasForeignKey(d => d.TransationId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Order_Transaction");
-
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasPrincipalKey(p => p.UserId)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Order_User");
+
+            entity.HasOne(d => d.VoucherCodeNavigation).WithMany(p => p.Orders)
+                .HasPrincipalKey(p => p.VoucherCode)
+                .HasForeignKey(d => d.VoucherCode)
+                .HasConstraintName("FK_Order_Voucher");
         });
 
         modelBuilder.Entity<OrderDetail>(entity =>
@@ -94,6 +108,8 @@ public partial class Dbprn221Context : DbContext
 
             entity.ToTable("OrderDetail");
 
+            entity.Property(e => e.CreatedBy).HasMaxLength(255);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.OrderId)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -125,6 +141,8 @@ public partial class Dbprn221Context : DbContext
             entity.Property(e => e.CateId)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.CreatedBy).HasMaxLength(255);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.Image).IsUnicode(false);
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.ProductId)
@@ -143,14 +161,24 @@ public partial class Dbprn221Context : DbContext
 
             entity.ToTable("Transaction");
 
-            entity.HasIndex(e => e.TransationId, "UQ__Transact__B1E73154FC1E15B6").IsUnique();
+            entity.HasIndex(e => e.TransactionId, "UQ__Transact__B1E73154FC1E15B6").IsUnique();
 
-            entity.Property(e => e.TransationId)
+            entity.Property(e => e.CreatedBy).HasMaxLength(255);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.OrderId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TransactionId)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.UserId)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.Order).WithMany(p => p.Transactions)
+                .HasPrincipalKey(p => p.OrderId)
+                .HasForeignKey(d => d.OrderId)
+                .HasConstraintName("FK_Transaction_Order");
 
             entity.HasOne(d => d.User).WithMany(p => p.Transactions)
                 .HasPrincipalKey(p => p.UserId)
@@ -167,6 +195,8 @@ public partial class Dbprn221Context : DbContext
 
             entity.HasIndex(e => e.UserId, "UQ__User__1788CC4D57A57AAF").IsUnique();
 
+            entity.Property(e => e.CreatedBy).HasMaxLength(255);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.Email).IsUnicode(false);
             entity.Property(e => e.FullName).IsUnicode(false);
             entity.Property(e => e.Password).IsUnicode(false);
@@ -175,6 +205,21 @@ public partial class Dbprn221Context : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.UserName).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Voucher>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Voucher__3214EC0790194060");
+
+            entity.ToTable("Voucher");
+
+            entity.HasIndex(e => e.VoucherCode, "UQ__Voucher__7F0ABCA9E13B287F").IsUnique();
+
+            entity.Property(e => e.CreatedBy).HasMaxLength(255);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(255);
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.VoucherCode).HasMaxLength(50);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -5,6 +5,8 @@
     ViewData["Title"] = "ProductsMenu";
     Layout = "~/Pages/Shared/_Layout.cshtml";
     bool isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
+    var message = Request.Query["message"];
+    var messageType = Request.Query["messageType"];
 }
 
 <h1>ProductsMenu</h1>
@@ -18,40 +20,41 @@
         {
             <div class="product-card">
                 <a href="@Url.Page("/UserMenu/ProductDetailsMenu", new { id = product.ProductId })">
-                    <img src="@product.Image" alt="@product.Name" class="product-image" />
+                    <div class="product-image-container">
+                        <img src="@product.Image" alt="@product.Name" class="product-image" onerror="this.style.display='none'" />
+                    </div>
                     <div class="product-info">
                         <h2 class="product-title">@product.Name</h2>
-                        <p class="product-price">
-                            @string.Format("{0:n0} VNĐ", product.Price)
-                        </p>
+                        <div class="product-details">
+                            <p class="product-quantity">Số lượng: @product.Quantity</p>
+                            <p class="product-price">
+                                @string.Format("{0:n0} VNĐ", product.Price)
+                            </p>
+                        </div>
                     </div>
                 </a>
-                @if (isAuthenticated)
-                {
-                    <form method="post" asp-page-handler="AddToCart" asp-route-productId="@product.ProductId" asp-route-productName="@product.Name" asp-route-price="@product.Price" asp-route-productImage="@product.Image" class="d-inline add-to-cart-form">
-                        <button type="submit" class="btn btn-primary">
-                            <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
-                        </button>
-                    </form>
-                }
-                else
-                {
-                    <button class="btn btn-primary login-required">
+                <form method="post" asp-page-handler="AddToCart" asp-route-productId="@product.ProductId" asp-route-productName="@product.Name" asp-route-price="@product.Price" asp-route-productImage="@product.Image" asp-route-availableQuantity="@product.Quantity" class="full-width-form">
+                    <button type="submit" class="btn btn-primary full-width-button @(!isAuthenticated ? "login-required" : "")">
                         <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
                     </button>
-                }
+                </form>
             </div>
         }
         else
         {
             <div class="product-card">
                 <a href="@Url.Page("/UserMenu/ProductDetailsMenu", new { id = product.ProductId })">
-                    <img src="@product.Image" alt="@product.Name" class="product-image" />
+                    <div class="product-image-container">
+                        <img src="@product.Image" alt="@product.Name" class="product-image" onerror="this.style.display='none'" />
+                    </div>
                     <div class="product-info">
                         <h2 class="product-title">@product.Name</h2>
-                        <p class="product-price">
-                            @string.Format("{0:n0} VNĐ", product.Price)
-                        </p>
+                        <div class="product-details">
+                            <p class="product-quantity">Số lượng: @product.Quantity</p>
+                            <p class="product-price">
+                                @string.Format("{0:n0} VNĐ", product.Price)
+                            </p>
+                        </div>
                         <p class="out-of-stock">Sản phẩm này đã hết</p>
                     </div>
                 </a>
@@ -60,30 +63,79 @@
     }
 </div>
 
+<!-- Notification Modal -->
+<div id="notificationModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+            <p id="notificationMessage"></p>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
-        document.querySelectorAll('.login-required').forEach(button => {
-            button.addEventListener('click', function (event) {
-                event.preventDefault();
-                alert('Please log in to add items to your cart.');
-            });
-        });
+        function showNotification(message, type) {
+            var modal = document.getElementById("notificationModal");
+            var notificationMessage = document.getElementById("notificationMessage");
+            notificationMessage.textContent = message;
 
-        document.querySelectorAll('.add-to-cart-form').forEach(form => {
-            form.addEventListener('submit', function (event) {
-                event.preventDefault(); // Prevent default form submission
-                var formData = new FormData(this);
-                fetch(this.action, {
-                    method: this.method,
-                    body: formData,
-                }).then(response => {
-                    if (response.ok) {
-                        alert('Product added to cart');
-                    } else {
-                        alert('Failed to add product to cart');
-                    }
-                });
-            });
-        });
+            // Apply styles based on message type
+            if (type === "success") {
+                notificationMessage.style.color = "green";
+            } else if (type === "error") {
+                notificationMessage.style.color = "red";
+            }
+
+            modal.style.display = "block";
+
+            setTimeout(function () {
+                modal.style.display = "none";
+
+                // Clear query parameters from the URL
+                var url = new URL(window.location.href);
+                url.searchParams.delete('message');
+                url.searchParams.delete('messageType');
+                window.history.replaceState({}, document.title, url.toString());
+            }, 1500); // Duration of 1.5 seconds
+        }
+
+        var modal = document.getElementById("notificationModal");
+        var span = document.getElementsByClassName("close")[0];
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Show notification if there are query parameters
+        var message = "@message";
+        var messageType = "@messageType";
+        if (message) {
+            showNotification(message, messageType);
+        }
     </script>
 }
+
+<style>
+    .product-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .product-quantity {
+        font-size: 14px;
+        color: #555;
+    }
+
+    .product-price {
+        font-size: 14px;
+        color: #000;
+    }
+</style>

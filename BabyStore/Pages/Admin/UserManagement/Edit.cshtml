@@ -40,7 +40,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " asp-area="" asp-page="/Admin/ProductManagement/Index">
+                <a class="nav-link " asp-area="" asp-page="/Admin/ProductManagement/Product">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-box-2 text-success text-sm opacity-10"></i>
                     </div>
@@ -98,10 +98,10 @@
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                    <div class="input-group">
-                        <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-                        <input type="text" class="form-control" placeholder="Type here...">
-                    </div>
+                    <!-- <div class="input-group">
+                      <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                      <input type="text" class="form-control" placeholder="What are you looking for ?">
+                    </div> -->
                 </div>
                 <ul class="navbar-nav  justify-content-end">
                     <li class="nav-item d-flex align-items-center">
@@ -209,15 +209,19 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label asp-for="User.Role" class="form-control-label">Role</label>
-                                        <input class="form-control" asp-for="User.Role" />
-                                        <span asp-validation-for="User.Role" class="text-danger"></span>
+                                        <select class="form-control" asp-for="User.Role">
+                                            <option value="1">Admin</option>
+                                            <option value="2">Customer</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label asp-for="User.Status" class="form-control-label">Status</label>
-                                        <input class="form-control" asp-for="User.Status" />
-                                        <span asp-validation-for="User.Status" class="text-danger"></span>
+                                        <select class="form-control" asp-for="User.Status">
+                                            <option value="1">Active</option>
+                                            <option value="0">Banned</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

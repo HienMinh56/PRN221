@@ -7,36 +7,36 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BOs;
 using BOs.Entities;
+using Services.Interfaces;
 
-namespace BabyStore.Pages.Admin.ProductManagement
+namespace BabyStore.Pages.Admin.VoucherManagement
 {
     public class DetailsModel : PageModel
     {
-        private readonly BOs.Dbprn221Context _context;
+        private readonly IVoucherService _voucher;
 
-        public DetailsModel(BOs.Dbprn221Context context)
+        public DetailsModel(IVoucherService voucher)
         {
-            _context = context;
+            _voucher = voucher;
         }
 
-        public Product Product { get; set; } = default!;
-        public Category Category { get; set; } = default!;
+        public Voucher Voucher { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(string? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products.Include(m => m.Cate).FirstOrDefaultAsync(m => m.ProductId.Equals(id));
-            if (product == null)
+            var voucher = _voucher.GetVoucher(id);
+            if (voucher == null)
             {
                 return NotFound();
             }
             else
             {
-                Product = product;
+                Voucher = voucher;
             }
             return Page();
         }

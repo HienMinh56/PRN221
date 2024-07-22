@@ -23,7 +23,8 @@ namespace BabyStore.Pages.UserMenu
         {
             _productService = productService;
         }
-
+        [BindProperty(SupportsGet = true)]
+        public string SearchQuery { get; set; } = string.Empty;
         public IList<Product> Product { get;set; } = default!;
         [BindProperty]
         public string ProductId { get; set; }
@@ -36,11 +37,34 @@ namespace BabyStore.Pages.UserMenu
 
         public async Task OnGetAsync()
         {
-            Product =  _productService.GetProducts();
+            var allProducts = _productService.GetProducts();
+
+            // Filter products based on search query
+            if (!string.IsNullOrWhiteSpace(SearchQuery))
+            {
+                Product = allProducts.Where(p => p.Name.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+            else
+            {
+                Product = allProducts.ToList();
+            }
+            TempData.Remove("SuccessMessage");
+            TempData.Remove("ErrorMessage");
         }
 
-        public IActionResult OnPostAddToCart(string productId, string productName, int price, string productImage)
+        public IActionResult OnPostAddToCart(string productId, string productName, int price, string productImage, int availableQuantity)
         {
+            var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
+            if (!isAuthenticated)
+            {
+                // Redirect to the ProductsMenu page with a login required message
+                return RedirectToPage("/UserMenu/ProductsMenu", new
+                {
+                    message = "Please log in to add items to your cart",
+                    messageType = "error"
+                });
+            }
+
             try
             {
                 var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
@@ -54,7 +78,8 @@ namespace BabyStore.Pages.UserMenu
                         ProductName = productName,
                         Price = price,
                         ProductImage = productImage,
-                        Quantity = 1
+                        Quantity = 1,
+                        AvailableQuantity = availableQuantity
                     });
                 }
                 else
@@ -64,16 +89,24 @@ namespace BabyStore.Pages.UserMenu
 
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
 
-                TempData["SuccessMessage"] = "Product added to cart successfully!";
+                // Redirect to the ProductsMenu page with a success message
+                return RedirectToPage("/UserMenu/ProductsMenu", new
+                {
+                    message = "Add Successfull",
+                    messageType = "success"
+                });
             }
             catch
             {
-                TempData["ErrorMessage"] = "Failed to add product to cart.";
+                // Redirect to the ProductsMenu page with an error message
+                return RedirectToPage("/UserMenu/ProductsMenu", new
+                {
+                    message = "Add failed",
+                    messageType = "error"
+                });
             }
-
-            return RedirectToPage("/UserMenu/ProductsMenu");
-
         }
+
 
     }
 }

@@ -25,6 +25,10 @@ public partial class User
 
     public int Status { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
+    public string? CreatedBy { get; set; }
+
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();

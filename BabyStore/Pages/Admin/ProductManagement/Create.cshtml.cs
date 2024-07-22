@@ -57,7 +57,7 @@ namespace BabyStore.Pages.Admin.ProductManagement
             _context.Products.Add(Product);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Product");
         }
         public string GenerateNewProductId()
         {
@@ -90,14 +90,14 @@ namespace BabyStore.Pages.Admin.ProductManagement
         //public string UploadFile()
         //{
         //    string uniqueFileName = null;
-        //    if (FrontImage != null)
+        //    if (Image != null)
         //    {
-        //        string fileUp = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-        //        uniqueFileName = Guid.NewGuid().ToString() + "_" + FrontImage.FileName;
+        //        string fileUp = Path.Combine(_environment.WebRootPath, "images");
+        //        uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
         //        string filePath = Path.Combine(fileUp, uniqueFileName);
         //        using (var fileStream = new FileStream(filePath, FileMode.Create))
         //        {
-        //            FrontImage.CopyTo(fileStream);
+        //            Image.CopyTo(fileStream);
         //        }
         //    }
         //    return uniqueFileName;

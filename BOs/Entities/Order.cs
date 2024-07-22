@@ -13,19 +13,23 @@ public partial class Order
 
     public string ProductId { get; set; } = null!;
 
-    public int Price { get; set; }
-
-    public int Quantity { get; set; }
-
-    public string TransationId { get; set; } = null!;
+    public int TotalAmount { get; set; }
 
     public int Status { get; set; }
+
+    public DateTime? CreatedDate { get; set; }
+
+    public string? CreatedBy { get; set; }
+
+    public string? VoucherCode { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual Product Product { get; set; } = null!;
 
-    public virtual Transaction Transation { get; set; } = null!;
+    public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 
     public virtual User User { get; set; } = null!;
+
+    public virtual Voucher? VoucherCodeNavigation { get; set; }
 }
