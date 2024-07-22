@@ -111,15 +111,15 @@
                         <td>
                             @if (order.Status == 1)
                             {
-                                <span class="badge badge-success">Done</span>
+                                <span class="badge badge-success" style="color: green">Done</span>
                             }
                             else if (order.Status == 2)
                             {
-                                <span class="badge badge-danger">Cancel</span>
+                                <span class="badge badge-danger" style="color: red">Cancel</span>
                             }
                             else if (order.Status == 3)
                             {
-                                <span class="badge badge-warning">Waiting</span>
+                                <span class="badge badge-warning" style="color: yellow">Waiting</span>
                             }
                         </td>
                         <td>@order.CreatedDate?.ToString("dd/MM/yyyy")</td> <!-- Format date -->

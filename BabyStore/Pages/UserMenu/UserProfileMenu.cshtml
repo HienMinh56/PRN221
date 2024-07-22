@@ -42,7 +42,7 @@
                         </div>
                         <div class="card-body">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input type="text" asp-for="User.UserId" hidden/>
+                            <input type="hidden" asp-for="User.UserId" />
                             <p class="text-uppercase text-sm">User Information</p>
                             <div class="row">
                                 <div class="col-md-6">
@@ -61,8 +61,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">Password</label>
-                                        <input class="form-control"  />@Model.User.Password
+                                        <label asp-for="User.Password" class="form-control-label">Password</label>
+                                        <input class="form-control" asp-for="User.Password" />
                                         <span asp-validation-for="User.Password" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -92,6 +92,7 @@
                         </div>
                     </div>
                 </form>
+
             </div>
             <div class="col-md-4">
                 <div class="card card-profile">
