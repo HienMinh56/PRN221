@@ -9,19 +9,19 @@
     var messageType = Request.Query["messageType"];
 }
 
-
-
 <link rel="stylesheet" href="~/css/products.css" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <nav class="category-nav">
     <ul>
-        <li><a href="#category-1">Tã</a></li>
-        <li><a href="#category-2">Quần áo</a></li>
-        <li><a href="#category-3">Sữa</a></li>
-        <li><a href="#category-4">Đồ chơi</a></li>
+        <li><a href="#category-1"><i class="fas fa-tachometer-alt"></i> Tã</a></li>
+        <li><a href="#category-2"><i class="fas fa-tshirt"></i> Quần áo</a></li>
+        <li><a href="#category-3"><i class="fas fa-bottle-water"></i> Sữa</a></li>
+        <li><a href="#category-4"><i class="fas fa-toy"></i> Đồ chơi</a></li>
     </ul>
 </nav>
 <div class="separator-line"></div>
+
 @functions {
     private string GetCategoryName(string categoryId)
     {
@@ -44,7 +44,9 @@
         <div class="category-name">@categoryName</div>
         <div class="slider-container">
             <div class="product-slider" id="slider-@categoryGroup.Key">
-                <div class="slider-button left" onclick="scrollSlider('@categoryGroup.Key', -1)">&#9664;</div>
+                <div class="slider-button left" style="background-color:white" onclick="scrollSlider('@categoryGroup.Key', -1)">
+                    <i class="material-icons">navigate_before</i>
+                </div>
                 @{
                     int index = 0;
                     foreach (var product in categoryGroup)
@@ -55,11 +57,11 @@
                                 <div class="product-image-container">
                                     <img src="@product.Image" alt="@product.Name" class="product-image" onerror="this.style.display='none'" />
                                 </div>
-                                <div class="product-info">
-                                    <h3 class="product-title">@product.Name</h3>
+                                <div class="product-info" >
+                                    <h3 class="product-title" >@product.Name</h3>
                                     <div class="product-details">
-                                        <p class="product-quantity">Số lượng: @product.Quantity</p>
-                                        <p class="product-price">
+                                        <p class="product-quantity" >Số lượng: @product.Quantity</p>
+                                        <p class="product-price" >
                                             @string.Format("{0:n0} VNĐ", product.Price)
                                         </p>
                                     </div>
@@ -81,7 +83,9 @@
                         index++;
                     }
                 }
-                <div class="slider-button right" onclick="scrollSlider('@categoryGroup.Key', 1)">&#9654;</div>
+                <div class="slider-button right" style="background-color:white" onclick="scrollSlider('@categoryGroup.Key', 1)">
+                    <i class="material-icons">navigate_next</i>
+                </div>
             </div>
         </div>
     </div>

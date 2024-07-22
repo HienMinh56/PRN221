@@ -5,7 +5,7 @@
     ViewData["Title"] = "Cart";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
-<div class="container mt-5">
+<div class="container mt-5" >
     <h2>Giỏ hàng</h2>
 
     @if (Model.CartItems.Count == 0)
@@ -36,13 +36,13 @@
                         {
                             <div class="row mb-3 align-items-center cart-item" id="cart-item-@item.ProductId">
                                 <div class="col-2 text-center">
-                                    <a asp-page="/UserMenu/ProductDetailsMenu" asp-route-id="@item.ProductId">
+                                    <a asp-page="/UserMenu/ProductDetailsMenu" asp-route-id="@item.ProductId" >
                                         <img src="@item.ProductImage" class="img-thumbnail" style="width: 100px; height: 100px;" />
                                     </a>
                                 </div>
                                 <div class="col-4">
                                     <h5 class="product-name">
-                                        <a asp-page="/UserMenu/ProductDetailsMenu" asp-route-id="@item.ProductId" class="text-primary">@item.ProductName</a>
+                                        <a asp-page="/UserMenu/ProductDetailsMenu" asp-route-id="@item.ProductId" class="text-primary" style="text-decoration:none">@item.ProductName</a>
                                     </h5>
                                     <p class="text-muted">ProCode: @item.ProductId</p>
                                 </div>

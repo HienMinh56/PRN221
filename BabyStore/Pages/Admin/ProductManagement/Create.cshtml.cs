@@ -51,56 +51,16 @@ namespace BabyStore.Pages.Admin.ProductManagement
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            Product.ProductId = GenerateNewProductId();
-            Product.Status = 1;
-            Product.Image = await _imageHandle.AddImage(Image, _environment);
-            _context.Products.Add(Product);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Product");
-        }
-        public string GenerateNewProductId()
-        {
-            string newProductId = "PRODUCT001"; // Default starting value
-            // Find the last product in the database to determine the next number
-            var lastProduct = _context.Products
-                .OrderByDescending(p => p.ProductId)
-                .FirstOrDefault();
-
-            if (lastProduct != null)
+            try
             {
-                // Assuming ProductId is in the format "PRODUCT001", extract the numeric part
-                string lastProductId = lastProduct.ProductId;
-                string numericPart = lastProductId.Substring(7); // Adjust based on your format
-
-                if (int.TryParse(numericPart, out int number))
-                {
-                    // Increment the number part
-                    number++;
-                    newProductId = "PRODUCT" + number.ToString().PadLeft(3, '0'); // Format back to "PRODUCT001"
-                }
-                else
-                {
-                    throw new Exception("Invalid ProductId format in the database.");
-                }
+                Product = await _product.AddProduct(Product, Image, _environment); // Use the bound Product property
+                return RedirectToPage("./Product");
             }
-
-            return newProductId;
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message); // Handle and display error
+                return Page();
+            }
         }
-        //public string UploadFile()
-        //{
-        //    string uniqueFileName = null;
-        //    if (Image != null)
-        //    {
-        //        string fileUp = Path.Combine(_environment.WebRootPath, "images");
-        //        uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
-        //        string filePath = Path.Combine(fileUp, uniqueFileName);
-        //        using (var fileStream = new FileStream(filePath, FileMode.Create))
-        //        {
-        //            Image.CopyTo(fileStream);
-        //        }
-        //    }
-        //    return uniqueFileName;
-        //}
     }
 }
