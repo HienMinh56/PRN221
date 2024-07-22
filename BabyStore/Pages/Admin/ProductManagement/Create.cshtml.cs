@@ -57,7 +57,7 @@ namespace BabyStore.Pages.Admin.ProductManagement
             _context.Products.Add(Product);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Product");
         }
         public string GenerateNewProductId()
         {

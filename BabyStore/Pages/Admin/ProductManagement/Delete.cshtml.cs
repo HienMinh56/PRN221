@@ -58,7 +58,7 @@ namespace BabyStore.Pages.Admin.ProductManagement
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Product");
         }
     }
 }
