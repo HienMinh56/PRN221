@@ -1,45 +1,27 @@
 ﻿@page
-@model BabyStore.Pages.Admin.DashboardModel
+@model BabyStore.Pages.Admin.VoucherManagement.IndexModel
+
 @{
+    ViewData["Title"] = "Voucher | BabyStore";
     Layout = "/Pages/Shared/_Layout_Admin.cshtml";
-    ViewData["Title"] = "Dashboard | Baby Store";
 
     var httpContext = ViewContext.HttpContext;
 }
 
-<head>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-
 <style>
-    .group-box {
-        border-radius: 8px;
-        background-color: deepskyblue;
-        text-align: center;
-        padding: 10px;
-        margin: 10px;
-        color: white;
-        font-weight: bold;
+    .pagination .page-item {
+        margin-right: 5px;
     }
 
-        .group-box p {
-            margin: 0;
-            font-size: 20px;
+        .pagination .page-item a {
+            color: black;
+            background-color: grey;
         }
 
-        .group-box:hover {
-            background-color: deepskyblue;
+        .pagination .page-item.active a {
+            color: white;
+            background-color: #5e72e4;
         }
-
-    .chart-container {
-        width: 450px;
-        height: 500px;
-        background-color: #fff7ef;
-        padding: 20px;
-        border-radius: 4px;
-        margin: 20px;
-    }
-
 </style>
 
 <div class="min-height-300 position-absolute w-100" style="background: #FF469E"></div>
@@ -55,7 +37,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link active" asp-area="" asp-page="/Admin/Dashboard">
+                <a class="nav-link" asp-area="" asp-page="/Admin/Dashboard">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
                     </div>
@@ -95,7 +77,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " asp-area="" asp-page="/Admin/VoucherManagement/Voucher">
+                <a class="nav-link active" asp-area="" asp-page="/Admin/OrderManagement/Voucher">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-folder-17 text-secondary text-sm opacity-10"></i>
                     </div>
@@ -113,7 +95,7 @@
                     <span class="nav-link-text ms-1">Profile</span>
                 </a>
             </li>
-            <li class="nav-item d-flex" id="logoutButton" style="cursor: pointer">
+            <li class="nav-item" id="logoutButton" style="cursor: pointer">
                 <a class="nav-link " href="/Logout">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-button-power text-warning text-sm opacity-10"></i>
@@ -131,7 +113,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                     <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
+                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Voucher</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">Dashboard</h6>
             </nav>
@@ -167,58 +149,107 @@
     </nav>
 
     <div class="container-fluid py-4">
-
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-2">
-                    <fieldset class="group-box">
-                        <legend>Products</legend>
-                        <p>@Model.ProductCount</p>
-                    </fieldset>
-                </div>
-                <div class="col-md-2">
-                    <fieldset class="group-box">
-                        <legend>Accounts</legend>
-                        <p>@Model.UserCount</p>
-                    </fieldset>
-                </div>
-                <div class="col-md-2">
-                    <fieldset class="group-box">
-                        <legend>Transactions</legend>
-                        <p>@Model.TransactionCount</p>
-                    </fieldset>
-                </div>
-                <div class="col-md-2">
-                    <fieldset class="group-box">
-                        <legend>Orders</legend>
-                        <p>@Model.OrderCount</p>
-                    </fieldset>
-                </div>
-                <div class="col-md-2">
-                    <fieldset class="group-box">
-                        <legend>Categories</legend>
-                        <p></p>
-                    </fieldset>
-                </div>
-                <div class="col-md-2">
-                    <fieldset class="group-box">
-                        <legend>Stockouts</legend>
-                        <p></p>
-                    </fieldset>
-                </div>
-            </div>
-            <div class="row">
-                <div class="row justify-content-center">
-                    <div class="col-md-5 chart-container" style="background-color: #fff7ef; padding: 20px; border-radius: 4px; margin: 20px">
-                        <div>
-                            <h4 class="text-center">Transactions & Orders</h4>
-                            <canvas id="chart1" style="width: 150px; height: 150px"></canvas>
-                        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                        <h6>Users's table</h6>
+                        <a class="btn btn-primary" asp-page="./Create">
+                            Create <i class="ni ni-fat-add fs-7"></i>
+                        </a>
                     </div>
-                    <div class="col-md-5 chart-container" style="background-color: #fff7ef; padding: 20px; border-radius: 4px; margin: 20px">
-                        <div>
-                            <h4 class="text-center">Account</h4>
-                            <canvas id="chart2" style="width: 150px; height: 150px;"></canvas>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <div class="row ps-4 align-items-center w-100">
+                                    <form method="post">
+                                        <div class="col-2">
+                                            <label asp-for="VoucherCode" class="form-label">VoucherCode</label>
+                                            <input type="search" id="voucherCodeInput" class="form-control" placeholder="Enter VoucherCode" asp-for="VoucherCode" />
+                                        </div>
+                                        <div class="col-2">
+                                            <label asp-for="Status" class="form-label">Status</label>
+                                            <select class="form-select" asp-for="Status">
+                                                <option value="">All</option>
+                                                <option value="Active">Active</option>
+                                                <option value="Inactive">Inactive</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-2">
+                                            <label asp-for="StartDate" class="form-label">StartDate</label>
+                                            <input type="date" id="startDateInput" class="form-control" asp-for="StartDate">
+                                        </div>
+                                        <div class="col-2">
+                                            <label asp-for="EndDate" class="form-label">EndDate</label>
+                                            <input type="date" id="endDateInput" class="form-control" asp-for="EndDate">
+                                        </div>
+                                        <div class="col-2" style="margin: 45px 0 0 0; padding: 0;">
+                                            <button type="submit" class="btn btn-primary w-100" style="height: 40px;">Search</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <thead>
+                                    <tr>
+                                        <th class="col-3 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10 ps-7">Voucher</th>
+                                        <th class="col-1 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10 ps-2">Description</th>
+                                        <th class="col-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10 ps-2">MinimumOrderAmount</th>
+                                        <th class="col-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10 ps-2">Quantity</th>
+                                        <th class="col-1 text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-10">CreatedDate</th>
+                                        <th class="col-1 text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-10" style="margin-left: 30px">Status</th>
+                                        <th class="col-1 text-secondary opacity-7"></th>
+                                    </tr>
+                                </thead>
+                                @foreach (var item in Model.Voucher)
+                                {
+                                    <tbody id="userTableBody">
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                        <img src="~/images/voucher.png" class="avatar me-3" alt="Users">
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">@Html.DisplayFor(modelItem => item.VoucherCode)</h6>
+                                                        <p class="text-xs text-secondary font-weight-bold mb-0">Discount @Html.DisplayFor(modelItem => item.Discount)%</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px;">@Html.DisplayFor(modelItem => item.Description)</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0">@Html.DisplayFor(modelItem => item.MinimumOrderAmount)</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">@Html.DisplayFor(modelItem => item.Quantity)</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">@Html.DisplayFor(modelItem => item.CreatedDate)</p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <p class="text-sm font-weight-bold mb-0">@Html.DisplayFor(modelItem => item.Status)</p>
+                                            </td>
+                                            <td class="align-middle justify-content-center">
+                                                <a asp-page="./Edit" asp-route-id="@item.Id"><i class="ni ni-settings-gear-65" style="color: aqua"></i></a> |
+                                                <a asp-page="./Delete" asp-route-id="@item.Id"><i class="ni ni-fat-remove text-danger"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                }
+                            </table>
+
+                            <br />
+
+                            <div class="d-flex justify-content-center">
+                                <ul class="pagination" style="list-style: none; display: flex; padding: 0; margin: 0;">
+                                    @for (var i = 1; i <= Model.TotalPages; i++)
+                                    {
+                                        <li class="page-item @(i == Model.PageIndex ? "active" : "")" style="margin-right: 5px;">
+                                            <a asp-page="./Voucher" asp-route-pageIndex="@i" class="page-link" style="color: white;">@i</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -256,74 +287,5 @@
                 </div>
             </div>
         </footer>
-
     </div>
 </main>
-
-<script>
-    $(document).ready(function () {
-        $('#logoutButton').on('click', function () {
-            var confirmLogout = confirm("Are you sure you want to logout?");
-
-            if (confirmLogout) {
-                window.location.href = '/Logout';
-            }
-        });
-    });
-</script>
-
-@* <input type="button" value="Print Form" onclick="window.print()" /> *@
-
-<script>
-    const ctx = document.getElementById('chart1');
-
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['StockOut', 'Lot'],
-            datasets: [{
-                label: 'Compare StockOut & Lot',
-                data: [@Model.TransactionCount, @Model.OrderCount],
-                backgroundColor: [
-                    '#ff469e'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-</script>
-
-
-<script>
-    const ctx1 = document.getElementById('chart2');
-
-    new Chart(ctx1, {
-        type: 'pie',
-        data: {
-            labels: ['Active', 'In Active'],
-            datasets: [{
-                label: 'Account active & inactive',
-                data: [@Model.Account1, @Model.Account0],
-                backgroundColor: [
-                    '#ff469e',
-                    'deepskyblue'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-</script>

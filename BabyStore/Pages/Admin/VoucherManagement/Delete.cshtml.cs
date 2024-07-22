@@ -56,7 +56,7 @@ namespace BabyStore.Pages.Admin.VoucherManagement
                await _voucher.DeleteVoucher(id);
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Voucher");
         }
     }
 }

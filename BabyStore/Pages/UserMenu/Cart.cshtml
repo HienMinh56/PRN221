@@ -146,7 +146,7 @@
             var totalPrice = parseFloat(document.getElementById('total-price').innerText.replace('₫', '').replace(/,/g, ''));
 
             if (voucherCode === "" || totalPrice < minAmount) {
-                document.getElementById('voucher-feedback').innerText = "Voucher không hợp lệ hoặc giá trị đơn hàng không đủ điều kiện.";
+                document.getElementById('voucher-feedback').innerHTML = `<span style="color: green; font - weight: bold; ">"Voucher không hợp lệ hoặc giá trị đơn hàng không đủ điều kiện.< /span>`;
                 document.getElementById('voucher-discount').innerText = "0₫";
                 document.getElementById('final-price').innerText = totalPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '₫';
                 return;
@@ -155,7 +155,7 @@
             var discountAmount = (totalPrice * (discount / 100)).toFixed(0);
             var finalPrice = (totalPrice - discountAmount).toFixed(0);
 
-            document.getElementById('voucher-feedback').innerText = `Voucher "${voucherCode}" đã được áp dụng.`;
+            document.getElementById('voucher-feedback').innerHTML = `<span style="color: green; font-weight: bold;">"Voucher ${voucherCode}" đã được áp dụng.</span>`;
             document.getElementById('voucher-discount').innerText = `-${discountAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}₫`;
             document.getElementById('final-price').innerText = finalPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '₫';
         });
