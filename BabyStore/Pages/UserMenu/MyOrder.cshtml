@@ -1,4 +1,4 @@
-﻿@page
+﻿@page 
 @model BabyStore.Pages.UserMenu.MyOrderModel
 
 @{
@@ -125,7 +125,7 @@
                         <td>@order.CreatedDate?.ToString("dd/MM/yyyy")</td> <!-- Format date -->
                         <td>@order.VoucherCode</td>
                         <td>
-                            <a href="/Order/Details?id=@order.Id" class="btn btn-primary">View</a>
+                            <a href="MyOrder/OrderDetail?id=@order.OrderId" class="btn btn-primary">View</a>
                         </td>
                     </tr>
                 }

@@ -1,0 +1,63 @@
+﻿@page "{id:guid}"
+
+@model BabyStore.Pages.UserMenu.OrderDetailModel
+
+@{
+    ViewData["Title"] = "OrderDetail";
+}
+<div id="order-details">
+    <h3>Order ID: @Model.Order.OrderId</h3>
+    <p><strong>User ID:</strong> @Model.Order.UserId</p>
+    <p><strong>Total Amount:</strong> @Model.Order.TotalAmount.ToString("N0") ₫</p>
+    <p>
+        <strong>Status:</strong>
+        @if (Model.Order.Status == 1)
+        {
+            <span class="badge badge-success" style="color: green">Done</span>
+        }
+        else if (Model.Order.Status == 2)
+        {
+            <span class="badge badge-danger" style="color: red">Cancel</span>
+        }
+        else if (Model.Order.Status == 3)
+        {
+            <span class="badge badge-warning" style="color: yellow">Waiting</span>
+        }
+    </p>
+    <p><strong>Created Date:</strong> @Model.Order.CreatedDate?.ToString("dd/MM/yyyy")</p>
+    <p><strong>Voucher Code:</strong> @Model.Order.VoucherCode</p>
+
+    <h4>Order Details</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.OrderDetails != null && Model.OrderDetails.Any())
+            {
+                @foreach (var detail in Model.OrderDetails)
+                {
+                    <tr>
+                        <td>@detail.ProductId</td>
+                        <td>@detail.Product.Name</td>
+                        <td>@detail.Price.ToString("N0")</td>
+                        <td>@detail.Quantity</td>
+                        <td>@(detail.Price * detail.Quantity).ToString("N0")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">No details available.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
