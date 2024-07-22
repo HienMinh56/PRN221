@@ -62,7 +62,7 @@ namespace BabyStore.Pages.Admin.VoucherManagement
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Voucher");
         }
 
         private bool VoucherExists(int id)

@@ -63,6 +63,14 @@
                     <span class="nav-link-text ms-1">Order</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link " asp-area="" asp-page="/Admin/VoucherManagement/Voucher">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-folder-17 text-secondary text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Voucher</span>
+                </a>
+            </li>
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account Page</h6>
             </li>
@@ -203,9 +211,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label asp-for="@Model.Image" class="form-control-label">Images</label>
-                                        <input class="form-control" asp-for="@Model.Image" type="file" />
-                                        <span asp-validation-for="@Model.Image" class="text-danger"></span>
+                                        <label asp-for="@Model.Product.Image" class="form-control-label">Images</label>
+                                        <input class="form-control" asp-for="@Model.Product.Image" type="file" onchange="previewImage(event, 'imagePreview')" />
+                                        <span asp-validation-for="@Model.Product.Image" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <img id="imagePreview" src="@Model.Product.Image" alt="Product Image" style="max-width: 100%; height: 80%; padding-top: 10px;">
                                     </div>
                                 </div>
                             </div>
@@ -313,59 +326,20 @@
     </div>
 </div>
 
-<h4>Product</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Product.ProductId" />
-            <div class="form-group">
-                <label asp-for="Product.Name" class="control-label"></label>
-                <input asp-for="Product.Name" class="form-control" />
-                <span asp-validation-for="Product.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.CateId" class="control-label"></label>
-                <select asp-for="Product.CateId" class="form-control" asp-items="ViewBag.CateId"></select>
-                <span asp-validation-for="Product.CateId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.Price" class="control-label"></label>
-                <input asp-for="Product.Price" class="form-control" />
-                <span asp-validation-for="Product.Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.Title" class="control-label"></label>
-                <input asp-for="Product.Title" class="form-control" />
-                <span asp-validation-for="Product.Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.Description" class="control-label"></label>
-                <input asp-for="Product.Description" class="form-control" />
-                <span asp-validation-for="Product.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Image" class="control-label"></label>
-                <input asp-for="@Model.Image" type="file" class="form-control" required />
-                <span asp-validation-for="@Model.Image" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.Quantity" class="control-label"></label>
-                <input asp-for="Product.Quantity" class="form-control" />
-                <span asp-validation-for="Product.Quantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    function previewImage(event, previewId) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var dataURL = reader.result;
+            var imagePreview = document.getElementById(previewId);
+            imagePreview.src = dataURL;
+            imagePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>
