@@ -19,16 +19,12 @@ namespace BabyStore.Pages.Admin.ProductManagement
 {
     public class CreateModel : PageModel
     {
-        private readonly Dbprn221Context _context;
-        private readonly IImageHandle _imageHandle;
         private readonly IProductService _product;
         private readonly ICategoryService _category;
         private Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
 
-        public CreateModel(Dbprn221Context context, IImageHandle imageHandle, ICategoryService category, IProductService product, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment)
+        public CreateModel(ICategoryService category, IProductService product, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment)
         {
-            _context = context;
-            _imageHandle = imageHandle;
             _category = category;
             _product = product;
             _environment = environment;
@@ -49,18 +45,13 @@ namespace BabyStore.Pages.Admin.ProductManagement
         public IFormFile Image { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(Product product)
         {
-            try
-            {
-                Product = await _product.AddProduct(Product, Image, _environment); // Use the bound Product property
-                return RedirectToPage("./Product");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError(string.Empty, ex.Message); // Handle and display error
-                return Page();
-            }
+
+            Product = await _product.AddProduct(product, Image, _environment);
+
+            return RedirectToPage("./Product");
+
         }
     }
 }

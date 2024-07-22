@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BOs.Model.CartModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,7 @@ namespace Services.Interfaces
 {
     public interface IPaymentService
     {
-        public interface IPaymentService
-        {
-            Task<string> CreatePaymentUrl(string userId, decimal amount, string orderId);
-        }
+        Task<string> CreatePaymentUrl(string userId, decimal amount, string orderId);
+        Task<string> Checkout(string userId, decimal totalAmount, List<CartItem> cartItems);
     }
 }

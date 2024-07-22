@@ -25,7 +25,10 @@ namespace Services
             }
         }
         public List<Product> GetProducts() => productRepo.GetProducts();
-        public Product AddProduct(Product product) => productRepo.AddProduct(product);
+        public async Task<Product> AddProduct(Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
+        {
+            return await productRepo.AddProduct(product, image, enviroment);
+        }
         public Product GetProductById(string productId) => productRepo.GetProductById(productId);
         public async Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
         {
