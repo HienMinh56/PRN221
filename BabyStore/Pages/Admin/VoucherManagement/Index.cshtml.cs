@@ -22,9 +22,10 @@ namespace BabyStore.Pages.Admin.VoucherManagement
 
         public IList<Voucher> Voucher { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public IActionResult OnGetAsync()
         {
-            Voucher = _voucher.GetVouchers();
+            Voucher =  _voucher.GetVouchers();
+            return Page();
         }
     }
 }

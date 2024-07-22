@@ -30,7 +30,7 @@ namespace DAOs
             _dbprn221Context = new Dbprn221Context();
         }
 
-        public List<Voucher> GetVouchers()
+        public  List<Voucher> GetVouchers()
         {
             return _dbprn221Context.Vouchers.ToList();
         }
@@ -80,13 +80,13 @@ namespace DAOs
         {
             try
             {
-                // Lấy voucher từ cơ sở dữ liệu
+                // Retrieve the voucher from the database
                 var existingVoucher = _dbprn221Context.Vouchers
                     .SingleOrDefault(v => v.Id == voucher.Id);
 
                 if (existingVoucher != null)
                 {
-                    // Kiểm tra xem có voucher nào khác cùng mã voucher không
+                    // Check if another voucher with the same code exists
                     var duplicateVoucher = _dbprn221Context.Vouchers
                         .SingleOrDefault(v => v.VoucherCode == voucher.VoucherCode && v.Id != voucher.Id);
 
@@ -95,17 +95,27 @@ namespace DAOs
                         throw new Exception("Voucher with the same VoucherCode already exists.");
                     }
 
-                    // Cập nhật thông tin voucher
+                    // Update the voucher details
                     existingVoucher.VoucherCode = voucher.VoucherCode;
                     existingVoucher.Description = voucher.Description;
                     existingVoucher.Discount = voucher.Discount;
                     existingVoucher.StartDate = voucher.StartDate;
                     existingVoucher.EndDate = voucher.EndDate;
                     existingVoucher.MinimumOrderAmount = voucher.MinimumOrderAmount;
-                    existingVoucher.Status = voucher.Status;
                     existingVoucher.Quantity = voucher.Quantity;
 
-                    // Không cần gọi Update nếu đối tượng đã được theo dõi
+                    // Determine the new status based on the current date
+                    var currentDate = DateOnly.FromDateTime(DateTime.Now);
+                    if (voucher.StartDate <= currentDate && voucher.EndDate >= currentDate)
+                    {
+                        existingVoucher.Status = "Active";
+                    }
+                    else
+                    {
+                        existingVoucher.Status = "Inactive";
+                    }
+
+                    // Save changes to the database
                     await _dbprn221Context.SaveChangesAsync();
                 }
                 else
@@ -118,6 +128,7 @@ namespace DAOs
                 throw new Exception($"An error occurred while updating the voucher: {ex.Message}", ex);
             }
         }
+
         public async Task DeleteVoucher(int VoucherId)
         {
             try
