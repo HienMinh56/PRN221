@@ -41,9 +41,9 @@ namespace Services
             await _transactionService.AddTransaction(transaction);
 
             string vnp_Returnurl = _urlHelper.Page("/Payment/Callback", null, new { area = "" }, _httpContextAccessor.HttpContext.Request.Scheme);
-            string vnp_Url = "http://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-            string vnp_TmnCode = "YOUR_TMNCODE";
-            string vnp_HashSecret = "YOUR_HASHSECRET";
+            string vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+            string vnp_TmnCode = "CA7EZUZY";
+            string vnp_HashSecret = "IOACKGOPU0DSSB2UBRMFPVJ642X92RHQ";
 
             VnPayLibrary vnpay = new VnPayLibrary();
 

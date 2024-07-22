@@ -11,8 +11,9 @@ namespace Repos.Interfaces
     public interface ITransactionRepo
     {
         Task AddTransaction(Transaction transaction);
-        Transaction GetTransaction(string transactionId);
+        Transaction GetTransactionById(string transactionId);
         Task UpdateTransactionStatus(string transactionId, int status);
         Task<string> GenerateTransactionId();
+        List<Transaction> GetTransactions();
     }
 }

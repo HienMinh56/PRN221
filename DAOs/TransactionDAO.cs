@@ -31,6 +31,11 @@ namespace DAOs
             _context = new Dbprn221Context();
         }
 
+        public List<Transaction> GetTransactions()
+        {
+            return _context.Transactions.ToList();
+        }
+
         public async Task AddTransaction(Transaction transaction)
         {
             _context.Transactions.Add(transaction);

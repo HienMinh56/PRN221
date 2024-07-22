@@ -150,10 +150,10 @@ namespace BabyStore.Pages.UserMenu
             CartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
             TotalPrice = CartItems.Sum(item => item.Quantity * item.Price);
 
-            string userId = HttpContext.Session.GetString("userId");
+            string userId = HttpContext.Session.GetString("id");
             if (string.IsNullOrEmpty(userId))
             {
-                return RedirectToPage("/Account/Login", new { returnUrl = "/UserMenu/Cart" });
+                return RedirectToPage("/Login", new { returnUrl = "/UserMenu/Cart" });
             }
 
             string paymentUrl = await _paymentService.Checkout(userId, (decimal)TotalPrice, CartItems);

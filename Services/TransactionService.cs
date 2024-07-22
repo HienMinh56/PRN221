@@ -21,9 +21,9 @@ namespace Services
             await _transactionRepo.AddTransaction(transaction);
         }
 
-        public Transaction GetTransaction(string transactionId)
+        public Transaction GetTransactionById(string transactionId)
         {
-            return _transactionRepo.GetTransaction(transactionId);
+            return _transactionRepo.GetTransactionById(transactionId);
         }
 
         public List<Transaction> GetTransactions()

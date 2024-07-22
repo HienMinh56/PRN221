@@ -11,7 +11,7 @@ namespace Services.Interfaces
     public interface ITransactionService
     {
         Task AddTransaction(Transaction transaction);
-        Transaction GetTransaction(string transactionId);
+        Transaction GetTransactionById(string transactionId);
         List<Transaction> GetTransactions();
         Task UpdateTransactionStatus(string transactionId, int status);
         Task<string> GenerateTransactionId();

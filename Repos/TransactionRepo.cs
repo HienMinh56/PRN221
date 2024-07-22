@@ -18,7 +18,7 @@ namespace Repos
             await _transactionDAO.AddTransaction(transaction);
         }
 
-        public Transaction GetTransaction(string transactionId)
+        public Transaction GetTransactionById(string transactionId)
         {
             return _transactionDAO.GetTransaction(transactionId);
         }
@@ -31,6 +31,11 @@ namespace Repos
         public async Task<string> GenerateTransactionId()
         {
             return await _transactionDAO.GenerateTransactionId();
+        }
+
+        public List<Transaction> GetTransactions()
+        {
+            return _transactionDAO.GetTransactions();
         }
     }
 }
