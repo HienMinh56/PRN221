@@ -1,5 +1,7 @@
 using BOs;
-using PerfumeStores.Services.Services;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc;
 using Repos;
 using Repos.Interfaces;
 using Services;
@@ -24,7 +26,19 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
 builder.Services.AddScoped<IVoucherService, VoucherServcie>();
-builder.Services.AddScoped<IImageHandle, ImageHandle>();
+
+// Register Payment
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+builder.Services.AddScoped<IUrlHelper>(x =>
+    {
+        var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
+        var factory = x.GetRequiredService<IUrlHelperFactory>();
+        return factory.GetUrlHelper(actionContext);
+    });
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+
+
 
 var app = builder.Build();
 

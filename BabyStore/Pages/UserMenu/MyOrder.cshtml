@@ -1,0 +1,150 @@
+﻿@page
+@model BabyStore.Pages.UserMenu.MyOrderModel
+
+@{
+    ViewData["Title"] = "My Orders";
+    var statusOptions = new Dictionary<int, string>
+    {
+        { 0, "All" },
+        { 1, "Done" },
+        { 2, "Cancel" },
+        { 3, "Waiting" }
+    };
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>My Orders</h2>
+
+<style>
+    #my-order-page {
+        max-width: 1200px; /* Adjust as needed */
+        margin: 0 auto; /* Center the container */
+        padding: 20px; /* Add padding for better appearance */
+    }
+
+    #filter-section {
+        display: flex;
+        gap: 10px; /* Space between filters */
+        justify-content: center; /* Center the filters */
+        margin-bottom: 20px; /* Space below the filters */
+    }
+
+        #filter-section .badge {
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+        }
+
+        #filter-section .badge-success {
+            background-color: #28a745;
+        }
+
+        #filter-section .badge-danger {
+            background-color: #dc3545;
+        }
+
+        #filter-section .badge-warning {
+            background-color: #ffc107;
+        }
+
+    .order-summary {
+        text-align: center; /* Center the summary text */
+        margin-bottom: 20px; /* Space below the summary */
+    }
+
+    .table-container {
+        overflow-x: auto; /* Enable horizontal scrolling for smaller screens */
+    }
+
+    #order-table {
+        width: 100%; /* Full width */
+        border: 1px solid #dee2e6; /* Border around the table */
+        border-collapse: collapse; /* Collapsed borders for a cleaner look */
+    }
+
+        #order-table th, #order-table td {
+            border: 1px solid #dee2e6; /* Borders for table cells */
+            padding: 8px; /* Padding inside cells */
+        }
+
+    #order-table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f9f9f9; /* Striped rows */
+    }
+</style>
+
+<div id="my-order-page">
+    <div id="filter-section" class="filter-section">
+        @foreach (var option in statusOptions)
+        {
+            <a href="?status=@option.Key" class="badge @GetBadgeClass(option.Key)">
+                @option.Value
+            </a>
+        }
+    </div>
+
+    <div class="order-summary">
+        <p><strong>Total Orders:</strong> @Model.TotalOrders</p>
+        <p><strong>Total Amount Delivered:</strong> @Model.TotalAmountDelivered ₫</p>
+    </div>
+
+    <div class="table-container">
+        <table id="order-table" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User ID</th>
+                    <th>Product ID</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                    <th>Created Date</th>
+                    <th>Voucher Code</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Orders)
+                {
+                    <tr>
+                        <td>@order.OrderId</td>
+                        <td>@order.UserId</td>
+                        <td>@order.ProductId</td>
+                        <td>@order.TotalAmount.ToString("N0")</td> <!-- Format total amount -->
+                        <td>
+                            @if (order.Status == 1)
+                            {
+                                <span class="badge badge-success">Done</span>
+                            }
+                            else if (order.Status == 2)
+                            {
+                                <span class="badge badge-danger">Cancel</span>
+                            }
+                            else if (order.Status == 3)
+                            {
+                                <span class="badge badge-warning">Waiting</span>
+                            }
+                        </td>
+                        <td>@order.CreatedDate?.ToString("dd/MM/yyyy")</td> <!-- Format date -->
+                        <td>@order.VoucherCode</td>
+                        <td>
+                            <a href="/Order/Details?id=@order.Id" class="btn btn-primary">View</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@functions {
+    private string GetBadgeClass(int status)
+    {
+        return status switch
+        {
+            1 => "badge-success",
+            2 => "badge-danger",
+            3 => "badge-warning",
+            _ => "badge-secondary",
+        };
+    }
+}

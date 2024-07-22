@@ -47,7 +47,7 @@ namespace BabyStore.Pages.Admin
 
             UserCount = _userService.GetUsers().Count;
             TransactionCount = _transactionService.GetTransactions().Count;
-            OrderCount = _orderService.GetOrders().Count;
+            //OrderCount = _orderService.GetOrders().Count;
             Account1 = _userService.GetUsers().Where(s => s.Status == 1).ToList().Count();
             Account0 = _userService.GetUsers().Where(s => s.Status == 0).ToList().Count();
             ProductCount = _productService.GetProducts().Count;

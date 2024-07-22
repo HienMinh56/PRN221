@@ -11,28 +11,32 @@ namespace Repos
 {
     public class OrderRepo : IOrderRepo
     {
-        private readonly OrderDAO _orderDAO= null;
+        private readonly OrderDAO _orderDAO;
+
         public OrderRepo()
         {
-            if (_orderDAO == null)
-            {
-                _orderDAO= new OrderDAO();
-            }
+            _orderDAO = new OrderDAO();
         }
 
         public async Task AddOrder(Order order)
         {
-            await OrderDAO.Instance.AddOrder(order);
+            await _orderDAO.AddOrder(order);
         }
 
-        public Order GetOrder(string OrderId)
+
+        public async Task UpdateOrderStatus(string orderId, int status)
         {
-            return OrderDAO.Instance.GetOrder(OrderId);
+            await _orderDAO.UpdateOrderStatus(orderId, status);
+        }
+
+        public List<Order> GetOrderbyUserId(string userId)
+        {
+            return OrderDAO.Instance.GetOrderbyUserId(userId);
         }
 
         public List<Order> GetOrders()
         {
-            return OrderDAO.Instance.GetOrders();
+            await _orderDAO.UpdateOrderStatus(orderId, status);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace DAOs
 {
     public class TransactionDAO
     {
-        private readonly Dbprn221Context _dbprn221Context;
+        private readonly Dbprn221Context _context;
         private static TransactionDAO instance = null;
 
         public static TransactionDAO Instance
@@ -28,23 +28,47 @@ namespace DAOs
 
         public TransactionDAO()
         {
-            _dbprn221Context = new Dbprn221Context();
+            _context = new Dbprn221Context();
         }
 
         public List<Transaction> GetTransactions()
         {
-            return _dbprn221Context.Transactions.ToList();
-        }
-
-        public Transaction GetTransaction(string TransationId)
-        {
-            return _dbprn221Context.Transactions.Find(TransationId);
+            return _context.Transactions.ToList();
         }
 
         public async Task AddTransaction(Transaction transaction)
         {
-            _dbprn221Context.Transactions.Add(transaction);
-            await _dbprn221Context.SaveChangesAsync();
+            _context.Transactions.Add(transaction);
+            await _context.SaveChangesAsync();
+        }
+
+        public Transaction GetTransaction(string transactionId)
+        {
+            return _context.Transactions.FirstOrDefault(t => t.TransactionId == transactionId);
+        }
+
+        public async Task UpdateTransactionStatus(string transactionId, int status)
+        {
+            var transaction = GetTransaction(transactionId);
+            if (transaction != null)
+            {
+                transaction.Status = status;
+                _context.Entry(transaction).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<string> GenerateTransactionId()
+        {
+            var lastTransaction = await _context.Transactions.OrderByDescending(t => t.Id).FirstOrDefaultAsync();
+            if (lastTransaction == null)
+            {
+                return "TRANS0001";
+            }
+
+            string lastTransactionId = lastTransaction.TransactionId;
+            int nextIdNumber = int.Parse(lastTransactionId.Substring(5)) + 1;
+            return "TRANS" + nextIdNumber.ToString("D4");
         }
     }
 }

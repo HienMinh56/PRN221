@@ -9,59 +9,87 @@
     var messageType = Request.Query["messageType"];
 }
 
-<h1>ProductsMenu</h1>
-
 <link rel="stylesheet" href="~/css/products.css" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-<div class="product-grid">
-    @foreach (var product in Model.Product)
+<nav class="category-nav">
+    <ul>
+        <li><a href="#category-1"><i class="fas fa-tachometer-alt"></i> Tã</a></li>
+        <li><a href="#category-2"><i class="fas fa-tshirt"></i> Quần áo</a></li>
+        <li><a href="#category-3"><i class="fas fa-bottle-water"></i> Sữa</a></li>
+        <li><a href="#category-4"><i class="fas fa-toy"></i> Đồ chơi</a></li>
+    </ul>
+</nav>
+<div class="separator-line"></div>
+
+@functions {
+    private string GetCategoryName(string categoryId)
     {
-        if (product.Quantity > 0)
+        switch (categoryId)
         {
-            <div class="product-card">
-                <a href="@Url.Page("/UserMenu/ProductDetailsMenu", new { id = product.ProductId })">
-                    <div class="product-image-container">
-                        <img src="@product.Image" alt="@product.Name" class="product-image" onerror="this.style.display='none'" />
-                    </div>
-                    <div class="product-info">
-                        <h2 class="product-title">@product.Name</h2>
-                        <div class="product-details">
-                            <p class="product-quantity">Số lượng: @product.Quantity</p>
-                            <p class="product-price">
-                                @string.Format("{0:n0} VNĐ", product.Price)
-                            </p>
-                        </div>
-                    </div>
-                </a>
-                <form method="post" asp-page-handler="AddToCart" asp-route-productId="@product.ProductId" asp-route-productName="@product.Name" asp-route-price="@product.Price" asp-route-productImage="@product.Image" asp-route-availableQuantity="@product.Quantity" class="full-width-form">
-                    <button type="submit" class="btn btn-primary full-width-button @(!isAuthenticated ? "login-required" : "")">
-                        <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
-                    </button>
-                </form>
-            </div>
-        }
-        else
-        {
-            <div class="product-card">
-                <a href="@Url.Page("/UserMenu/ProductDetailsMenu", new { id = product.ProductId })">
-                    <div class="product-image-container">
-                        <img src="@product.Image" alt="@product.Name" class="product-image" onerror="this.style.display='none'" />
-                    </div>
-                    <div class="product-info">
-                        <h2 class="product-title">@product.Name</h2>
-                        <div class="product-details">
-                            <p class="product-quantity">Số lượng: @product.Quantity</p>
-                            <p class="product-price">
-                                @string.Format("{0:n0} VNĐ", product.Price)
-                            </p>
-                        </div>
-                        <p class="out-of-stock">Sản phẩm này đã hết</p>
-                    </div>
-                </a>
-            </div>
+            case "1": return "Tã";
+            case "2": return "Quần áo";
+            case "3": return "Sữa";
+            case "4": return "Đồ chơi";
+            default: return "Danh mục không xác định";
         }
     }
-</div>
+}
+
+@foreach (var categoryGroup in Model.Product.GroupBy(p => p.CateId))
+{
+    var categoryName = GetCategoryName(categoryGroup.Key);
+
+    <div class="category-section" id="category-@categoryGroup.Key">
+        <div class="category-name">@categoryName</div>
+        <div class="slider-container">
+            <div class="product-slider" id="slider-@categoryGroup.Key">
+                <div class="slider-button left" style="background-color:white" onclick="scrollSlider('@categoryGroup.Key', -1)">
+                    <i class="material-icons">navigate_before</i>
+                </div>
+                @{
+                    int index = 0;
+                    foreach (var product in categoryGroup)
+                    {
+                        var isVisible = index < 4;
+                        <div class="product-card @(isVisible ? "" : "hidden-card")" data-index="@index">
+                            <a href="@Url.Page("/UserMenu/ProductDetailsMenu", new { id = product.ProductId })">
+                                <div class="product-image-container">
+                                    <img src="@product.Image" alt="@product.Name" class="product-image" onerror="this.style.display='none'" />
+                                </div>
+                                <div class="product-info" >
+                                    <h3 class="product-title" >@product.Name</h3>
+                                    <div class="product-details">
+                                        <p class="product-quantity" >Số lượng: @product.Quantity</p>
+                                        <p class="product-price" >
+                                            @string.Format("{0:n0} VNĐ", product.Price)
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                            @if (product.Quantity > 0)
+                            {
+                                <form method="post" asp-page-handler="AddToCart" asp-route-productId="@product.ProductId" asp-route-productName="@product.Name" asp-route-price="@product.Price" asp-route-productImage="@product.Image" asp-route-availableQuantity="@product.Quantity" class="full-width-form">
+                                    <button type="submit" class="btn btn-primary full-width-button @(!isAuthenticated ? "login-required" : "")">
+                                        <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <p class="out-of-stock">Sản phẩm này đã hết</p>
+                            }
+                        </div>
+                        index++;
+                    }
+                }
+                <div class="slider-button right" style="background-color:white" onclick="scrollSlider('@categoryGroup.Key', 1)">
+                    <i class="material-icons">navigate_next</i>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 <!-- Notification Modal -->
 <div id="notificationModal" class="modal">
@@ -75,12 +103,43 @@
 
 @section Scripts {
     <script>
+        function scrollSlider(categoryId, direction) {
+            const slider = document.getElementById('slider-' + categoryId);
+            const cards = slider.querySelectorAll('.product-card');
+            const totalCards = cards.length;
+            const visibleCards = 4;
+            let firstVisibleIndex = -1;
+
+            for (let i = 0; i < totalCards; i++) {
+                if (!cards[i].classList.contains('hidden-card')) {
+                    firstVisibleIndex = i;
+                    break;
+                }
+            }
+
+            if (firstVisibleIndex === -1) return;
+
+            let newFirstVisibleIndex;
+            if (direction === 1) {
+                newFirstVisibleIndex = Math.min(firstVisibleIndex + visibleCards, totalCards - visibleCards);
+            } else {
+                newFirstVisibleIndex = Math.max(firstVisibleIndex - visibleCards, 0);
+            }
+
+            for (let i = 0; i < totalCards; i++) {
+                if (i >= newFirstVisibleIndex && i < newFirstVisibleIndex + visibleCards) {
+                    cards[i].classList.remove('hidden-card');
+                } else {
+                    cards[i].classList.add('hidden-card');
+                }
+            }
+        }
+
         function showNotification(message, type) {
             var modal = document.getElementById("notificationModal");
             var notificationMessage = document.getElementById("notificationMessage");
             notificationMessage.textContent = message;
 
-            // Apply styles based on message type
             if (type === "success") {
                 notificationMessage.style.color = "green";
             } else if (type === "error") {
@@ -92,12 +151,11 @@
             setTimeout(function () {
                 modal.style.display = "none";
 
-                // Clear query parameters from the URL
                 var url = new URL(window.location.href);
                 url.searchParams.delete('message');
                 url.searchParams.delete('messageType');
                 window.history.replaceState({}, document.title, url.toString());
-            }, 1500); // Duration of 1.5 seconds
+            }, 1500);
         }
 
         var modal = document.getElementById("notificationModal");
@@ -113,7 +171,6 @@
             }
         }
 
-        // Show notification if there are query parameters
         var message = "@message";
         var messageType = "@messageType";
         if (message) {
@@ -121,21 +178,3 @@
         }
     </script>
 }
-
-<style>
-    .product-details {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .product-quantity {
-        font-size: 14px;
-        color: #555;
-    }
-
-    .product-price {
-        font-size: 14px;
-        color: #000;
-    }
-</style>
