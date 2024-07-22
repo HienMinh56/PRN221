@@ -36,7 +36,12 @@ namespace Repos
 
         public List<Order> GetOrders()
         {
-            await _orderDAO.UpdateOrderStatus(orderId, status);
+            return _orderDAO.GetOrders();
+        }
+
+        public Order GetOrder(string OrderId)
+        {
+            return _orderDAO.GetOrder(OrderId);
         }
     }
 }

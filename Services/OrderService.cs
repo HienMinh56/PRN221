@@ -56,13 +56,18 @@ namespace Services
 
         public List<Order> GetOrderbyUserId(string userId)
         {
-            return orderRepo.GetOrderbyUserId(userId);
+            return _orderRepo.GetOrderbyUserId(userId);
         }
 
         public List<Order> GetOrders()
 
         {
-            await _orderRepo.UpdateOrderStatus(orderId, status);
+            return _orderRepo.GetOrders();
+        }
+
+        public Order GetOrder(string OrderId)
+        {
+            return _orderRepo.GetOrder(OrderId);
         }
     }
 }
