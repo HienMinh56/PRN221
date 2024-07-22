@@ -40,7 +40,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " asp-area="" asp-page="/Admin/ProductManagement/Index">
+                <a class="nav-link " asp-area="" asp-page="/Admin/ProductManagement/Product">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-box-2 text-success text-sm opacity-10"></i>
                     </div>
@@ -191,15 +191,19 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label asp-for="User.Role" class="form-control-label">Role</label>
-                                        <input class="form-control" asp-for="User.Role" />
-                                        <span asp-validation-for="User.Role" class="text-danger"></span>
+                                        <select class="form-control" asp-for="User.Role">
+                                            <option value="1">Admin</option>
+                                            <option value="2">Customer</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label asp-for="User.Status" class="form-control-label">Status</label>
-                                        <input class="form-control" asp-for="User.Status" />
-                                        <span asp-validation-for="User.Status" class="text-danger"></span>
+                                        <select class="form-control" asp-for="User.Status">
+                                            <option value="1">Active</option>
+                                            <option value="0">Banned</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
