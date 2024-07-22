@@ -39,5 +39,21 @@ namespace BabyStore.Pages.UserMenu
             return Page();
         }
 
+        public async Task<IActionResult> OnPostAsync(string id, User user)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            await _userService.Update(id, user);
+
+            return Page();
+        }
     }
 }
