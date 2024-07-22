@@ -36,7 +36,7 @@ namespace BabyStore.Pages.Admin.VoucherManagement
             {
                 Voucher.CreatedBy = HttpContext.Session.GetString("username");
                 await _voucher.AddVoucher(Voucher);
-                return RedirectToPage("./Index");
+                return RedirectToPage("./Voucher");
             }
             catch (Exception ex)
             {

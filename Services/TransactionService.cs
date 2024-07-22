@@ -1,42 +1,44 @@
 ﻿using BOs.Entities;
+using BOs.Model.CartModel;
 using DAOs;
 using Repos;
+using Repos.Interfaces;
 using Services.Interfaces;
 
 namespace Services
 {
     public class TransactionService : ITransactionService
     {
-        private readonly TransactionRepo transactionRepo;
+        private readonly ITransactionRepo _transactionRepo;
 
-        public TransactionService()
+        public TransactionService(ITransactionRepo transactionRepo)
         {
-            transactionRepo = new TransactionRepo();
+            _transactionRepo = transactionRepo;
         }
 
         public async Task AddTransaction(Transaction transaction)
         {
-            await transactionRepo.AddTransaction(transaction);
+            await _transactionRepo.AddTransaction(transaction);
         }
 
-        public Transaction GetTransaction(string TransactionId)
+        public Transaction GetTransactionById(string transactionId)
         {
-            return transactionRepo.GetTransaction(TransactionId);
+            return _transactionRepo.GetTransactionById(transactionId);
         }
 
         public List<Transaction> GetTransactions()
         {
-            return transactionRepo.GetTransactions();
+            return _transactionRepo.GetTransactions();
         }
 
         public async Task UpdateTransactionStatus(string transactionId, int status)
         {
-            await transactionRepo.UpdateTransactionStatus(transactionId, status);
+            await _transactionRepo.UpdateTransactionStatus(transactionId, status);
         }
 
         public async Task<string> GenerateTransactionId()
         {
-            return await transactionRepo.GenerateTransactionId();
+            return await _transactionRepo.GenerateTransactionId();
         }
     }
 }
