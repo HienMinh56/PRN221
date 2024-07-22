@@ -39,6 +39,11 @@ namespace Repos
             return _voucherDAO.GetVouchers();
         }
 
+        public List<Voucher> GetVouchersActive()
+        {
+            return _voucherDAO.GetVouchers().Where(v=>v.Status=="Active").ToList();
+        }
+
         public async Task UpdateVoucher(Voucher voucher)
         {
            _voucherDAO.UpdateVoucher(voucher);

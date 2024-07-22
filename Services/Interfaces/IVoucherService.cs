@@ -11,6 +11,7 @@ namespace Services.Interfaces
     {
         List<Voucher> GetVouchers();
         Voucher GetVoucher(int VoucherId);
+        List<Voucher> GetVouchersActive();
         Task AddVoucher(Voucher voucher);
         Task UpdateVoucher(Voucher voucher);
         Task DeleteVoucher(int voucherId);

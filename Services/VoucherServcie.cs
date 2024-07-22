@@ -41,6 +41,11 @@ namespace Services
             return _voucherRepository.GetVouchers();
         }
 
+        public List<Voucher> GetVouchersActive()
+        {
+            return _voucherRepository.GetVouchersActive();
+        }
+
         public async Task UpdateVoucher(Voucher voucher)
         {
             _voucherRepository.UpdateVoucher(voucher);
