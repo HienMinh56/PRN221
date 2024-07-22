@@ -50,7 +50,7 @@ namespace BabyStore.Pages.UserMenu
             {
                 return Page();
             }
-            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+
             await _userService.Update(id, user);
 
             return Page();
