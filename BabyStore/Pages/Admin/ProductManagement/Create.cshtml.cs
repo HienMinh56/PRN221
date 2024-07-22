@@ -51,16 +51,16 @@ namespace BabyStore.Pages.Admin.ProductManagement
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            try
-            {
-                Product = await _product.AddProduct(Product, Image, _environment); // Use the bound Product property
-                return RedirectToPage("./Product");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError(string.Empty, ex.Message); // Handle and display error
-                return Page();
-            }
+            //try
+            //{
+            //    Product = await _product.AddProduct(Product, Image, _environment); // Use the bound Product property
+            //    return RedirectToPage("./Product");
+            //}
+            //catch (Exception ex)
+            //{
+            //    ModelState.AddModelError(string.Empty, ex.Message); // Handle and display error
+            return Page();
+            //}
         }
     }
 }
