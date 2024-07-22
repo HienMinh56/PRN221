@@ -58,7 +58,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="User.Password" class="form-control-label">Password</label>
+
                                         <input class="form-control" asp-for="User.Password" readonly />
+
                                         <span asp-validation-for="User.Password" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -108,6 +110,7 @@
                         </div>
                     </div>
                 </form>
+
             </div>
             <div class="col-md-4">
                 <div class="card card-profile">

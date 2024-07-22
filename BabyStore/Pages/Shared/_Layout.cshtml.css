@@ -98,22 +98,23 @@ header {
     align-items: center; /* Căn giữa theo chiều dọc */
     justify-content: center; /* Phân bổ đều các phần tử */
     width: 100%; /* Full width of the container */
-    gap: 10px; /* 10px gap between elements */
+    gap: 90px; /* 10px gap between elements */
 }
 
 /* Ô tìm kiếm */
 .search-bar-container {
     display: flex;
     align-items: center; /* Ensure items are aligned vertically */
-    gap: 10px; /* 10px gap between the search input and the button */
+    gap: 30px; /* 10px gap between the search input and the button */
     flex-grow: 1;
+    width: 400px
 }
 .search-form{
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    gap: 10px;
+    gap: 30px;
 }
 .search-bar {
     flex-grow: 1; /* Ô tìm kiếm mở rộng để chiếm không gian còn lại */
