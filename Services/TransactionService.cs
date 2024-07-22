@@ -29,5 +29,14 @@ namespace Services
             return transactionRepo.GetTransactions();
         }
 
+        public async Task UpdateTransactionStatus(string transactionId, int status)
+        {
+            await transactionRepo.UpdateTransactionStatus(transactionId, status);
+        }
+
+        public async Task<string> GenerateTransactionId()
+        {
+            return await transactionRepo.GenerateTransactionId();
+        }
     }
 }

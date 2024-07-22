@@ -9,10 +9,10 @@ namespace Services.Interfaces
 {
     public interface ITransactionService
     {
-        public List<Transaction> GetTransactions();
-
-        public Transaction GetTransaction(string TransactionId);
-
-        public Task AddTransaction(Transaction transaction);
+        Task AddTransaction(Transaction transaction);
+        Transaction GetTransaction(string TransactionId);
+        List<Transaction> GetTransactions();
+        Task UpdateTransactionStatus(string transactionId, int status);
+        Task<string> GenerateTransactionId();
     }
 }
