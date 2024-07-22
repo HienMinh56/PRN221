@@ -1,5 +1,7 @@
 ﻿using BOs.Entities;
+using BOs.Model.CartModel;
 using Repos;
+using Repos.Interfaces;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,26 +13,44 @@ namespace Services
 {
     public class OrderService : IOrderService
     {
-        private readonly OrderRepo orderRepo;
+        private readonly IOrderRepo _orderRepo;
 
-        public OrderService()
+        public OrderService(IOrderRepo orderRepo)
         {
-            orderRepo = new OrderRepo();
+            _orderRepo = orderRepo;
         }
 
-        public async Task AddOrder(Order order)
+        public async Task<string> CreateOrder(string userId, decimal totalAmount, List<CartItem> cartItems)
         {
-            await orderRepo.AddOrder(order);
+            var orderId = Guid.NewGuid().ToString();
+            var order = new Order
+            {
+                OrderId = orderId,
+                UserId = userId,
+                TotalAmount = (int)totalAmount,
+                CreatedDate = DateTime.Now,
+                Status = 2 // wait
+            };
+
+            foreach (var item in cartItems)
+            {
+                order.OrderDetails.Add(new OrderDetail
+                {
+                    OrderId = orderId,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    Price = item.Price,
+                    CreatedDate = DateTime.Now
+                });
+            }
+
+            await _orderRepo.AddOrder(order);
+            return orderId;
         }
 
-        public Order GetOrder(string OrderId)
+        public async Task UpdateOrderStatus(string orderId, int status)
         {
-            return orderRepo.GetOrder(OrderId);
-        }
-
-        public List<Order> GetOrders()
-        {
-            return orderRepo.GetOrders();
+            await _orderRepo.UpdateOrderStatus(orderId, status);
         }
     }
 }

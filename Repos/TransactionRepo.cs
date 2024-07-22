@@ -10,7 +10,7 @@ namespace Repos
 
         public TransactionRepo()
         {
-            _transactionDAO = TransactionDAO.Instance;
+            _transactionDAO = new TransactionDAO();
         }
 
         public async Task AddTransaction(Transaction transaction)
@@ -18,14 +18,9 @@ namespace Repos
             await _transactionDAO.AddTransaction(transaction);
         }
 
-        public Transaction GetTransaction(string TransactionId)
+        public Transaction GetTransaction(string transactionId)
         {
-            return _transactionDAO.GetTransaction(TransactionId);
-        }
-
-        public List<Transaction> GetTransactions()
-        {
-            return _transactionDAO.GetTransactions();
+            return _transactionDAO.GetTransaction(transactionId);
         }
 
         public async Task UpdateTransactionStatus(string transactionId, int status)

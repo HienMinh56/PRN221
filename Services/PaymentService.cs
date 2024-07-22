@@ -6,6 +6,7 @@ using BOs.Entities;
 using Services.Interfaces;
 using Services.Utilities;
 using Microsoft.AspNetCore.Http.Extensions;
+using BOs.Model.CartModel;
 
 namespace Services
 {
@@ -13,12 +14,14 @@ namespace Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ITransactionService _transactionService;
+        private readonly IOrderService _orderService;
         private readonly IUrlHelper _urlHelper;
 
-        public PaymentService(IHttpContextAccessor httpContextAccessor, ITransactionService transactionService, IUrlHelper urlHelper)
+        public PaymentService(IHttpContextAccessor httpContextAccessor, ITransactionService transactionService, IOrderService orderService, IUrlHelper urlHelper)
         {
             _httpContextAccessor = httpContextAccessor;
             _transactionService = transactionService;
+            _orderService = orderService;
             _urlHelper = urlHelper;
         }
 
@@ -38,9 +41,9 @@ namespace Services
             await _transactionService.AddTransaction(transaction);
 
             string vnp_Returnurl = _urlHelper.Page("/Payment/Callback", null, new { area = "" }, _httpContextAccessor.HttpContext.Request.Scheme);
-            string vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-            string vnp_TmnCode = "CA7EZUZY";
-            string vnp_HashSecret = "IOACKGOPU0DSSB2UBRMFPVJ642X92RHQ";
+            string vnp_Url = "http://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+            string vnp_TmnCode = "YOUR_TMNCODE";
+            string vnp_HashSecret = "YOUR_HASHSECRET";
 
             VnPayLibrary vnpay = new VnPayLibrary();
 
@@ -58,6 +61,12 @@ namespace Services
 
             string paymentUrl = vnpay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
             return paymentUrl;
+        }
+
+        public async Task<string> Checkout(string userId, decimal totalAmount, List<CartItem> cartItems)
+        {
+            var orderId = await _orderService.CreateOrder(userId, totalAmount, cartItems);
+            return await CreatePaymentUrl(userId, totalAmount, orderId);
         }
     }
 }

@@ -9,10 +9,7 @@ namespace Repos.Interfaces
 {
     public interface IOrderRepo
     {
-        public List<Order> GetOrders();
-
-        public Order GetOrder(string OrderId);
-
-        public Task AddOrder(Order order);
+        Task AddOrder(Order order);
+        Task UpdateOrderStatus(string orderId, int status);
     }
 }
