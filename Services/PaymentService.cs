@@ -51,12 +51,12 @@ namespace Services
             vnPay.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
             vnPay.AddRequestData("vnp_Command", "pay");
             vnPay.AddRequestData("vnp_TmnCode", vnp_TmnCode);
-            vnPay.AddRequestData("vnp_Amount", (amount * 100).ToString()); // Ensure amount is in smallest currency unit
-            vnPay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss")); // Properly formatted date
+            vnPay.AddRequestData("vnp_Amount", (amount * 100).ToString()); 
+            vnPay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss")); 
             vnPay.AddRequestData("vnp_CurrCode", "VND");
             vnPay.AddRequestData("vnp_IpAddr", _httpContextAccessor.HttpContext.Connection.RemoteIpAddress?.ToString());
             vnPay.AddRequestData("vnp_Locale", "vn");
-            vnPay.AddRequestData("vnp_OrderInfo", WebUtility.UrlEncode("Payment for order: " + orderId)); // Properly URL-encoded order info
+            vnPay.AddRequestData("vnp_OrderInfo", WebUtility.UrlEncode("Payment for order: " + orderId)); 
             vnPay.AddRequestData("vnp_OrderType", "other");
             vnPay.AddRequestData("vnp_ReturnUrl", vnp_Returnurl);
             vnPay.AddRequestData("vnp_TxnRef", transaction.TransactionId.ToString());
