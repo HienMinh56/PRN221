@@ -156,7 +156,7 @@ namespace BabyStore.Pages.UserMenu
                 return RedirectToPage("/Login", new { returnUrl = "/UserMenu/Cart" });
             }
 
-            string paymentUrl = await _paymentService.Checkout(userId, (decimal)TotalPrice, CartItems);
+            string paymentUrl = await _paymentService.Checkout(userId, (int)(decimal)TotalPrice, CartItems);
 
             return Redirect(paymentUrl); 
         }
