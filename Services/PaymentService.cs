@@ -25,14 +25,14 @@ namespace Services
             _urlHelper = urlHelper;
         }
 
-        public async Task<string> CreatePaymentUrl(string userId, decimal amount, string orderId)
+        public async Task<string> CreatePaymentUrl(string userId, int amount, string orderId)
         {
             var transactionId = await _transactionService.GenerateTransactionId();
             var transaction = new Transaction
             {
                 TransactionId = transactionId,
                 UserId = userId,
-                Amount = (int)amount,
+                Amount = amount,
                 Status = 2, // Pending
                 CreatedDate = DateTime.Now,
                 CreatedBy = userId,
@@ -63,7 +63,7 @@ namespace Services
             return paymentUrl;
         }
 
-        public async Task<string> Checkout(string userId, decimal totalAmount, List<CartItem> cartItems)
+        public async Task<string> Checkout(string userId, int totalAmount, List<CartItem> cartItems)
         {
             var orderId = await _orderService.CreateOrder(userId, totalAmount, cartItems);
             return await CreatePaymentUrl(userId, totalAmount, orderId);

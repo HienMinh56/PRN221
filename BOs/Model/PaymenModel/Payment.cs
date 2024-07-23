@@ -9,7 +9,7 @@ namespace BOs.Model.PaymenModel
     public class Payment
     {
         public string OrderId { get; set; }
-        public decimal Amount { get; set; }
+        public int Amount { get; set; }
         public string PaymentUrl { get; set; }
     }
 }

@@ -20,14 +20,14 @@ namespace Services
             _orderRepo = orderRepo;
         }
 
-        public async Task<string> CreateOrder(string userId, decimal totalAmount, List<CartItem> cartItems)
+        public async Task<string> CreateOrder(string userId, int totalAmount, List<CartItem> cartItems)
         {
-            var orderId = Guid.NewGuid().ToString();
+            var orderId = await _orderRepo.GenerateOrderId();
             var order = new Order
             {
                 OrderId = orderId,
                 UserId = userId,
-                TotalAmount = (int)totalAmount,
+                TotalAmount = totalAmount,
                 CreatedDate = DateTime.Now,
                 Status = 2 // wait
             };
@@ -65,9 +65,9 @@ namespace Services
             return _orderRepo.GetOrders();
         }
 
-        public Order GetOrder(string OrderId)
+        public Order GetOrderById(string OrderId)
         {
-            return _orderRepo.GetOrder(OrderId);
+            return _orderRepo.GetOrderById(OrderId);
         }
     }
 }
