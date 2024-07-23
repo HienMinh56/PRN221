@@ -16,7 +16,6 @@ namespace DAOs
     public class ProductDAO
     {
         private readonly Dbprn221Context _dbprn221Context;
-        public static readonly List<string> ImageExtensions = new List<string> { ".jpg", ".jpeg", ".jpe", ".bmp", ".gif", ".png" };
         private static ProductDAO instance = null;
 
         public static ProductDAO Instance
@@ -64,28 +63,40 @@ namespace DAOs
             }
             return product;
         }
-        
-        public async Task<Product> AddProduct(Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
-        {
-            try
-            {
-                product.ProductId = GenerateNewProductId();
-                product.Status = 1;
 
-                if (image != null)
-                {
-                    product.Image = await AddImage(image, enviroment);
-                }
-                // Add the product to the context and save changes
-                _dbprn221Context.Products.Add(product);
-                await _dbprn221Context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            return product;
+        public async Task AddProduct(Product product)
+{
+    try
+    {
+        // Fetch the last product from the database
+        var lastProduct = await _dbprn221Context.Products
+            .OrderByDescending(p => p.ProductId)
+            .FirstOrDefaultAsync();
+
+        // Generate new ProductId
+        if (lastProduct != null)
+        {
+            string lastProductId = lastProduct.ProductId;
+            int lastNumber = int.Parse(lastProductId.Substring(7));
+            int newNumber = lastNumber + 1;
+            product.ProductId = $"PRODUCT{newNumber:D3}";
         }
+        else
+        {
+            product.ProductId = "PRODUCT001"; // Start with PRODUCT001 if there are no products
+        }
+
+        _dbprn221Context.Products.Add(product);
+        await _dbprn221Context.SaveChangesAsync();
+    }
+    catch (Exception ex)
+    {
+        // Log the exception
+        Console.WriteLine($"Error adding product: {ex.Message}");
+        throw;
+    }
+}
+
 
         public void DeleteProduct(string productId)
         {
@@ -97,7 +108,7 @@ namespace DAOs
             }
         }
 
-        public async Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
+        public async Task UpdateProduct(string productId, Product product)
         {
             Product p = GetProductById(productId);
             if (p != null)
@@ -108,66 +119,12 @@ namespace DAOs
                 p.Title = product.Title;
                 p.Description = product.Description;
                 p.Quantity = product.Quantity;
-
-                // Update the image if a new one is provided
-                if (image != null)
-                {
-                    p.Image = await AddImage(image, enviroment);
-                }
+                p.Image = product.Image;
 
                 _dbprn221Context.Update(p);
                 await _dbprn221Context.SaveChangesAsync();
             }
-            return p;
-        }
-
-        public string GenerateNewProductId()
-        {
-            string newProductId = "PRODUCT001"; // Default starting value
-            // Find the last product in the database to determine the next number
-            var lastProduct = _dbprn221Context.Products
-                .OrderByDescending(p => p.ProductId)
-                .FirstOrDefault();
-
-            if (lastProduct != null)
-            {
-                // Assuming ProductId is in the format "PRODUCT001", extract the numeric part
-                string lastProductId = lastProduct.ProductId;
-                string numericPart = lastProductId.Substring(7); // Adjust based on your format
-
-                if (int.TryParse(numericPart, out int number))
-                {
-                    // Increment the number part
-                    number++;
-                    newProductId = "PRODUCT" + number.ToString().PadLeft(3, '0'); // Format back to "PRODUCT001"
-                }
-                else
-                {
-                    throw new Exception("Invalid ProductId format in the database.");
-                }
-            }
-
-            return newProductId;
-        }
-
-        public async Task<string?> AddImage(IFormFile file, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
-        {
-            if (file != null)
-            {
-                foreach (var f in ImageExtensions)
-                {
-                    if (file.FileName.Contains(f))
-                    {
-                        var fileUp = Path.Combine(enviroment.WebRootPath, "images", file.FileName);
-                        using (var fileStream = new FileStream(fileUp, FileMode.Create))
-                        {
-                            await file.CopyToAsync(fileStream);
-                            return $"/images/{file.FileName}";
-                        }
-                    }
-                }
-            }
-            return null;
         }
     }
 }
+

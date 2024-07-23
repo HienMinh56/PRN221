@@ -19,9 +19,9 @@ namespace Repos
                 _productDAO = new ProductDAO();
             }
         }
-        public async Task<Product> AddProduct(Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
+        public async Task AddProduct(Product product)
         {
-            return await _productDAO.AddProduct(product, image, enviroment);
+             await _productDAO.AddProduct(product);
         }
 
 
@@ -38,9 +38,9 @@ namespace Repos
 
        
 
-        public async Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
+        public async Task UpdateProduct(string productId, Product product)
         {
-            return await _productDAO.UpdateProduct(productId, product, image, enviroment);
+            await _productDAO.UpdateProduct(productId , product);
         }
     }
 }
