@@ -92,7 +92,7 @@ namespace Services.Utilities
 
             if (data.Length > 0)
             {
-                data.Remove(data.Length - 1, 1); // remove last '&'
+                data.Remove(data.Length - 1, 1); 
             }
             return data.ToString();
         }
