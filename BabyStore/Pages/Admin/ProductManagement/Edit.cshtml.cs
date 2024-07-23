@@ -18,11 +18,11 @@ namespace BabyStore.Pages.Admin.ProductManagement
     {
         private readonly IProductService _product;
         private readonly ICategoryService _category;
-        private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
+        private readonly ICloudStorageService _cloudStorageService;
 
-        public EditModel(ICategoryService category, IProductService product, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment)
+        public EditModel(ICloudStorageService cloudStorageService, ICategoryService category, IProductService product)
         {
-            _environment = environment;
+            _cloudStorageService = cloudStorageService;
             _product = product;
             _category = category;
         }
@@ -30,11 +30,8 @@ namespace BabyStore.Pages.Admin.ProductManagement
         [BindProperty]
         public Product Product { get; set; } = default!;
         public Category Category { get; set; } = default!;
-        [Required(ErrorMessage = "Choose one File!")]
-        [DataType(DataType.Upload)]
-        [FileExtensions(Extensions = "jpg,jpeg,jpe,bmp,gif,png")]
         [BindProperty]
-        public IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string? id)
         {
@@ -55,28 +52,14 @@ namespace BabyStore.Pages.Admin.ProductManagement
 
         public async Task<IActionResult> OnPostAsync(string? id, Product product)
         {
-            try
+            if (Image != null)
             {
-                Product = await _product.UpdateProduct(id, product, Image, _environment);
+                var fileName = $"images/{Image.FileName}";
+                product.Image = await _cloudStorageService.UploadFileAsync(Image, fileName, 500, 500);
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(Product.ProductId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _product.UpdateProduct(id, product);
 
             return RedirectToPage("./Product");
-        }
-
-        private bool ProductExists(string? id)
-        {
-            return _product.GetProductById(id) != null;
         }
     }
 }

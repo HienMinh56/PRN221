@@ -21,13 +21,13 @@ namespace BabyStore.Pages.Admin.ProductManagement
     {
         private readonly IProductService _product;
         private readonly ICategoryService _category;
-        private Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
+        private readonly ICloudStorageService _cloudStorageService;
 
-        public CreateModel(ICategoryService category, IProductService product, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment)
+        public CreateModel(ICategoryService category, IProductService product, ICloudStorageService cloudStorageService)
         {
             _category = category;
             _product = product;
-            _environment = environment;
+            _cloudStorageService = cloudStorageService;
         }
 
         public IActionResult OnGet()
@@ -37,21 +37,22 @@ namespace BabyStore.Pages.Admin.ProductManagement
         }
 
         [BindProperty]
-        public Product Product { get; set; } = default!; 
-        [Required(ErrorMessage = "Choose one File!")]
-        [DataType(DataType.Upload)]
-        [FileExtensions(Extensions = "jpg,jpeg,jpe,bmp,gif,png")]
+        public Product Product { get; set; } = default!;
         [BindProperty]
-        public IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync(Product product)
+        public async Task<IActionResult> OnPostAsync()
         {
+            if (Image != null)
+            {
+                var fileName = $"images/{Image.FileName}";
+                Product.Image = await _cloudStorageService.UploadFileAsync(Image, fileName, 100, 100);
+            }
 
-            Product = await _product.AddProduct(product, Image, _environment);
+            await _product.AddProduct(Product);
 
             return RedirectToPage("./Product");
-
         }
     }
 }
