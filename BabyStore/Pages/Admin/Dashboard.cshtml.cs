@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Services;
 using Services.Interfaces;
@@ -28,8 +28,6 @@ namespace BabyStore.Pages.Admin
         public int TransactionCount { get; private set; }
         public int OrderCountSucess { get; private set; }
         public int OrderCount { get; private set; }
-        public int Account1 { get; private set; }
-        public int Account0 { get; private set; }
         public int ProductCount { get; private set; }
         public int Revenue { get; private set; }
         public string RevenueFormatted { get; private set; }
@@ -38,7 +36,7 @@ namespace BabyStore.Pages.Admin
         public List<int> OrderStatusCounts { get; private set; } = new List<int>();
 
 
-        private void CalculateDaily()
+        private void CalculateAmountDaily()
         {
             var today = DateTime.Today;
             var ordersToday = _orderService.GetOrders()
@@ -47,7 +45,7 @@ namespace BabyStore.Pages.Admin
                                         && order.CreatedDate.Value.Date == today)
                                    .ToList();
             Revenue = ordersToday.Sum(order => order.TotalAmount);
-            OrderCountSucess = ordersToday.Count;
+            //OrderCountSucess = ordersToday.Count;
         }
 
         private void CalculateRevenueByDate(int days)
@@ -101,17 +99,26 @@ namespace BabyStore.Pages.Admin
                 }
             }
         }
+        private void TotalOrderAndTransactionByDaily()
+        {
+            var today = DateTime.Today;
+
+            OrderCount = _orderService.GetOrders()
+                                      .Count(order => order.CreatedDate.HasValue
+                                                      && order.CreatedDate.Value.Date == today);
+            TransactionCount = _transactionService.GetTransactions()
+                                                  .Count(transaction => transaction.CreatedDate.HasValue
+                                                                        && transaction.CreatedDate.Value.Date == today);
+        }
+
         public IActionResult OnGet()
         {
 
             UserCount = _userService.GetUsers().Count;
-            TransactionCount = _transactionService.GetTransactions().Count;
-            OrderCount = _orderService.GetOrders().Count;
-            Account1 = _userService.GetUsers().Where(s => s.Status == 1).ToList().Count();
-            Account0 = _userService.GetUsers().Where(s => s.Status == 0).ToList().Count();
             ProductCount = _productService.GetProducts().Count;
-            CalculateDaily();
+            CalculateAmountDaily();
             CalculateRevenueByDate(7);
+            CalculateOrderStatusCounts();
             CalculateOrderStatusCounts();
             RevenueFormatted = $"{Revenue.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"))} VND";          
             return Page();
