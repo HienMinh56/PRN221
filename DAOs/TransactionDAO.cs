@@ -33,7 +33,7 @@ namespace DAOs
 
         public List<Transaction> GetTransactions()
         {
-            return _context.Transactions.Include(u => u.User).ToList();
+            return _context.Transactions.Include(t => t.User).OrderByDescending(t => t.Id).ToList();
         }
 
         public async Task AddTransaction(Transaction transaction)
@@ -42,14 +42,14 @@ namespace DAOs
             await _context.SaveChangesAsync();
         }
 
-        public Transaction GetTransaction(string transactionId)
+        public Transaction GetTransactionById(string transactionId)
         {
-            return _context.Transactions.FirstOrDefault(t => t.TransactionId == transactionId);
+            return _context.Transactions.OrderByDescending(t => t.Id).FirstOrDefault(t => t.TransactionId == transactionId);
         }
 
         public async Task UpdateTransactionStatus(string transactionId, int status)
         {
-            var transaction = GetTransaction(transactionId);
+            var transaction = GetTransactionById(transactionId);
             if (transaction != null)
             {
                 transaction.Status = status;

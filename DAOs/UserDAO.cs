@@ -37,7 +37,7 @@ namespace DAOs
 
         public User getUserByid(string UserId)
         {
-            return  _context.Users.FirstOrDefault(u => u.UserId == UserId);
+            return  _context.Users.OrderByDescending(u => u.UserId).FirstOrDefault(u => u.UserId == UserId);
         }
 
         public User GetUser(string username, string password)

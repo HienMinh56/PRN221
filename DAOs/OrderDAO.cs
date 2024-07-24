@@ -32,11 +32,11 @@ namespace DAOs
         }
         public List<Order> GetOrderbyUserId(string userId)
         {
-            return _context.Orders.Where(o => o.UserId==userId).OrderByDescending(o=>o.OrderId).ToList();
+            return _context.Orders.Where(o => o.UserId==userId).OrderByDescending(o=>o.Id).ToList();
         }
         public List<Order> GetOrders()
         {
-            return _context.Orders.Include(o => o.User).ToList();
+            return _context.Orders.OrderByDescending(o => o.Id).Include(o => o.User).ToList();
         }
         public Order GetOrderById(string orderId)
         {

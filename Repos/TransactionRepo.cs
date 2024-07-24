@@ -20,7 +20,7 @@ namespace Repos
 
         public Transaction GetTransactionById(string transactionId)
         {
-            return _transactionDAO.GetTransaction(transactionId);
+            return _transactionDAO.GetTransactionById(transactionId);
         }
 
         public async Task UpdateTransactionStatus(string transactionId, int status)

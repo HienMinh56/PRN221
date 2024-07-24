@@ -32,11 +32,11 @@ namespace DAOs
 
         public  List<Voucher> GetVouchers()
         {
-            return _dbprn221Context.Vouchers.ToList();
+            return _dbprn221Context.Vouchers.OrderByDescending(v => v.Id).ToList();
         }
-        public Voucher GetVoucher(int VoucherId)
+        public Voucher GetVoucherById(int VoucherId)
         {
-            return _dbprn221Context.Vouchers.SingleOrDefault(v => v.Id==VoucherId);
+            return _dbprn221Context.Vouchers.OrderByDescending(v => v.Id).SingleOrDefault(v => v.Id==VoucherId);
         }
         public async Task AddVoucher(Voucher voucher)
         {
@@ -73,8 +73,6 @@ namespace DAOs
                 throw new Exception(ex.Message);
             }
         }
-
-
 
         public async Task UpdateVoucher(Voucher voucher)
         {
@@ -133,7 +131,7 @@ namespace DAOs
         {
             try
             {
-                var voucher = GetVoucher(VoucherId);
+                var voucher = GetVoucherById(VoucherId);
                 if (voucher != null)
                 {
                     voucher.Status = "Inactive";
