@@ -9,7 +9,7 @@ namespace Services.Interfaces
 {
     public interface IUserService
     {
-        User getUserByid(string UserId);
+        User GetUserById(string UserId);
         User Login(string username, string password); 
         List<User> GetUsers();
         Task Add(User user);

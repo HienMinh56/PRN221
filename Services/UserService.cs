@@ -46,11 +46,10 @@ namespace Services
             await userRepository.Update(UserId, user);
         }
 
-        public User getUserByid(string UserId)
+        public User GetUserById(string UserId)
         {
             return userRepository.getUserByid(UserId);
         }
-
 
     }
 }

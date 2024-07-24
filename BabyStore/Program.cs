@@ -35,6 +35,10 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
 builder.Services.AddScoped<IVoucherService, VoucherServcie>();
 
+// ??ng ký EmailService
+builder.Services.AddTransient<IEmailService, EmailService>(); 
+
+
 //gcs
 builder.Services.AddSingleton<ICloudStorageService, CloudStorageService>();
 

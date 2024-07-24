@@ -30,7 +30,7 @@ namespace BabyStore.Pages.Admin.UserManagement
                 return NotFound();
             }
 
-            var user = _userService.getUserByid(id);
+            var user = _userService.GetUserById(id);
 
             if (user == null)
             {
@@ -52,7 +52,7 @@ namespace BabyStore.Pages.Admin.UserManagement
                     return NotFound();
                 }
 
-                var user = _userService.getUserByid(id);
+                var user = _userService.GetUserById(id);
                 if (user != null)
                 {
                     _userService.Remove(id);
