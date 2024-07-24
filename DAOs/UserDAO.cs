@@ -52,24 +52,54 @@ namespace DAOs
 
         public async Task AddUser(User user)
         {
-            User existingUser = await _context.Users.FindAsync(user.UserId);
+            bool userExists = await _context.Users
+                .AnyAsync(u => u.UserName == user.UserName || u.Phone == user.Phone || u.Email == user.Email);
+
+            if (userExists)
+            {
+                throw new Exception("User Existed");
+            }
+
+            var maxUserIdStr = await _context.Users
+                .Where(u => u.UserId.StartsWith("BAMEM"))
+                .Select(u => u.UserId.Substring(5))
+                .OrderByDescending(id => id)
+                .FirstOrDefaultAsync();
+
+            int maxUserId = 0;
+            if (maxUserIdStr != null)
+            {
+                maxUserId = int.Parse(maxUserIdStr);
+            }
+
+            user.UserId = $"BAMEM{(maxUserId + 1).ToString().PadLeft(4, '0')}";
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+        }
+
+
+
+        public async Task UpdateUser(string UserId, User user)
+        {
+            User existingUser = await _context.Users.FindAsync(UserId);
             if (existingUser != null)
             {
                 // Kiểm tra email và số điện thoại trùng lặp
                 bool emailExists = await _context.Users
-                    .AnyAsync(u => u.Email == user.Email && u.UserId != user.UserId);
+                    .AnyAsync(u => u.Email == user.Email && u.UserId != UserId);
 
                 bool phoneExists = await _context.Users
-                    .AnyAsync(u => u.Phone == user.Phone && u.UserId != user.UserId);
+                    .AnyAsync(u => u.Phone == user.Phone && u.UserId != UserId);
 
                 if (emailExists)
                 {
-                    throw new Exception("Email đã được sử dụng bởi người dùng khác.");
+                    throw new Exception("Email Existed");
                 }
 
                 if (phoneExists)
                 {
-                    throw new Exception("Số điện thoại đã được sử dụng bởi người dùng khác.");
+                    throw new Exception("Phone Existed");
                 }
 
                 // Cập nhật thông tin người dùng
@@ -81,28 +111,6 @@ namespace DAOs
                 existingUser.Role = user.Role;
                 existingUser.Status = user.Status;
 
-                _context.Update(existingUser);
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                throw new Exception("User Not Found");
-            }
-        }
-
-
-        public async Task UpdateUser(string UserId, User user)
-        {
-            User existingUser = getUserByid(UserId);
-            if (existingUser != null)
-            {
-                existingUser.FullName = user.FullName;
-                existingUser.Password = user.Password;
-                existingUser.Phone = user.Phone;
-                existingUser.Address = user.Address;
-                existingUser.Email = user.Email;
-                existingUser.Role = user.Role;
-                existingUser.Status = user.Status;
                 _context.Update(existingUser);
                 await _context.SaveChangesAsync();
             }
