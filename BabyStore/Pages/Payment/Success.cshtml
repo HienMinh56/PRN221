@@ -6,7 +6,44 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-5">
-    <h2>Thanh toán thành công!</h2>
-    <p>Cảm ơn bạn đã mua hàng. Đơn hàng của bạn đã được xử lý thành công.</p>
-</div>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style>
+    .success-container {
+        margin-left: 26%;
+        width: 50%;
+        margin-top: 20%;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 10px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+        .success-container h2 {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .success-container p {
+            color: #6c757d;
+        }
+
+    .success-icon {
+        font-size: 50px;
+        color: #28a745;
+        margin-bottom: 20px;
+    }
+</style>
+<body>
+    <div class="container mt-5">
+        <div class="success-container">
+            <span class="material-icons success-icon">check_circle</span>
+            <h2>Thanh toán thành công</h2>
+            <p>Cảm ơn bạn đã mua hàng. Đơn hàng của bạn đã được xử lý thành công.</p>
+        </div>
+    </div>
+
+    <script src="https://fonts.googleapis.com/icon?family=Material+Icons"></script>
+</body>
