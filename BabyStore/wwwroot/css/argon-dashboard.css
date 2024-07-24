@@ -25404,7 +25404,7 @@ body.dark-version {
 
 .flatpickr-calendar.open {
   display: inline-block;
-  z-index: 99999;
+  z-index: 1000;
 }
 
 .flatpickr-calendar.animate.open {

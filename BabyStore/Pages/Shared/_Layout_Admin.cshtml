@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -12,6 +12,27 @@
     <link rel="stylesheet" href="~/css/nucleo-svg.css" asp-append-version="true" />
     <!-- CSS Files -->
     <link href="~/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
+    <style>
+        .notification {
+            position: fixed;
+            top: 0;
+            right: 0;
+            transform: translateX(-50%);
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1500; /* Ensure it's above other elements */
+        }
+
+            .notification.show {
+                display: block;
+                top: 0;
+                right: 0;
+            }
+    </style>
 </head>
 <body class="g-sidenav-show bg-gray-100">
 
@@ -23,7 +44,22 @@
     <script src="~/js/perfect-scrollbar.min.js"></script>
     <script src="~/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/smooth-scrollbar.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-    @await RenderSectionAsync("Scripts", required: false)
+    <div id="notification" class="notification"></div>
+
+    @RenderSection("Scripts", required: false)
+    <script>
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
+
+
