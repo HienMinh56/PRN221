@@ -53,7 +53,7 @@
                                     <form method="post" asp-page-handler="UpdateQuantity" class="quantity-form">
                                         <div class="quantity-group">
                                             <input type="hidden" name="ProductId" value="@item.ProductId" />
-                                            <input type="number" name="Quantity" class="form-control form-control-sm text-center quantity-input" value="@item.Quantity" min="1" max="@item.AvailableQuantity" id="quantity-@item.ProductId" oninput="validateQuantity(this)" />
+                                            <input type="number" name="Quantity" class="form-control form-control-sm text-center quantity-input" value="@item.Quantity" min="0" max="@item.AvailableQuantity" id="quantity-@item.ProductId" oninput="validateQuantity(this)" />
                                             <button type="submit" class="btn btn-primary btn-sm quantity-button">Cập nhật</button>
                                         </div>
                                     </form>
@@ -61,9 +61,14 @@
                                 <div class="col-2 text-end">
                                     <h5 id="total-@item.ProductId">@string.Format("{0:n0}₫", item.Quantity * item.Price)</h5>
                                 </div>
-                                <div class="col-2 text-end">
-                                    <button type="button" class="btn btn-link text-muted" onclick="removeItem('@item.ProductId')">Xóa</button>
+                                <div class ="col-2 text-end">
+                                    <form method="post" asp-page-handler="UpdateQuantity" class="delete-form">
+                                        <input type="hidden" name="ProductId" value="@item.ProductId" />
+                                        <input type="hidden" name="Quantity" value="0" />
+                                        <button type="submit" class="btn btn-link text-muted">Xóa</button>
+                                    </form>
                                 </div>
+                                
                             </div>
                             <hr />
                         }
@@ -260,46 +265,7 @@
             }
         }
 
-        function removeItem(productId) {
-            if (confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng không?')) {
-                fetch('/UserMenu/Cart?handler=RemoveItem', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                    },
-                    body: JSON.stringify({ ProductId: productId })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            Toastify({
-                                text: "Sản phẩm đã được xóa khỏi giỏ hàng.",
-                                backgroundColor: "green",
-                                duration: 3000
-                            }).showToast();
-                            document.getElementById('cart-item-' + productId).remove(); 
-                            updateCartSummary(data.cartSummary); 
-                        } else {
-                            Toastify({
-                                text: "Có lỗi xảy ra khi xóa sản phẩm.",
-                                backgroundColor: "red",
-                                duration: 3000
-                            }).showToast();
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Lỗi:', error);
-                        Toastify({
-                            text: "Có lỗi xảy ra khi xóa sản phẩm.",
-                            backgroundColor: "red",
-                            duration: 3000
-                        }).showToast();
-                    });
-                return false; 
-            }
-            return false; 
-        }
+        
 
         function updateCartSummary(cartSummary) {
             document.getElementById('total-price').innerText = cartSummary.totalPrice;

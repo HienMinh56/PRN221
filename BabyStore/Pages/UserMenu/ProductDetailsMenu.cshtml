@@ -30,7 +30,7 @@
     .close {
         color: #aaa;
         float: right;
-        font-size: 20px; 
+        font-size: 20px;
         font-weight: bold;
     }
 
@@ -41,7 +41,6 @@
             cursor: pointer;
         }
 </style>
-
 
 <div class="center-screen">
     <div class="card">
@@ -58,15 +57,24 @@
                     <div class="my-4">
                         @if (Model.Product.Quantity > 0)
                         {
-                            <form method="post" asp-page-handler="AddToCart" asp-route-productId="@Model.Product.ProductId" asp-route-productName="@Model.Product.Name" asp-route-price="@Model.Product.Price" asp-route-productImage="@Model.Product.Image" asp-route-availableQuantity="@Model.Product.Quantity" class="full-width-form">
-                                <button type="submit" class="btn btn-primary full-width-button @(!isAuthenticated ? "login-required" : "")">
-                                    <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
+                            @if (Model.IsProductInCart(Model.Product.ProductId))
+                            {
+                                <button class="btn btn-secondary btn-lg" disabled style="background-color:hotpink">
+                                    Sản phẩm đã có trong giỏ
                                 </button>
-                            </form>
+                            }
+                            else
+                            {
+                                <form method="post" asp-page-handler="AddToCart" asp-route-productId="@Model.Product.ProductId" asp-route-productName="@Model.Product.Name" asp-route-price="@Model.Product.Price" asp-route-productImage="@Model.Product.Image" asp-route-availableQuantity="@Model.Product.Quantity" class="full-width-form">
+                                    <button type="submit" class="btn btn-primary full-width-button @(!isAuthenticated ? "login-required" : "")">
+                                        <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
+                                    </button>
+                                </form>
+                            }
                         }
                         else
                         {
-                            <button class="btn btn-secondary btn-lg" disabled>
+                            <button class="btn btn-secondary btn-lg" disabled style="background-color: gray">
                                 Sản phẩm này đã hết
                             </button>
                         }
@@ -92,7 +100,6 @@
     <div id="toastMessage" class="toast-message"></div>
 </div>
 
-
 @section Scripts {
     <script>
         function showToast(message, type) {
@@ -110,7 +117,7 @@
 
             setTimeout(function () {
                 toast.style.display = "none";
-            }, 3000); 
+            }, 3000);
         }
 
         var message = "@message";
