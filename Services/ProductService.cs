@@ -25,17 +25,15 @@ namespace Services
             }
         }
         public List<Product> GetProducts() => productRepo.GetProducts();
-        public async Task<Product> AddProduct(Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
+        public async Task AddProduct(Product product)
         {
-            return await productRepo.AddProduct(product, image, enviroment);
+            await productRepo.AddProduct(product);
         }
         public Product GetProductById(string productId) => productRepo.GetProductById(productId);
-        public async Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment)
+        public async Task UpdateProduct(string productId, Product product)
         {
-            return await productRepo.UpdateProduct(productId, product, image, enviroment);
+            await productRepo.UpdateProduct(productId, product);
         }
         public void DeleteProduct(string productId) => productRepo.DeleteProduct(productId);
-
-        
     }
 }

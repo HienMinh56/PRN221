@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "verdant-option-426501-k1",
+  "private_key_id": "4a670d9212206e24b87910777433ddbf12c66f0c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCcOPIcTgTkKbyu\n/ik15gn7gw+Obxgok29GZRZeeE7WVIlPNs5GeS3qJW51nWCdllqXkbGhhPZhhxq3\nOi3dBq39sSYl9GknNKpwlIWJx71+pIa2LMw4SltBDn7anPUBhTLsVZxnEWbVVG6B\nbzt6NIV2pBnn/f4e3B5m933akgflAqCUlXN7d5YbdXukTHhAKfJfaSLWWsWv0ZDl\nDvckwjxMryP8KBF394BTy39FaehQ008jDvz08uZHxyKoyDrXZVd7m/zUtQd6Abqc\ncVlaWOCO0UfUvzDfR/qNmhgifjBqup7b2spt3Yvtg1k5IgDS1P+j1nUIrEImtBCH\nC4gCIlSVAgMBAAECggEAB3/MT4OHRJSkVBorTEUQsZwnAQVgOYJqUwzDOCG6VxuT\nw9Ozrzpd8+F8HfVCEA6JpsD9r+08Do53v9fxH60UaRs545SJ/7HNhL38cxK9i/jF\n5rTb0M/w9XyGpmPmdv435ZRuf5wcPZ1h+KCoUEN5LKrP+4z7x+t1Iig7SGS+MEYO\nz89wxEu9NfP/wtXVlF34T6OwldbU3E/tpYobbh6X+H0uZuc1J9NnZ1UIjrGo17LU\ndQO5D2pk4SseNv47YEOJu2eEygEqNpaCIzgCYUfagiRTCXoIoDWqX+1ZhfkhYm2X\ng0HYICwDHBVVhaGV91XdKt1QbStaSZfrct2jrrS7wQKBgQDKSbfwIrG9+Ot/rAgI\noSf5fN+wzhCiYknvAWXtobDOR/n8wBGU/+64YpGG1vGVL1Xlo7s37ZUoQPQFsdvP\nrrYlFVOan3l7Jr5kuBq0EVu12GGk+GqPKeMtW6aJxNQyrcOehVbRXEE2F0WtTSOn\n/DwLULwgrctZUO7eAbqNHkvCbQKBgQDFs/qZA3PcOobqU0aEmVkmKQGIsUSMLmGN\nlt0zKBdIAqkzRWVp1Oq8U9CuusfIXESZ2H9hLDD2iQWdXMQwsVEhPAeYR00bZj7h\n4EICbw11aeCmIbx0m6f33ijRop2DEDYm1vmGqCPMeKAqTBYkCJMN+rFAyT0RcdPC\nfMPVl81ByQKBgQCz05zkqLMBgos30CLEKR90NoJUlptK/71h7whBm3+loW6mNchr\ngKki2N0t1V6llJLztf301gvG4RcNCPOzSEk75h2QUzyXMfYHa3KxqMyyd002bm+s\nHTyLUfJWftd0xewku7xWGYEPKNkUGoMcDqsCFB9pnZYsLDpsuXSxhsEqcQKBgGDp\nCVUKETgJ5GpmqbGD7eQ7w4m6w0wnzB/4rLNP2qGs1D3SrZSEDxCD0U5lNlsrh2EW\nc9IxNEsU/ZCWkYEA2jD9WQe3I7/jjb1xDUpeH23HmZw1+0f5qQtidgXUvXsqbjD5\nvdTZBLtNAc3aABxnq5X1pf+I5YtwjYnPWLuRrsapAoGBALSrJj+0/Ws4s1T8h8X3\n9D5TJDiPsfVTPfIF7Acdp7bY/fCjTb+Gq8idZ3YOBdSe5hGsPtI4nSsGoAZypJod\nz5XoKcw59OBLzQeIywwLrulCpiRGaaaZj2ZOCMcSmDnnS78b7ElITyuKVKbxoJgd\n1PTrHcXc5BS6YWTry+tBH+3H\n-----END PRIVATE KEY-----\n",
+  "client_email": "vominhman@verdant-option-426501-k1.iam.gserviceaccount.com",
+  "client_id": "109643093481034248762",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/vominhman%40verdant-option-426501-k1.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

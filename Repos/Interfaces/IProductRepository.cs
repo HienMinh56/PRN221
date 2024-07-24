@@ -12,10 +12,10 @@ namespace Repos
 {
     public interface IProductRepository
     {
-        Task<Product> AddProduct(Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment);
+        Task AddProduct(Product product);
         public void DeleteProduct(string productId);
         public Product GetProductById(string productId);
         public List<Product> GetProducts();
-        public Task<Product> UpdateProduct(string productId, Product product, IFormFile image, Microsoft.AspNetCore.Hosting.IHostingEnvironment enviroment);
+        Task UpdateProduct(string productId, Product product);
     }
 }

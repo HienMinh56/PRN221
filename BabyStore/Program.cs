@@ -6,8 +6,11 @@ using Repos;
 using Repos.Interfaces;
 using Services;
 using Services.Interfaces;
+using Services.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<GCSConfigOptions>(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -28,6 +31,9 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
 builder.Services.AddScoped<IVoucherService, VoucherServcie>();
+
+//gcs
+builder.Services.AddSingleton<ICloudStorageService, CloudStorageService>();
 
 // Register Payment
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

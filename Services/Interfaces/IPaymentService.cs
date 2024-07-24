@@ -9,7 +9,7 @@ namespace Services.Interfaces
 {
     public interface IPaymentService
     {
-        Task<string> CreatePaymentUrl(string userId, decimal amount, string orderId);
-        Task<string> Checkout(string userId, decimal totalAmount, List<CartItem> cartItems);
+        Task<string> CreatePaymentUrl(string userId, int amount, string orderId);
+        Task<string> Checkout(string userId, int totalAmount, List<CartItem> cartItems);
     }
 }
