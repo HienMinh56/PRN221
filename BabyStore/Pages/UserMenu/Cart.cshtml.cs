@@ -82,7 +82,7 @@ namespace BabyStore.Pages.UserMenu
             return new JsonResult(new { success = true });
         }
 
-        public IActionResult OnPostRemoveItem([FromBody] string productId)
+        public IActionResult OnPostRemoveItem(string productId)
         {
             var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
             var cartItem = cart.FirstOrDefault(c => c.ProductId == productId);

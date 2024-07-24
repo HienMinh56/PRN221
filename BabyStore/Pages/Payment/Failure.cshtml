@@ -6,7 +6,42 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-5">
-    <h2>Thanh toán thất bại!</h2>
-    <p>Rất tiếc, đã có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại.</p>
-</div>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style>
+    .failure-container {
+        margin-left: 26%;
+        width: 50%;
+        margin-top: 20%;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 10px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+        .failure-container h2 {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .failure-container p {
+            color: #6c757d;
+        }
+
+    .failure-icon {
+        font-size: 50px;
+        color: #dc3545;
+        margin-bottom: 20px;
+    }
+</style>
+<body>
+    <div class="container mt-5">
+        <div class="failure-container">
+            <span class="material-icons failure-icon">error</span>
+            <h2>Thanh toán thất bại</h2>
+            <p>Rất tiếc, đã có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại.</p>
+        </div>
+    </div>
+</body>

@@ -37,7 +37,7 @@ namespace BabyStore.Pages.UserMenu
 
         public async Task OnGetAsync()
         {
-            var allProducts = _productService.GetProducts();
+            var allProducts = _productService.GetProducts().Where(p=>p.Status==1);
 
             if (!string.IsNullOrWhiteSpace(SearchQuery))
             {
@@ -50,7 +50,11 @@ namespace BabyStore.Pages.UserMenu
             TempData.Remove("SuccessMessage");
             TempData.Remove("ErrorMessage");
         }
-
+        public bool IsProductInCart(string productId)
+        {
+            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+            return cart.Any(item => item.ProductId == productId);
+        }
         public IActionResult OnPostAddToCart(string productId, string productName, int price, string productImage, int availableQuantity)
         {
             var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));

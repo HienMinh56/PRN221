@@ -67,7 +67,7 @@
 
     
     <div class="product-cards-container">
-        @foreach (var product in Model.Product)
+        @foreach (var product in Model.Product.OrderByDescending(p=>p.Quantity).Where(p=>p.Status==1))
         {
             <div class="product-card">
                 <a href="@Url.Page("/UserMenu/ProductDetailsMenu", new { id = product.ProductId })">
@@ -85,15 +85,26 @@
                 </a>
                 @if (product.Quantity > 0)
                 {
-                    <form method="post" asp-page-handler="AddToCart" asp-route-productId="@product.ProductId" asp-route-productName="@product.Name" asp-route-price="@product.Price" asp-route-productImage="@product.Image" asp-route-availableQuantity="@product.Quantity" class="full-width-form">
-                        <button type="submit" class="btn btn-primary full-width-button @(!isAuthenticated ? "login-required" : "")">
-                            <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
+                    @if (Model.IsProductInCart(product.ProductId))
+                    {
+                        <button class="btn btn-primary full-width-button disabled" style="background-color:hotpink">
+                            <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Đã thêm
                         </button>
-                    </form>
+                    }
+                    else
+                    {
+                        <form method="post" asp-page-handler="AddToCart" asp-route-productId="@product.ProductId" asp-route-productName="@product.Name" asp-route-price="@product.Price" asp-route-productImage="@product.Image" asp-route-availableQuantity="@product.Quantity" class="full-width-form">
+                            <button type="submit" class="btn btn-primary full-width-button @(!isAuthenticated ? "login-required" : "")">
+                                <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
+                            </button>
+                        </form>
+                    }
                 }
                 else
                 {
-                    <p class="out-of-stock">Sản phẩm này đã hết</p>
+                    <button class="btn btn-primary full-width-button disabled" style="background-color: grey">
+                        <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Đã hết hàng
+                    </button>
                 }
             </div>
         }
