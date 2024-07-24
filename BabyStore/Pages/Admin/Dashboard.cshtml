@@ -206,13 +206,13 @@
                 <div class="row justify-content-center">
                     <div class="col-md-5 chart-container" style="background-color: #fff7ef; padding: 20px; border-radius: 4px; margin: 20px">
                         <div>
-                            <h4 class="text-center">Transactions & Orders</h4>
+                            <h4 class="text-center">Revenue 7 day</h4>
                             <canvas id="chart1" style="width: 150px; height: 150px"></canvas>
                         </div>
                     </div>
                     <div class="col-md-5 chart-container" style="background-color: #fff7ef; padding: 20px; border-radius: 4px; margin: 20px">
                         <div>
-                            <h4 class="text-center">Account</h4>
+                            <h4 class="text-center">Order</h4>
                             <canvas id="chart2" style="width: 150px; height: 150px;"></canvas>
                         </div>
                     </div>
@@ -275,13 +275,11 @@
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['StockOut', 'Lot'],
+            labels: @Html.Raw(Json.Serialize(Model.RevenueDates)), 
             datasets: [{
-                label: 'Compare StockOut & Lot',
-                data: [@Model.TransactionCount, @Model.OrderCountSucess],
-                backgroundColor: [
-                    '#ff469e'
-                ],
+                label: 'Revenue (VND)',
+                data: @Html.Raw(Json.Serialize(Model.RevenueAmounts)), 
+                backgroundColor: '#ff469e',
                 borderWidth: 1
             }]
         },
@@ -302,13 +300,16 @@
     new Chart(ctx1, {
         type: 'pie',
         data: {
-            labels: ['Active', 'In Active'],
+            labels: ['Waiting for delivery', 'Processing', 'Failed', 'Shipped', 'Canceled'],
             datasets: [{
-                label: 'Account active & inactive',
-                data: [@Model.Account1, @Model.Account0],
+                label: 'Order',
+                data: @Html.Raw(Json.Serialize(Model.OrderStatusCounts)),
                 backgroundColor: [
                     '#ff469e',
-                    'deepskyblue'
+                    'deepskyblue',
+                    '#FFCC00',
+                    '#66FF66',
+                    '#FF9933'
                 ],
                 borderWidth: 1
             }]
