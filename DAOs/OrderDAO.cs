@@ -57,7 +57,7 @@ namespace DAOs
         public async Task UpdateOrderStatus(string orderId, int status)
         {
             var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
-            if (order != null && order.Status !=3 && order.Status!=2)
+            if (order != null && order.Status !=3 )
             {
                 order.Status = status;
                 _context.Entry(order).State = EntityState.Modified;
