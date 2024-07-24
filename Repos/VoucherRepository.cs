@@ -31,7 +31,7 @@ namespace Repos
 
         public Voucher GetVoucher(int VoucherId)
         {
-            return _voucherDAO.GetVoucher(VoucherId);
+            return _voucherDAO.GetVoucherById(VoucherId);
         }
 
         public List<Voucher> GetVouchers()

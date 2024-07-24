@@ -41,7 +41,9 @@ namespace DAOs
             List<Product> listProduct = null;
             try
             {
-                listProduct = _dbprn221Context.Products.ToList();
+                listProduct = _dbprn221Context.Products
+                                              .OrderByDescending(p => p.ProductId)
+                                              .ToList();
             }
             catch (Exception ex)
             {
@@ -55,7 +57,9 @@ namespace DAOs
             Product product = null;
             try
             {
-                product = _dbprn221Context.Products.FirstOrDefault(p => p.ProductId == productId);
+                product = _dbprn221Context.Products.Where(p => p.ProductId == productId)
+                                          .OrderByDescending(p => p.ProductId)
+                                          .FirstOrDefault();
             }
             catch (Exception ex)
             {
