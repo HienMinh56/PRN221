@@ -10,6 +10,7 @@
 <head>
     <title>Login Page</title>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -261,7 +262,10 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <a href="/UserMenu/ProductsMenu" style="top: 0; left: 0; margin-top: 10px; margin-left: 10px; cursor: pointer;">
+        <i class="material-icons" style="font-weight: 100; font-size: 50px; color: #df4adf">keyboard_backspace</i>
+    </a>
+    <div class="container">        
         <div class="signin-signup">
             <form method="post" class="sign-in-form" asp-page-handler="Login">
                 <h2 class="title">Sign in</h2>
