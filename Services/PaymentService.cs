@@ -35,19 +35,8 @@ namespace Services
 
         public async Task<string> CreatePaymentUrl(string userId, int amount, string orderId)
         {
-            var transactionId = await _transactionService.GenerateTransactionId();
-            var transaction = new Transaction
-            {
-                TransactionId = transactionId,
-                UserId = userId,
-                Amount = amount,
-                Status = 2, // Pending
-                CreatedDate = DateTime.Now,
-                CreatedBy = userId,
-                OrderId = orderId
-            };
-            await _transactionService.AddTransaction(transaction);
-
+            var transaction = await _transactionService.CreateTransaction(userId, amount, orderId);
+            
             string vnp_Returnurl = _urlHelper.Page("/Payment/Callback", null, new { area = "" }, _httpContextAccessor.HttpContext.Request.Scheme);
             string vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
             string vnp_TmnCode = "CA7EZUZY";
