@@ -52,32 +52,41 @@ namespace DAOs
 
         public async Task AddUser(User user)
         {
-            var userIsExisted = _context.Users.Any(u => u.UserName == user.UserName || u.Phone == user.Phone || u.Email == user.Email);
-            if (!userIsExisted)
+            User existingUser = await _context.Users.FindAsync(user.UserId);
+            if (existingUser != null)
             {
-                // Lấy giá trị UserId lớn nhất hiện tại từ cơ sở dữ liệu
-                var maxUserIdStr = _context.Users
-                    .Where(u => u.UserId.StartsWith("BAMEM"))
-                    .Select(u => u.UserId.Substring(5))
-                    .OrderByDescending(id => id)
-                    .FirstOrDefault();
+                // Kiểm tra email và số điện thoại trùng lặp
+                bool emailExists = await _context.Users
+                    .AnyAsync(u => u.Email == user.Email && u.UserId != user.UserId);
 
-                int maxUserId = 0;
-                if (maxUserIdStr != null)
+                bool phoneExists = await _context.Users
+                    .AnyAsync(u => u.Phone == user.Phone && u.UserId != user.UserId);
+
+                if (emailExists)
                 {
-                    maxUserId = int.Parse(maxUserIdStr);
+                    throw new Exception("Email đã được sử dụng bởi người dùng khác.");
                 }
 
-                // Tạo UserId mới theo định dạng BAMEMxxxx
-                user.UserId = $"BAMEM{(maxUserId + 1).ToString().PadLeft(4, '0')}";
+                if (phoneExists)
+                {
+                    throw new Exception("Số điện thoại đã được sử dụng bởi người dùng khác.");
+                }
 
-                // Thêm người dùng mới vào cơ sở dữ liệu
-                _context.Users.Add(user);
+                // Cập nhật thông tin người dùng
+                existingUser.FullName = user.FullName;
+                existingUser.Password = user.Password;
+                existingUser.Phone = user.Phone;
+                existingUser.Address = user.Address;
+                existingUser.Email = user.Email;
+                existingUser.Role = user.Role;
+                existingUser.Status = user.Status;
+
+                _context.Update(existingUser);
                 await _context.SaveChangesAsync();
             }
             else
             {
-                throw new Exception("The user already exists");
+                throw new Exception("User Not Found");
             }
         }
 
