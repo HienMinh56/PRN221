@@ -33,6 +33,8 @@ namespace BabyStore.Pages.Admin.ProductManagement
         public IActionResult OnGet()
         {
             ViewData["CateId"] = new SelectList(_category.GetCategories(), "CateId", "Name");
+            TempData.Remove("SuccessMessage");
+            TempData.Remove("ErrorMessage");
             return Page();
         }
 
@@ -44,15 +46,30 @@ namespace BabyStore.Pages.Admin.ProductManagement
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (Image != null)
+            try
             {
-                var fileName = $"images/{Image.FileName}";
-                Product.Image = await _cloudStorageService.UploadFileAsync(Image, fileName, 100, 100);
+                if (Image != null)
+                {
+                    var fileName = $"images/{Image.FileName}";
+                    Product.Image = await _cloudStorageService.UploadFileAsync(Image, fileName, 100, 100);
+                }
+
+                await _product.AddProduct(Product);
+                return RedirectToPage("./Product", new
+                {
+                    message = "Add Successfull",
+                    messageType = "success"
+                });
             }
-
-            await _product.AddProduct(Product);
-
-            return RedirectToPage("./Product");
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Failed to add product: {ex.Message}";
+                return RedirectToPage("./Create", new
+                {
+                    message = "Add failed",
+                    messageType = "error"
+                });
+            }
         }
     }
 }

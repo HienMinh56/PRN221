@@ -58,7 +58,11 @@ namespace BabyStore.Pages.Admin.ProductManagement
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Product");
+            return RedirectToPage("./Product", new
+            {
+                message = "Delete Successfull",
+                messageType = "success"
+            });
         }
     }
 }

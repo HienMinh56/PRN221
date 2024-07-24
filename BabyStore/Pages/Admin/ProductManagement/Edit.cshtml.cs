@@ -59,7 +59,11 @@ namespace BabyStore.Pages.Admin.ProductManagement
             }
             await _product.UpdateProduct(id, product);
 
-            return RedirectToPage("./Product");
+            return RedirectToPage("./Product", new
+            {
+                message = "Updated Successfull",
+                messageType = "success"
+            });
         }
     }
 }

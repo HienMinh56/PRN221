@@ -4,11 +4,29 @@
 @{
     ViewData["Title"] = "Product | BabyStore";
     Layout = "/Pages/Shared/_Layout_Admin.cshtml";
+    var message = Request.Query["message"];
+    var messageType = Request.Query["messageType"];
 
     var httpContext = ViewContext.HttpContext;
 }
 
 <style>
+    .toast {
+        display: none;
+        position: fixed;
+        right: 20px;
+        top: 20px;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        z-index: 1050; /* Ensure it is above other elements */
+    }
+
+    .toast-message {
+        margin: 0;
+    }
     .pagination .page-item {
         margin-right: 5px;
     }
@@ -312,6 +330,39 @@
                 </div>
             </div>
         </footer>
-
     </div>
 </main>
+
+<div id="toast" class="toast">
+    <div id="toastMessage" class="toast-message"></div>
+</div>
+
+@section Scripts {
+    <script>
+        function showToast(message, type) {
+            var toast = document.getElementById("toast");
+            var toastMessage = document.getElementById("toastMessage");
+            toastMessage.textContent = message;
+
+            // Apply styles based on message type
+            if (type === "success") {
+                toast.style.backgroundColor = "green";
+            } else if (type === "error") {
+                toast.style.backgroundColor = "red";
+            }
+
+            toast.style.display = "block";
+
+            setTimeout(function () {
+                toast.style.display = "none";
+            }, 3000); // Duration of 3 seconds
+        }
+
+        // Show toast if there are query parameters
+        var message = "@message";
+        var messageType = "@messageType";
+        if (message) {
+            showToast(message, messageType);
+        }
+    </script>
+}
