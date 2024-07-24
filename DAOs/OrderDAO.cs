@@ -32,13 +32,13 @@ namespace DAOs
         }
         public List<Order> GetOrderbyUserId(string userId)
         {
-            return _context.Orders.Where(o => o.UserId==userId).ToList();
+            return _context.Orders.Where(o => o.UserId==userId).OrderByDescending(o=>o.OrderId).ToList();
         }
         public List<Order> GetOrders()
         {
-            return _context.Orders.ToList();
+            return _context.Orders.Include(o => o.User).ToList();
         }
-        public Order GetOrder(string orderId)
+        public Order GetOrderById(string orderId)
         {
             return _context.Orders.FirstOrDefault(o => o.OrderId == orderId);
         }
@@ -54,7 +54,6 @@ namespace DAOs
                 throw new Exception(ex.Message);
             }
         }
-
         public async Task UpdateOrderStatus(string orderId, int status)
         {
             var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
@@ -64,6 +63,36 @@ namespace DAOs
                 _context.Entry(order).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
+        }
+        public async Task CancelOrder()
+        {
+            var twelveHoursAgo = DateTime.Now.AddHours(-12);
+            var orders = _context.Orders
+                                 .Where(o => o.Status == 2 && o.CreatedDate < twelveHoursAgo)
+                                 .ToList();
+
+            if (orders.Any())
+            {
+                foreach (var order in orders)
+                {
+                    order.Status = 3; // Cập nhật trạng thái đơn hàng
+                }
+
+                await _context.SaveChangesAsync(); // Lưu thay đổi vào cơ sở dữ liệu
+            }
+        }
+        public async Task<string> GenerateOrderId()
+        {
+            var lastOrder = await _context.Orders.OrderByDescending(o => o.Id).FirstOrDefaultAsync();
+
+            if (lastOrder == null || !lastOrder.OrderId.StartsWith("ORDER"))
+            {
+                return "ORDER0001";
+            }
+
+            string lastOrderId = lastOrder.OrderId;
+            int nextIdNumber = int.Parse(lastOrderId.Substring(5)) + 1;
+            return "ORDER" + nextIdNumber.ToString("D4");
         }
     }
 }

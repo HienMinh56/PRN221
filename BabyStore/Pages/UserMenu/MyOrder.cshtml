@@ -5,15 +5,14 @@
     ViewData["Title"] = "My Orders";
     var statusOptions = new Dictionary<int, string>
     {
-        { 0, "All" },
-        { 1, "Done" },
-        { 2, "Cancel" },
-        { 3, "Waiting" }
+        { 1, "Waiting for delivery" },
+        { 2, "Proccessing" },
+        { 3, "Failed" },
+        { 4, "Shipped" }
     };
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h2>My Orders</h2>
 
 <style>
     #my-order-page {
@@ -48,6 +47,10 @@
             background-color: #ffc107;
         }
 
+        #filter-section .badge-ping {
+            background-color: orange;
+        }
+
     .order-summary {
         text-align: center; /* Center the summary text */
         margin-bottom: 20px; /* Space below the summary */
@@ -75,6 +78,8 @@
 
 <div id="my-order-page">
     <div id="filter-section" class="filter-section">
+        <a href="MyOrder" class="btn btn-secondary">View All Orders</a>
+
         @foreach (var option in statusOptions)
         {
             <a href="?status=@option.Key" class="badge @GetBadgeClass(option.Key)">
@@ -93,7 +98,6 @@
             <thead>
                 <tr>
                     <th>Order ID</th>
-                    <th>User ID</th>
                     <th>Total Amount</th>
                     <th>Status</th>
                     <th>Created Date</th>
@@ -106,26 +110,29 @@
                 {
                     <tr>
                         <td>@order.OrderId</td>
-                        <td>@order.UserId</td>
                         <td>@order.TotalAmount.ToString("N0")</td> <!-- Format total amount -->
                         <td>
                             @if (order.Status == 1)
                             {
-                                <span class="badge badge-success" style="color: green">Done</span>
+                                <span class="badge badge-ping" style="color: orange">Waiting for delivery</span>
                             }
                             else if (order.Status == 2)
                             {
-                                <span class="badge badge-danger" style="color: red">Cancel</span>
+                                <span class="badge badge-warning" style="color: yellow">Proccessing</span>
                             }
                             else if (order.Status == 3)
                             {
-                                <span class="badge badge-warning" style="color: yellow">Waiting</span>
+                                <span class="badge badge-danger" style="color: red">Failed</span>
+                            }
+                            else if (order.Status == 4)
+                            {
+                                <span class="badge badge-success" style="color: green">Shipped</span>
                             }
                         </td>
                         <td>@order.CreatedDate?.ToString("dd/MM/yyyy")</td> <!-- Format date -->
                         <td>@order.VoucherCode</td>
                         <td>
-                            <a href="/Order/Details?id=@order.Id" class="btn btn-primary">View</a>
+                            <a href="/UserMenu/OrderDetail?id=@order.OrderId" class="btn btn-primary">View</a>
                         </td>
                     </tr>
                 }
@@ -139,9 +146,14 @@
     {
         return status switch
         {
-            1 => "badge-success",
-            2 => "badge-danger",
-            3 => "badge-warning",
+            1 =>
+            "badge-ping",
+            2 =>
+            "badge-warning",
+            3 =>
+            "badge-danger",
+            4 =>
+            "badge-success",
             _ => "badge-secondary",
         };
     }

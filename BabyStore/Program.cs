@@ -15,6 +15,8 @@ builder.Services.Configure<GCSConfigOptions>(builder.Configuration);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSession();
+builder.Services.AddHostedService<OrderStatusbackgroundService>();
+
 
 builder.Services.AddDbContext<Dbprn221Context>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -23,6 +25,8 @@ builder.Services.AddScoped<ITransactionRepo, TransactionRepo>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IOrderRepo, OrderRepo>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();

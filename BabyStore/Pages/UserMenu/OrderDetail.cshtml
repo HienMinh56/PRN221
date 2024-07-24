@@ -1,0 +1,106 @@
+﻿@page
+@model BabyStore.Pages.UserMenu.OrderDetailModel
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<style>
+    body {
+        padding: 2rem;
+        font-family: sans-serif;
+    }
+
+    h1 {
+        font-family: sans-serif;
+    }
+
+    #table-detail-container {
+        max-width: 1200px; /* Adjust as needed */
+        margin-top: 200px; /* Center the container */
+        padding: 20px; /* Add padding for better appearance */
+        border: 1px solid #dee2e6; /* Border around the container */
+        border-radius: 8px; /* Rounded corners for the border */
+        display: flex; /* Use flex to center the content */
+        justify-content: center; /* Center the content horizontally */
+        background: #f8f9fa; /* Light background for the container */
+    }
+
+    #table-detail {
+        width: 100%; /* Full width */
+        border-collapse: collapse; /* Collapsed borders for a cleaner look */
+    }
+
+        #table-detail th,
+        #table-detail td {
+            border: 1px solid #dee2e6; /* Borders for table cells */
+            padding: 12px; /* Padding inside cells */
+            text-align: left; /* Left-align text */
+            position: relative;
+            background: white; /* White background for table cells */
+            border-radius: 8px; /* Rounded corners for table cells */
+            overflow: hidden;
+        }
+
+        #table-detail thead {
+            background-color: #f8f9fa; /* Light background for the header */
+            border-bottom: 2px solid #dee2e6; /* Slightly thicker border for the header */
+        }
+
+        #table-detail tbody tr {
+            background: #ffffff; /* White background for even rows */
+            margin-top: 1rem; /* Space between rows */
+            border-radius: 8px; /* Rounded corners for rows */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect for the rows */
+        }
+
+            #table-detail tbody tr:nth-of-type(odd) {
+                background: #f0f0f0; /* Gray background for odd rows */
+            }
+
+        #table-detail tbody td {
+            position: relative;
+            padding: 16px;
+        }
+
+            #table-detail tbody td::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 4px;
+                height: 100%;
+            }
+
+        #table-detail tbody tr:hover {
+            background: #e9ecef; /* Light gray background on hover */
+        }
+
+        #table-detail tbody td:last-child {
+            padding-right: 20px; /* Extra padding on the right for last cell */
+        }
+</style>
+
+<div class="container" id="table-detail-container">
+    <table id="table-detail">
+        <thead>
+            <tr>
+                <th>Order Id</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detail in Model.OrderDetails)
+            {
+                <tr>
+                    <td>@detail.OrderId</td>
+                    <td>@detail.Product.Name</td>
+                    <td>@detail.Price</td>
+                    <td>@detail.Quantity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

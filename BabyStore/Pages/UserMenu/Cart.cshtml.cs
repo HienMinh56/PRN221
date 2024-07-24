@@ -14,11 +14,13 @@ namespace BabyStore.Pages.UserMenu
     {
         private readonly IVoucherService _voucherService;
         private readonly IPaymentService _paymentService;
+        private readonly ILogger<CartModel> _logger;
 
-        public CartModel(IVoucherService voucherService, IPaymentService paymentService)
+        public CartModel(IVoucherService voucherService, IPaymentService paymentService, ILogger<CartModel> logger)
         {
             _voucherService = voucherService;
             _paymentService = paymentService;
+            _logger = logger;
         }
 
         public List<CartItem> CartItems { get; set; } = new List<CartItem>();
@@ -30,15 +32,25 @@ namespace BabyStore.Pages.UserMenu
 
         public void OnGet()
         {
-            // Get cart items and total price
+            LoadCart();
+            LoadActiveVouchers();
+            CalculateFinalPrice();
+        }
+
+        private void LoadCart()
+        {
             CartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
             TotalPrice = CartItems.Sum(item => item.Quantity * item.Price);
             ShippingAddress = HttpContext.Session.GetString("address") ?? "Pls Update your address.";
+        }
 
-            // Get active vouchers
+        private void LoadActiveVouchers()
+        {
             ActiveVouchers = _voucherService.GetVouchersActive().ToList();
+        }
 
-            // Calculate final price after applying voucher
+        private double CalculateFinalPrice()
+        {
             if (!string.IsNullOrEmpty(AppliedVoucherCode))
             {
                 var voucher = ActiveVouchers.FirstOrDefault(v => v.VoucherCode == AppliedVoucherCode);
@@ -47,71 +59,73 @@ namespace BabyStore.Pages.UserMenu
                     var discountAmount = (TotalPrice * voucher.Discount / 100);
                     FinalPrice = TotalPrice - discountAmount;
                     FinalPrice = Math.Max(FinalPrice, 0);
+                    return FinalPrice;
                 }
                 else
                 {
                     FinalPrice = TotalPrice;
+                    return FinalPrice;
                 }
             }
             else
             {
                 FinalPrice = TotalPrice;
+                return FinalPrice;
             }
         }
+        public IActionResult OnPostClearCart()
+        {
+            // Xóa tất cả sản phẩm trong giỏ hàng
+            HttpContext.Session.Remove("Cart");
+            _logger.LogInformation("All items removed from the cart.");
 
-        public IActionResult OnPostRemoveItem(string productId)
+            return new JsonResult(new { success = true });
+        }
+
+        public IActionResult OnPostRemoveItem([FromBody] string productId)
         {
             var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
-
             var cartItem = cart.FirstOrDefault(c => c.ProductId == productId);
+
             if (cartItem != null)
             {
                 cart.Remove(cartItem);
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
+                _logger.LogInformation($"Removed item {productId} from cart.");
             }
 
-            return RedirectToPage();
+            var cartSummary = new
+            {
+                totalPrice = cart.Sum(item => item.Quantity * item.Price).ToString("n0") + "₫",
+                voucherDiscount = "0₫", // Adjust this if you handle vouchers dynamically
+                finalPrice = cart.Sum(item => item.Quantity * item.Price).ToString("n0") + "₫"
+            };
+
+            return new JsonResult(new { success = true, cartSummary });
         }
+
 
         public IActionResult OnPostUpdateQuantity(string productId, int quantity)
         {
             var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
-
             var cartItem = cart.FirstOrDefault(c => c.ProductId == productId);
+
             if (cartItem != null)
             {
                 if (quantity > 0)
                 {
                     cartItem.Quantity = quantity;
+                    _logger.LogInformation($"Updated quantity for item {productId} to {quantity}.");
                 }
                 else
                 {
                     cart.Remove(cartItem);
+                    _logger.LogInformation($"Removed item {productId} from cart due to quantity zero.");
                 }
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
 
-                // Update total price
-                TotalPrice = cart.Sum(item => item.Quantity * item.Price);
-
-                // Recalculate final price after applying voucher
-                if (!string.IsNullOrEmpty(AppliedVoucherCode))
-                {
-                    var voucher = ActiveVouchers.FirstOrDefault(v => v.VoucherCode == AppliedVoucherCode);
-                    if (voucher != null)
-                    {
-                        var discountAmount = voucher.Discount;
-                        FinalPrice = TotalPrice - (TotalPrice * discountAmount);
-                        FinalPrice = Math.Max(FinalPrice, 0);
-                    }
-                    else
-                    {
-                        FinalPrice = TotalPrice;
-                    }
-                }
-                else
-                {
-                    FinalPrice = TotalPrice;
-                }
+                LoadCart();
+                CalculateFinalPrice();
             }
 
             return RedirectToPage();
@@ -119,46 +133,54 @@ namespace BabyStore.Pages.UserMenu
 
         public IActionResult OnPostApplyVoucher(string voucherCode)
         {
-            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
-            TotalPrice = cart.Sum(item => item.Quantity * item.Price);
+            LoadCart();
+            LoadActiveVouchers();
 
             var voucher = ActiveVouchers.FirstOrDefault(v => v.VoucherCode == voucherCode);
             if (voucher == null)
             {
                 ModelState.AddModelError(string.Empty, "Voucher không hợp lệ.");
+                _logger.LogWarning($"Attempted to apply invalid voucher code: {voucherCode}.");
                 return Page();
             }
 
             if (TotalPrice < voucher.MinimumOrderAmount)
             {
                 ModelState.AddModelError(string.Empty, $"Tổng tiền hiện tại không đủ để áp dụng voucher. Cần thêm {voucher.MinimumOrderAmount - TotalPrice}₫.");
+                _logger.LogWarning($"Total price {TotalPrice} is less than minimum order amount {voucher.MinimumOrderAmount} for voucher code: {voucherCode}.");
                 return Page();
             }
 
             AppliedVoucherCode = voucherCode;
-
-            // Calculate discount and final price
-            var discountAmount = (TotalPrice * voucher.Discount / 100);
-            FinalPrice = TotalPrice - discountAmount;
-            FinalPrice = Math.Max(FinalPrice, 0);
+            CalculateFinalPrice();
+            _logger.LogInformation($"Applied voucher code: {voucherCode}.");
 
             return RedirectToPage();
         }
 
-        public async Task<IActionResult> OnPostCheckout()
+        public async Task<IActionResult> OnPostCheckout(double FinalPrice, string AppliedVoucherCode)
         {
-            CartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
-            TotalPrice = CartItems.Sum(item => item.Quantity * item.Price);
+            LoadCart();
+            LoadActiveVouchers(); // Ensure vouchers are loaded
 
             string userId = HttpContext.Session.GetString("id");
+
             if (string.IsNullOrEmpty(userId))
             {
+                _logger.LogWarning("User ID is missing during checkout, redirecting to login.");
                 return RedirectToPage("/Login", new { returnUrl = "/UserMenu/Cart" });
             }
 
-            string paymentUrl = await _paymentService.Checkout(userId, (decimal)TotalPrice, CartItems);
+            
 
-            return Redirect(paymentUrl); 
+            string paymentUrl = await _paymentService.Checkout(userId, (int)(decimal)FinalPrice, CartItems, AppliedVoucherCode);
+
+            HttpContext.Session.Remove("Cart");
+            _logger.LogInformation($"Checkout initiated for user {userId}. Cart cleared. Redirecting to payment URL.");
+
+            return Redirect(paymentUrl);
         }
+
+
     }
 }

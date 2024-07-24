@@ -17,5 +17,6 @@ namespace Repos
         public Product GetProductById(string productId);
         public List<Product> GetProducts();
         Task UpdateProduct(string productId, Product product);
+        Task UpdateProductQuantities(string productId, int quantities);
     }
 }

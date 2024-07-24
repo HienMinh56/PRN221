@@ -16,15 +16,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMjO9wi8PIQv6MO/sX3BnI6pYZZ2yb8z7gXw6vH" crossorigin="anonymous">
     @RenderSection("Styles", required: false)
     <style>
-        .cart-icon {
-            width: 24px; /* Adjust the size as needed */
-            height: auto;
+        /* Ensure full-width header */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0; /* Ensure it starts from the left edge */
+            z-index: 1000; /* Ensure it's on top of other content */
+            background-color: #ffffff; /* Background color for header */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional shadow for header */
         }
 
-        .navbar {
-            padding: 0.5rem 1rem; /* Adjust the padding to make the header smaller */
+        /* Fix footer alignment issue */
+        .footer {
+            position: fixed; /* Fixed position */
+            bottom: 0; /* Stick to the bottom of the page */
+            left: 0; /* Ensure it starts from the left edge */
+            width: 100%; /* Full width */
+            height: 60px; /* Fixed height */
+            text-align: center;
+            line-height: 60px; /* Center content vertically */
+            background-color: #f8f9fa; /* Background color for footer */
+            border-top: 1px solid #e5e5e5; /* Border at the top */
+            z-index: 1000; /* Ensure it is above other elements if necessary */
         }
-            }
+
+
     </style>
 </head>
 <body>
@@ -35,7 +52,6 @@
                 <form method="get" action="/UserMenu/ProductsMenu" class="form-inline search-form">
                     <div class="input-group search-bar-container">
                         <input class="form-control search-bar" type="search" name="SearchQuery" placeholder="Search..." aria-label="Search" />
-                        
                     </div>
                 </form>
                 <a href="/UserMenu/Cart" class="nav-link cart-link">
@@ -75,16 +91,11 @@
         </nav>
     </header>
 
-
-
-
-
-
     <main role="main" class="container-fluid" style="margin-top: 60px;">
         @RenderBody()
     </main>
 
-    <footer class="footer mt-4" style="margin-top: 100px">
+    <footer class="footer">
         <div class="container">
             <p>&copy; 2024 - BabyStore</p>
         </div>

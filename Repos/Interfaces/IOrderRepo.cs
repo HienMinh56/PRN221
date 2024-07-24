@@ -12,12 +12,11 @@ namespace Repos.Interfaces
 
         Task AddOrder(Order order);
         Task UpdateOrderStatus(string orderId, int status);
-
+        Task CancelOrder();
         public List<Order> GetOrders();
-
-        public Order GetOrder(string OrderId);
+        public Order GetOrderById(string OrderId);
         public List<Order> GetOrderbyUserId(string userId);
-
+        Task<string> GenerateOrderId();
 
     }
 }

@@ -33,7 +33,7 @@ namespace DAOs
 
         public List<Transaction> GetTransactions()
         {
-            return _context.Transactions.ToList();
+            return _context.Transactions.Include(u => u.User).ToList();
         }
 
         public async Task AddTransaction(Transaction transaction)

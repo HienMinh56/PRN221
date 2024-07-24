@@ -1,32 +1,14 @@
 ﻿@page
-@model BabyStore.Pages.Admin.ProductManagement.IndexModel
+@model BabyStore.Pages.Admin.TransactionManagement.IndexModel
 
 @{
-    ViewData["Title"] = "Product | BabyStore";
     Layout = "/Pages/Shared/_Layout_Admin.cshtml";
-    var message = Request.Query["message"];
-    var messageType = Request.Query["messageType"];
+    ViewData["Title"] = "Transaction | Baby Store";
 
     var httpContext = ViewContext.HttpContext;
 }
 
 <style>
-    .toast {
-        display: none;
-        position: fixed;
-        right: 20px;
-        top: 20px;
-        background-color: rgba(0, 0, 0, 0.8);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        z-index: 1050; /* Ensure it is above other elements */
-    }
-
-    .toast-message {
-        margin: 0;
-    }
     .pagination .page-item {
         margin-right: 5px;
     }
@@ -71,7 +53,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" asp-area="" asp-page="/Admin/ProductManagement/Product">
+                <a class="nav-link " asp-area="" asp-page="/Admin/ProductManagement/Product">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-box-2 text-success text-sm opacity-10"></i>
                     </div>
@@ -79,7 +61,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " asp-area="" asp-page="/Admin/TransactionManagement/Transaction">
+                <a class="nav-link active" asp-area="" asp-page="/Admin/TransactionManagement/Transaction">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-credit-card text-info text-sm opacity-10"></i>
                     </div>
@@ -131,7 +113,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                     <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">User</li>
+                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Transaction</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">Dashboard</h6>
             </nav>
@@ -183,32 +165,20 @@
                                 <div class="row ps-4 align-items-center w-100">
                                     <form method="post">
                                         <div class="col-2">
-                                            <label asp-for="ProductId" class="form-label">ProductId</label>
-                                            <input type="search" id="userIdInputAdmin" class="form-control" placeholder="Enter ProductId" asp-for="ProductId" />
+                                            <label asp-for="TransactionId" class="form-label">TransactionId</label>
+                                            <input type="search" id="userIdInputAdmin" class="form-control" placeholder="Enter transactionId" asp-for="TransactionId" />
                                         </div>
                                         <div class="col-2">
-                                            <label asp-for="ProductName" class="form-label">ProductName</label>
-                                            <input type="text" id="nameInputAdmin" class="form-control" placeholder="Enter ProductName" asp-for="ProductName">
+                                            <label asp-for="UserId" class="form-label">UserId</label>
+                                            <input type="text" id="nameInputAdmin" class="form-control" placeholder="Enter userId" asp-for="UserId">
                                         </div>
-                                        <div class="col-2">
-                                            <label asp-for="CateId" class="form-label">Category</label>
-                                            <select class="form-select" asp-for="CateId">
-                                                <option value="">Select a Category</option>
-                                                @foreach (var category in Model.Categories)
-                                                {
-                                                    <option value="@category.CateId">
-                                                        @category.Name
-                                                    </option>
-                                                }
-                                            </select>
-                                        </div>
-
                                         <div class="col-2">
                                             <label asp-for="Status" class="form-label">Status</label>
                                             <select class="form-select" asp-for="Status">
                                                 <option value="">All</option>
-                                                <option value="1">Active</option>
-                                                <option value="0">Inactive</option>
+                                                <option value="1">Success</option>
+                                                <option value="2">Pending</option>
+                                                <option value="3">Canceled</option>
                                             </select>
                                         </div>
                                         <div class="col-2" style="margin: 45px 0 0 0 ; padding: 0;">
@@ -218,57 +188,57 @@
                                 </div>
                                 <thead>
                                     <tr>
-                                        <th class="col-3 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10 ps-7">Product</th>
-                                        <th class="col-1 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10 ps-2">Title</th>
-                                        <th class="col-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10 ps-2">Description</th>
-                                        <th class="col-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10" style="padding-left: 40px; margin-right: -70px">Quantity</th>
-                                        <th class="col-1 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10">Price</th>
+                                        <th class="col-3 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10 ps-7">TransactionId</th>
+                                        <th class="col-1 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10 ps-2">User</th>
+                                        <th class="col-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10 ps-2">Order</th>
+                                        <th class="col-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10 ps-2">Amount</th>
+                                        <th class="col-1 text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-10">CreatedDate</th>
                                         <th class="col-1 text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-10" style="margin-left: 30px">Status</th>
                                         <th class="col-1 text-secondary opacity-7"></th>
                                     </tr>
                                 </thead>
-                                @foreach (var item in Model.Product)
+                                @foreach (var item in Model.Transaction)
                                 {
                                     <tbody id="userTableBody">
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div>
-                                                        <img src="@item.Image" alt="Image" class="avatar me-3" alt="Users">
+                                                        <img src="~/images/transaction.png" class="avatar me-3" alt="Users">
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">@Html.DisplayFor(modelItem => item.ProductId)</h6>
-                                                        <p class="text-xs text-secondary mb-0">@Html.DisplayFor(modelItem => item.Name)</p>
+                                                        <h6 class="mb-0 text-sm">@Html.DisplayFor(modelItem => item.TransactionId)</h6>
+                                                        <p class="text-xs text-secondary mb-0">@Html.DisplayFor(modelItem => item.User.UserName) - @Html.DisplayFor(modelItem => item.User.Address)</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px;">@Html.DisplayFor(modelItem => item.Title)</p>
+                                                <p class="text-xs font-weight-bold mb-0">@Html.DisplayFor(modelItem => item.UserId)</p>
                                             </td>
                                             <td>
-                                                <p class="text-sn font-weight-bold mb-0" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px;">@Html.DisplayFor(modelItem => item.Description)</p>
+                                                <p class="text-xs font-weight-bold mb-0">@Html.DisplayFor(modelItem => item.OrderId)</p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0" style="margin-left: 50px; margin-right: -70px">@Html.DisplayFor(modelItem => item.Quantity)</p>
+                                                <p class="text-sm font-weight-bold mb-0">@Html.DisplayFor(modelItem => item.Amount)</p>
                                             </td>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0" style="margin-left: 10px">@Html.DisplayFor(modelItem => item.Price)</p>
+                                            <td class="align-middle text-center text-sm">
+                                                <p class="text-sm font-weight-bold mb-0">@Html.DisplayFor(modelItem => item.CreatedDate)</p>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">
                                                     @if (item.Status == 1)
                                                     {
-                                                        <span class="text-success">Active</span>
+                                                        <span class="text-success">Success</span>
                                                     }
-                                                    else if (item.Status == 0)
+                                                    else if (item.Status == 2)
                                                     {
-                                                        <span class="text-danger">Inactive</span>
+                                                        <span class="text-warning">Pending</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-danger">Canceled</span>
                                                     }
                                                 </span>
-                                            </td>
-                                            <td class="align-middle justify-content-center">
-                                                <a asp-page="./Edit" asp-route-id="@item.ProductId"><i class="ni ni-settings-gear-65" style="color: aqua"></i></a> |
-                                                <a asp-page="./Delete" asp-route-id="@item.ProductId"><i class="ni ni-fat-remove text-danger"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -282,12 +252,11 @@
                                     @for (var i = 1; i <= Model.TotalPages; i++)
                                     {
                                         <li class="page-item @(i == Model.PageIndex ? "active" : "")" style="margin-right: 5px;">
-                                            <a asp-page="./Product"
+                                            <a asp-page="./Transaction"
                                                asp-route-pageIndex="@i"
-                                               asp-route-CateId="@Model.CateId"
+                                               asp-route-TransactionId="@Model.TransactionId"
+                                               asp-route-UserId="@Model.UserId"
                                                asp-route-Status="@Model.Status"
-                                               asp-route-ProductId="@Model.ProductId"
-                                               asp-route-ProductName="@Model.ProductName"
                                                class="page-link" style="color: white;">@i</a>
                                         </li>
                                     }
@@ -330,39 +299,6 @@
                 </div>
             </div>
         </footer>
+
     </div>
 </main>
-
-<div id="toast" class="toast">
-    <div id="toastMessage" class="toast-message"></div>
-</div>
-
-@section Scripts {
-    <script>
-        function showToast(message, type) {
-            var toast = document.getElementById("toast");
-            var toastMessage = document.getElementById("toastMessage");
-            toastMessage.textContent = message;
-
-            // Apply styles based on message type
-            if (type === "success") {
-                toast.style.backgroundColor = "green";
-            } else if (type === "error") {
-                toast.style.backgroundColor = "red";
-            }
-
-            toast.style.display = "block";
-
-            setTimeout(function () {
-                toast.style.display = "none";
-            }, 3000); // Duration of 3 seconds
-        }
-
-        // Show toast if there are query parameters
-        var message = "@message";
-        var messageType = "@messageType";
-        if (message) {
-            showToast(message, messageType);
-        }
-    </script>
-}

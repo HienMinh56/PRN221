@@ -14,22 +14,28 @@ namespace Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepo _orderRepo;
+        private readonly IProductService _productService;
+        private readonly IOrderDetailService _orderDetailService;
 
-        public OrderService(IOrderRepo orderRepo)
+        public OrderService(IOrderRepo orderRepo, IProductService productService, IOrderDetailService orderDetailService)
         {
             _orderRepo = orderRepo;
+            _productService = productService;
+            _orderDetailService = orderDetailService;
         }
 
-        public async Task<string> CreateOrder(string userId, decimal totalAmount, List<CartItem> cartItems)
+        public async Task<string> CreateOrder(string userId, int totalAmount, List<CartItem> cartItems, string voucherCode = null)
         {
-            var orderId = Guid.NewGuid().ToString();
+            var orderId = await _orderRepo.GenerateOrderId();
             var order = new Order
             {
                 OrderId = orderId,
                 UserId = userId,
-                TotalAmount = (int)totalAmount,
+                TotalAmount = totalAmount,
                 CreatedDate = DateTime.Now,
-                Status = 2 // wait
+                Status = 2, // wait
+                CreatedBy = userId,
+                VoucherCode = voucherCode,
             };
 
             foreach (var item in cartItems)
@@ -65,9 +71,14 @@ namespace Services
             return _orderRepo.GetOrders();
         }
 
-        public Order GetOrder(string OrderId)
+        public Order GetOrderById(string OrderId)
         {
-            return _orderRepo.GetOrder(OrderId);
+            return _orderRepo.GetOrderById(OrderId);
+        }
+
+        public async Task CancelOrder()
+        {
+            await _orderRepo.CancelOrder();
         }
     }
 }

@@ -29,6 +29,11 @@ namespace Repos
             await _orderDAO.UpdateOrderStatus(orderId, status);
         }
 
+        public async Task CancelOrder()
+        {
+            await _orderDAO.CancelOrder();
+        }
+
         public List<Order> GetOrderbyUserId(string userId)
         {
             return OrderDAO.Instance.GetOrderbyUserId(userId);
@@ -39,9 +44,14 @@ namespace Repos
             return _orderDAO.GetOrders();
         }
 
-        public Order GetOrder(string OrderId)
+        public Order GetOrderById(string OrderId)
         {
-            return _orderDAO.GetOrder(OrderId);
+            return _orderDAO.GetOrderById(OrderId);
+        }
+
+        public async Task<string> GenerateOrderId()
+        {
+            return await _orderDAO.GenerateOrderId();
         }
     }
 }

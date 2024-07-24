@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BOs.Entities;
 
@@ -24,8 +25,8 @@ public partial class User
     public int Role { get; set; }
 
     public int Status { get; set; }
-
-    public DateTime? CreatedDate { get; set; }
+    [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+    public DateTime? CreatedDate { get; set; } = DateTime.Now;
 
     public string? CreatedBy { get; set; }
 

@@ -36,14 +36,16 @@ a.navbar-brand {
     margin-left: 10px; /* Adjust spacing as needed */
 }
 
-.footer {
-    position: absolute;
-    bottom: 0;
+footer {
+    /*position: fixed;*/ /* Change to fixed */
+    bottom: 0; /* Stick to the bottom of the page */
     width: 100%;
+    left: 0; /* Ensure it starts from the left edge */
     text-align: center;
-    line-height: 60px; /* Adjust to center content vertically */
-    background-color: #f8f9fa; /* Added background color for visibility */
-    border-top: 1px solid #e5e5e5; /* Added border top */
+    line-height: 30px; /* Center content vertically */
+    background-color: #f8f9fa; /* Background color for footer */
+    border-top: 1px solid #e5e5e5; /* Border at the top */
+    z-index: 1000; /* Ensure it is above other elements if necessary */
 }
 
 .dropdown-menu {

@@ -214,7 +214,9 @@
                                                         <img src="@(item.Role == 1 ? Url.Content("~/images/admin.png") : Url.Content("~/images/user.png"))" class="avatar me-3" alt="Users">
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">@Html.DisplayFor(modelItem => item.UserId)</h6>
+                                                        <h6 class="mb-0 text-sm">
+                                                            @Html.DisplayFor(modelItem => item.UserId) - @Html.DisplayFor(modelItem => item.CreatedDate)
+                                                        </h6>
                                                         <p class="text-xs text-secondary mb-0">@Html.DisplayFor(modelItem => item.UserName) - @Html.DisplayFor(modelItem => item.Email)</p>
                                                     </div>
                                                 </div>
@@ -268,7 +270,13 @@
                                     @for (var i = 1; i <= Model.TotalPages; i++)
                                     {
                                         <li class="page-item @(i == Model.PageIndex ? "active" : "")" style="margin-right: 5px;">
-                                            <a asp-page="./User" asp-route-pageIndex="@i" class="page-link" style="color: white;">@i</a>
+                                            <a asp-page="./User"
+                                               asp-route-pageIndex="@i"
+                                               asp-route-UserId="@Model.UserId"
+                                               asp-route-UserName="@Model.UserName"
+                                               asp-route-Status="@Model.Status"
+                                               asp-route-Role="@Model.Role"
+                                               class="page-link" style="color: white;">@i</a>
                                         </li>
                                     }
                                 </ul>

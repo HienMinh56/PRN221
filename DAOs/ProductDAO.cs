@@ -125,6 +125,16 @@ namespace DAOs
                 await _dbprn221Context.SaveChangesAsync();
             }
         }
+        public async Task UpdateProductQuantities(string productId, int quantity)
+        {
+            Product p = GetProductById(productId);
+            if (p != null)
+            {
+                p.Quantity -= quantity;
+                _dbprn221Context.Update(p);
+                await _dbprn221Context.SaveChangesAsync();
+            }
+        }
     }
 }
 
