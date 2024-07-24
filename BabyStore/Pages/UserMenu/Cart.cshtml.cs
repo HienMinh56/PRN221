@@ -142,11 +142,12 @@ namespace BabyStore.Pages.UserMenu
             return RedirectToPage();
         }
 
-        public async Task<IActionResult> OnPostCheckout()
+        public async Task<IActionResult> OnPostCheckout(double FinalPrice, string AppliedVoucherCode)
         {
             LoadCart();
+            LoadActiveVouchers(); // Ensure vouchers are loaded
+
             string userId = HttpContext.Session.GetString("id");
-            var finalPrice = CalculateFinalPrice();
 
             if (string.IsNullOrEmpty(userId))
             {
@@ -154,12 +155,16 @@ namespace BabyStore.Pages.UserMenu
                 return RedirectToPage("/Login", new { returnUrl = "/UserMenu/Cart" });
             }
 
-            string paymentUrl = await _paymentService.Checkout(userId, (int)(decimal)finalPrice, CartItems);
+            
+
+            string paymentUrl = await _paymentService.Checkout(userId, (int)(decimal)FinalPrice, CartItems, AppliedVoucherCode);
 
             HttpContext.Session.Remove("Cart");
             _logger.LogInformation($"Checkout initiated for user {userId}. Cart cleared. Redirecting to payment URL.");
 
             return Redirect(paymentUrl);
         }
+
+
     }
 }

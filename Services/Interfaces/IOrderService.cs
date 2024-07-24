@@ -11,7 +11,7 @@ namespace Services.Interfaces
     public interface IOrderService
     {
 
-        Task<string> CreateOrder(string userId, int totalAmount, List<CartItem> cartItems);
+        Task<string> CreateOrder(string userId, int totalAmount, List<CartItem> cartItems, string voucherCode = null);
         Task UpdateOrderStatus(string orderId, int status);
         List<Order> GetOrders();
         Order GetOrderById(string OrderId);

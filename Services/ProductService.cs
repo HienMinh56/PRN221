@@ -35,5 +35,10 @@ namespace Services
             await productRepo.UpdateProduct(productId, product);
         }
         public void DeleteProduct(string productId) => productRepo.DeleteProduct(productId);
+
+        public async Task UpdateProductQuantities(string productId, int quantities)
+        {
+            await productRepo.UpdateProductQuantities(productId, quantities);
+        }
     }
 }

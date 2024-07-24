@@ -42,5 +42,10 @@ namespace Repos
         {
             await _productDAO.UpdateProduct(productId , product);
         }
+
+        public async Task UpdateProductQuantities(string productId, int quantities)
+        {
+            await _productDAO.UpdateProductQuantities(productId, quantities);
+        }
     }
 }

@@ -14,6 +14,7 @@ namespace Services
         Task AddProduct(Product product);
         public Product GetProductById(string productId);
         Task UpdateProduct(string productId, Product product);
+        Task UpdateProductQuantities(string productId, int quantities);
         public void DeleteProduct(string productId);
     }
 }

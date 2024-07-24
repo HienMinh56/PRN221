@@ -90,7 +90,6 @@
                                     </option>
                                 }
                             </select>
-
                         </div>
                         <div class="form-group mt-3">
                             <span id="voucher-feedback" class="text-danger"></span>
@@ -131,6 +130,8 @@
 
                 <!-- Checkout button -->
                 <form method="post" asp-page-handler="Checkout">
+                    <input type="hidden" id="hiddenVoucherCode" name="AppliedVoucherCode" value="@Model.AppliedVoucherCode" />
+                    <input type="hidden" id="hiddenFinalPrice" name="FinalPrice" value="@Model.FinalPrice" />
                     <button type="submit" class="btn btn-primary mt-3">Thanh toán</button>
                 </form>
             </div>
@@ -142,25 +143,33 @@
     <script>
         document.getElementById('voucherSelect').addEventListener('change', function () {
             var select = this;
-            var voucherCode = select.value;
+            var selectedVoucherCode = select.value;
+
+            // Update the hidden field with the selected voucher code
+            document.getElementById('hiddenVoucherCode').value = selectedVoucherCode;
+
+            // Update the discount and final price
             var minAmount = parseFloat(select.options[select.selectedIndex].getAttribute('data-minamount'));
             var discount = parseFloat(select.options[select.selectedIndex].getAttribute('data-discount'));
             var totalPrice = parseFloat(document.getElementById('total-price').innerText.replace('₫', '').replace(/,/g, ''));
 
-            if (voucherCode === "" || totalPrice < minAmount) {
-                document.getElementById('voucher-feedback').innerHTML = `<span style="color: green; font - weight: bold; ">"Voucher không hợp lệ hoặc giá trị đơn hàng không đủ điều kiện.< /span>`;
+            if (selectedVoucherCode === "" || totalPrice < minAmount) {
+                document.getElementById('voucher-feedback').innerHTML = `<span style="color: green; font-weight: bold;">Voucher không hợp lệ hoặc giá trị đơn hàng không đủ điều kiện.</span>`;
                 document.getElementById('voucher-discount').innerText = "0₫";
                 document.getElementById('final-price').innerText = totalPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '₫';
+                document.getElementById('hiddenFinalPrice').value = totalPrice.toFixed(0);
                 return;
             }
 
             var discountAmount = (totalPrice * (discount / 100)).toFixed(0);
             var finalPrice = (totalPrice - discountAmount).toFixed(0);
 
-            document.getElementById('voucher-feedback').innerHTML = `<span style="color: green; font-weight: bold;">"Voucher ${voucherCode}" đã được áp dụng.</span>`;
+            document.getElementById('voucher-feedback').innerHTML = `<span style="color: green; font-weight: bold;">Voucher ${selectedVoucherCode} đã được áp dụng.</span>`;
             document.getElementById('voucher-discount').innerText = `-${discountAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}₫`;
             document.getElementById('final-price').innerText = finalPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '₫';
+            document.getElementById('hiddenFinalPrice').value = finalPrice;
         });
+
 
         function validateQuantity(input) {
             var max = parseInt(input.max);
