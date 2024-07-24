@@ -135,6 +135,18 @@ namespace DAOs
                 await _dbprn221Context.SaveChangesAsync();
             }
         }
+        public List<Product> GetProductsByCate(string cateId)
+        {
+            return _dbprn221Context.Products.Where(p => p.CateId == cateId).ToList();
+        }
+        public List<Product> GetProductsBySearch(string searchQuery)
+        {
+            return _dbprn221Context.Products.Where(p => p.Name.Contains(searchQuery)).ToList();
+        }
+        public List<Product> GetProductsByPriceRange(int minPrice, int maxPrice)
+        {
+            return _dbprn221Context.Products.Where(p => p.Price >= minPrice && p.Price <= maxPrice).ToList();
+        }
     }
 }
 
