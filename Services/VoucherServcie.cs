@@ -23,17 +23,22 @@ namespace Services
 
         public async Task AddVoucher(Voucher voucher)
         {
-            _voucherRepository.AddVoucher(voucher);
+            await _voucherRepository.AddVoucher(voucher);
         }
 
         public async Task DeleteVoucher(int voucherId)
         {
-            _voucherRepository.DeleteVoucher(voucherId);
+            await _voucherRepository.DeleteVoucher(voucherId);
         }
 
         public Voucher GetVoucher(int VoucherId)
         {
             return _voucherRepository.GetVoucher(VoucherId);
+        }
+
+        public Voucher GetVoucherByCode(string voucherCode)
+        {
+            return _voucherRepository.GetVouchers().Where(v => v.VoucherCode==voucherCode).FirstOrDefault();
         }
 
         public List<Voucher> GetVouchers()
@@ -48,7 +53,18 @@ namespace Services
 
         public async Task UpdateVoucher(Voucher voucher)
         {
-            _voucherRepository.UpdateVoucher(voucher);
+            await _voucherRepository.UpdateVoucher(voucher);
+        }
+
+        public async Task UpdateVoucherQuantity(string voucherCode, int quantityUsed)
+        {
+            var eVoucher = _voucherRepository.GetVouchers().Where(v => v.VoucherCode == voucherCode).FirstOrDefault();
+            if (eVoucher != null)
+            {
+                eVoucher.Quantity = eVoucher.Quantity - quantityUsed;
+                await _voucherRepository.UpdateVoucher(eVoucher);
+            }
+            
         }
     }
 }

@@ -17,13 +17,20 @@ namespace Services
         private readonly ITransactionService _transactionService;
         private readonly IOrderService _orderService;
         private readonly IUrlHelper _urlHelper;
+        private readonly IOrderDetailService _orderDetailService;
+        private readonly IVoucherService _voucherService;
+        private readonly IProductService _productService;
 
-        public PaymentService(IHttpContextAccessor httpContextAccessor, ITransactionService transactionService, IOrderService orderService, IUrlHelper urlHelper)
+        public PaymentService(IHttpContextAccessor httpContextAccessor, ITransactionService transactionService, IOrderService orderService
+                              , IUrlHelper urlHelper, IOrderDetailService orderDetailService, IVoucherService voucherService, IProductService productService)
         {
             _httpContextAccessor = httpContextAccessor;
             _transactionService = transactionService;
             _orderService = orderService;
             _urlHelper = urlHelper;
+            _orderDetailService = orderDetailService;
+            _voucherService = voucherService;
+            _productService = productService;
         }
 
         public async Task<string> CreatePaymentUrl(string userId, int amount, string orderId)
@@ -66,10 +73,30 @@ namespace Services
             return paymentUrl;
         }
 
-        public async Task<string> Checkout(string userId, int totalAmount, List<CartItem> cartItems)
+        public async Task<string> Checkout(string userId, int totalAmount, List<CartItem> cartItems, string voucherCode = null)
         {
-            var orderId = await _orderService.CreateOrder(userId, totalAmount, cartItems);
+            var orderId = await _orderService.CreateOrder(userId, totalAmount, cartItems, voucherCode);
             return await CreatePaymentUrl(userId, totalAmount, orderId);
+        }
+
+        public async Task HandleSuccessfulPayment(string orderId)
+        {
+            var orderDetails = _orderDetailService.GetOrderDetails(orderId);
+            foreach (var orderDetail in orderDetails)
+            {
+                await _productService.UpdateProductQuantities(orderDetail.ProductId, orderDetail.Quantity);
+            }
+
+            var order =  _orderService.GetOrderById(orderId);
+            if (!string.IsNullOrEmpty(order.VoucherCode))
+            {
+                var voucher =  _voucherService.GetVoucherByCode(order.VoucherCode);
+                if (voucher != null)
+                {
+                    voucher.Quantity--;
+                    await _voucherService.UpdateVoucher(voucher);
+                }
+            }
         }
     }
 }

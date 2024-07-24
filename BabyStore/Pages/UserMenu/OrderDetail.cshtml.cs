@@ -18,9 +18,9 @@ namespace BabyStore.Pages.UserMenu
         public Order Order { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
 
-        public void OnGet(Guid id) // Ensure the parameter type matches the ID type
+        public void OnGet(string id) // Ensure the parameter type matches the ID type
         {
-            Order = _orderService.GetOrder(id.ToString()); // Adjust method if necessary
+            Order = _orderService.GetOrderById(id); // Adjust method if necessary
             if (Order != null)
             {
                 OrderDetails = _orderDetailService.GetOrderDetails(Order.OrderId);

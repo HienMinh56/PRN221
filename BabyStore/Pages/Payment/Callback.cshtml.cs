@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Services;
 using Services.Interfaces;
 using Services.Utilities;
 using System.Web;
@@ -10,11 +11,13 @@ namespace BabyStore.Pages.Payment
     {
         private readonly ITransactionService _transactionService;
         private readonly IOrderService _orderService;
+        private readonly IPaymentService _paymentService;
 
-        public CallbackModel(ITransactionService transactionService, IOrderService orderService)
+        public CallbackModel(ITransactionService transactionService, IOrderService orderService, IPaymentService paymentService)
         {
             _transactionService = transactionService;
             _orderService = orderService;
+            _paymentService = paymentService;
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -41,8 +44,8 @@ namespace BabyStore.Pages.Payment
                 if (responseCode == "00")
                 {
                     await _transactionService.UpdateTransactionStatus(transactionId, 1);
-                    await _orderService.UpdateOrderStatus(orderId, 1); 
-
+                    await _orderService.UpdateOrderStatus(orderId, 1);
+                    await _paymentService.HandleSuccessfulPayment(orderId);
                     HttpContext.Session.Remove("CartItems");
                     return RedirectToPage("/Payment/Success");
                 }
