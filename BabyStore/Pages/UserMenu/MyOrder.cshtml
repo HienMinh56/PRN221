@@ -98,7 +98,6 @@
             <thead>
                 <tr>
                     <th>Order ID</th>
-                    <th>User ID</th>
                     <th>Total Amount</th>
                     <th>Status</th>
                     <th>Created Date</th>
@@ -111,7 +110,6 @@
                 {
                     <tr>
                         <td>@order.OrderId</td>
-                        <td>@order.UserId</td>
                         <td>@order.TotalAmount.ToString("N0")</td> <!-- Format total amount -->
                         <td>
                             @if (order.Status == 1)
@@ -134,7 +132,7 @@
                         <td>@order.CreatedDate?.ToString("dd/MM/yyyy")</td> <!-- Format date -->
                         <td>@order.VoucherCode</td>
                         <td>
-                            <a href="OrderDetail?id=@order.OrderId" class="btn btn-primary">View</a>
+                            <a href="/UserMenu/OrderDetail?id=@order.OrderId" class="btn btn-primary">View</a>
                         </td>
                     </tr>
                 }
