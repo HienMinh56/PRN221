@@ -45,18 +45,32 @@ namespace BabyStore.Pages.Admin.VoucherManagement
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var voucher = _voucher.GetVoucher(id);
-            if (voucher != null)
+                var voucher = _voucher.GetVoucher(id);
+                if (voucher != null)
+                {
+                    await _voucher.DeleteVoucher(id);
+                }
+
+                return RedirectToPage("./Voucher", new
+                {
+                    message = "Delete Successfull",
+                    messageType = "success"
+                });
+            } catch (Exception ex)
             {
-               await _voucher.DeleteVoucher(id);
-            }
-
-            return RedirectToPage("./Voucher");
+                return RedirectToPage("./Delete", new
+                {
+                    message = "Delete failed",
+                    messageType = "error"
+                });
+            }            
         }
     }
 }

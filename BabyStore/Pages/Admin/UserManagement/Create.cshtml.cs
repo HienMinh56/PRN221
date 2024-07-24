@@ -30,13 +30,27 @@ namespace BabyStore.Pages.Admin.UserManagement
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var userAdd= HttpContext.Session.GetString("username");
-            User.Password= BCrypt.Net.BCrypt.HashPassword(User.Password);
-            User.CreatedBy= userAdd;
-            User.CreatedDate=DateTime.Now;
-            _userService.Add(User);
+            try
+            {
+                var userAdd = HttpContext.Session.GetString("username");
+                User.Password = BCrypt.Net.BCrypt.HashPassword(User.Password);
+                User.CreatedBy = userAdd;
+                User.CreatedDate = DateTime.Now;
+                _userService.Add(User);
 
-            return RedirectToPage("./User");
+                return RedirectToPage("./User", new
+                {
+                    message = "Add Successfull",
+                    messageType = "success"
+                });
+            } catch (Exception ex)
+            {
+                return RedirectToPage("./Create", new
+                {
+                    message = "Add failed",
+                    messageType = "error"
+                });
+            }            
         }
     }
 }
