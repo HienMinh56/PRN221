@@ -65,37 +65,37 @@ namespace DAOs
         }
 
         public async Task AddProduct(Product product)
-{
-    try
-    {
-        // Fetch the last product from the database
-        var lastProduct = await _dbprn221Context.Products
-            .OrderByDescending(p => p.ProductId)
-            .FirstOrDefaultAsync();
-
-        // Generate new ProductId
-        if (lastProduct != null)
         {
-            string lastProductId = lastProduct.ProductId;
-            int lastNumber = int.Parse(lastProductId.Substring(7));
-            int newNumber = lastNumber + 1;
-            product.ProductId = $"PRODUCT{newNumber:D3}";
-        }
-        else
-        {
-            product.ProductId = "PRODUCT001"; // Start with PRODUCT001 if there are no products
-        }
+            try
+            {
+                // Fetch the last product from the database
+                var lastProduct = await _dbprn221Context.Products
+                    .OrderByDescending(p => p.ProductId)
+                    .FirstOrDefaultAsync();
 
-        _dbprn221Context.Products.Add(product);
-        await _dbprn221Context.SaveChangesAsync();
-    }
-    catch (Exception ex)
-    {
-        // Log the exception
-        Console.WriteLine($"Error adding product: {ex.Message}");
-        throw;
-    }
-}
+                // Generate new ProductId
+                if (lastProduct != null)
+                {
+                    string lastProductId = lastProduct.ProductId;
+                    int lastNumber = int.Parse(lastProductId.Substring(7));
+                    int newNumber = lastNumber + 1;
+                    product.ProductId = $"PRODUCT{newNumber:D3}";
+                }
+                else
+                {
+                    product.ProductId = "PRODUCT001"; // Start with PRODUCT001 if there are no products
+                }
+
+                _dbprn221Context.Products.Add(product);
+                await _dbprn221Context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine($"Error adding product: {ex.Message}");
+                throw;
+            }
+        }
 
 
         public void DeleteProduct(string productId)

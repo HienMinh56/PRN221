@@ -78,7 +78,7 @@ namespace DAOs
                     order.Status = 3; // Cập nhật trạng thái đơn hàng
                 }
 
-                await _context.SaveChangesAsync(); // Lưu thay đổi vào cơ sở dữ liệu
+                await _context.SaveChangesAsync(); 
             }
         }
         public async Task<string> GenerateOrderId()
