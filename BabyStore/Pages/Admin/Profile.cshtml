@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Profile | BabyStore";
     Layout = "/Pages/Shared/_Layout_Admin.cshtml";
-    int? role = HttpContext.Session.GetInt32("RoleId");
+    int? role = HttpContext.Session.GetInt32("role");
 
     var httpContext = ViewContext.HttpContext;
 }

@@ -33,6 +33,9 @@ namespace BabyStore.Pages.Admin
         public int ProductCount { get; private set; }
         public int Revenue { get; private set; }
         public string RevenueFormatted { get; private set; }
+        public List<string> RevenueDates { get; private set; } = new List<string>();
+        public List<decimal> RevenueAmounts { get; private set; } = new List<decimal>();
+        public List<int> OrderStatusCounts { get; private set; } = new List<int>();
 
 
         private void CalculateDaily()
@@ -40,15 +43,64 @@ namespace BabyStore.Pages.Admin
             var today = DateTime.Today;
             var ordersToday = _orderService.GetOrders()
                                    .Where(order => (order.Status == 1 || order.Status == 4 || order.Status == 5) 
-                                   && order.CreatedDate.HasValue 
-                                   && order.CreatedDate.Value.Date == today)
+                                        && order.CreatedDate.HasValue 
+                                        && order.CreatedDate.Value.Date == today)
                                    .ToList();
-            //return ordersToday.Sum(order => order.TotalAmount);
             Revenue = ordersToday.Sum(order => order.TotalAmount);
             OrderCountSucess = ordersToday.Count;
         }
 
+        private void CalculateRevenueByDate(int days)
+        {
+            var endDate = DateTime.Today;
+            var startDate = endDate.AddDays(-days);
+            var allDates = Enumerable.Range(0, days + 1)
+                                     .Select(offset => startDate.AddDays(offset))
+                                     .ToList();
 
+            var revenues = _orderService.GetOrders()
+                                        .Where(order => (order.Status == 1 || order.Status == 4 || order.Status == 5)
+                                            && order.CreatedDate.HasValue
+                                            && order.CreatedDate.Value.Date >= startDate
+                                            && order.CreatedDate.Value.Date <= endDate)
+                                        .GroupBy(order => order.CreatedDate.Value.Date)
+                                        .Select(group => new
+                                        {
+                                            Date = group.Key,
+                                            TotalAmount = group.Sum(order => order.TotalAmount)
+                                        })
+                                        .ToList();
+
+            var revenueDict = revenues.ToDictionary(r => r.Date, r => r.TotalAmount);
+
+            foreach (var date in allDates)
+            {
+                RevenueDates.Add(date.ToString("dd/MM/yyyy"));
+                RevenueAmounts.Add(revenueDict.ContainsKey(date) ? revenueDict[date] : 0);
+            }
+        }
+
+        private void CalculateOrderStatusCounts()
+        {
+            var statuses = _orderService.GetOrders()
+                                        .GroupBy(order => order.Status)
+                                        .Select(group => new
+                                        {
+                                            Status = group.Key,
+                                            Count = group.Count()
+                                        })
+                                        .ToList();
+
+            OrderStatusCounts = new List<int> { 0, 0, 0, 0, 0 };
+
+            foreach (var status in statuses)
+            {
+                if (status.Status >= 1 && status.Status <= 5)
+                {
+                    OrderStatusCounts[status.Status - 1] = status.Count;
+                }
+            }
+        }
         public IActionResult OnGet()
         {
 
@@ -59,8 +111,9 @@ namespace BabyStore.Pages.Admin
             Account0 = _userService.GetUsers().Where(s => s.Status == 0).ToList().Count();
             ProductCount = _productService.GetProducts().Count;
             CalculateDaily();
-            RevenueFormatted = $"{Revenue.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"))} VND";
-
+            CalculateRevenueByDate(7);
+            CalculateOrderStatusCounts();
+            RevenueFormatted = $"{Revenue.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"))} VND";          
             return Page();
         }
     }
