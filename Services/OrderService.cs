@@ -34,6 +34,7 @@ namespace Services
                 TotalAmount = totalAmount,
                 CreatedDate = DateTime.Now,
                 Status = 2, // wait
+                CreatedBy = userId,
                 VoucherCode = voucherCode,
             };
 
@@ -75,5 +76,9 @@ namespace Services
             return _orderRepo.GetOrderById(OrderId);
         }
 
+        public async Task CancelOrder()
+        {
+            await _orderRepo.CancelOrder();
+        }
     }
 }

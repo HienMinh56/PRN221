@@ -73,8 +73,16 @@ namespace BabyStore.Pages.UserMenu
                 return FinalPrice;
             }
         }
+        public IActionResult OnPostClearCart()
+        {
+            // Xóa tất cả sản phẩm trong giỏ hàng
+            HttpContext.Session.Remove("Cart");
+            _logger.LogInformation("All items removed from the cart.");
 
-        public IActionResult OnPostRemoveItem(string productId)
+            return new JsonResult(new { success = true });
+        }
+
+        public IActionResult OnPostRemoveItem([FromBody] string productId)
         {
             var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
             var cartItem = cart.FirstOrDefault(c => c.ProductId == productId);
@@ -86,8 +94,16 @@ namespace BabyStore.Pages.UserMenu
                 _logger.LogInformation($"Removed item {productId} from cart.");
             }
 
-            return RedirectToPage();
+            var cartSummary = new
+            {
+                totalPrice = cart.Sum(item => item.Quantity * item.Price).ToString("n0") + "₫",
+                voucherDiscount = "0₫", // Adjust this if you handle vouchers dynamically
+                finalPrice = cart.Sum(item => item.Quantity * item.Price).ToString("n0") + "₫"
+            };
+
+            return new JsonResult(new { success = true, cartSummary });
         }
+
 
         public IActionResult OnPostUpdateQuantity(string productId, int quantity)
         {

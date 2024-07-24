@@ -12,6 +12,7 @@ namespace Repos.Interfaces
 
         Task AddOrder(Order order);
         Task UpdateOrderStatus(string orderId, int status);
+        Task CancelOrder();
         public List<Order> GetOrders();
         public Order GetOrderById(string OrderId);
         public List<Order> GetOrderbyUserId(string userId);

@@ -4,8 +4,11 @@
 @{
     ViewData["Title"] = "Cart";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.min.js"></script>
 }
-<div class="container mt-5" >
+
+<div class="container mt-5">
     <h2>Giỏ hàng</h2>
 
     @if (Model.CartItems.Count == 0)
@@ -36,7 +39,7 @@
                         {
                             <div class="row mb-3 align-items-center cart-item" id="cart-item-@item.ProductId">
                                 <div class="col-2 text-center">
-                                    <a asp-page="/UserMenu/ProductDetailsMenu" asp-route-id="@item.ProductId" >
+                                    <a asp-page="/UserMenu/ProductDetailsMenu" asp-route-id="@item.ProductId">
                                         <img src="@item.ProductImage" class="img-thumbnail" style="width: 100px; height: 100px;" />
                                     </a>
                                 </div>
@@ -59,10 +62,7 @@
                                     <h5 id="total-@item.ProductId">@string.Format("{0:n0}₫", item.Quantity * item.Price)</h5>
                                 </div>
                                 <div class="col-2 text-end">
-                                    <form method="post" asp-page-handler="RemoveItem" onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng không?');">
-                                        <input type="hidden" name="ProductId" value="@item.ProductId" />
-                                        <button type="submit" class="btn btn-link text-muted">Xóa</button>
-                                    </form>
+                                    <button type="button" class="btn btn-link text-muted" onclick="removeItem('@item.ProductId')">Xóa</button>
                                 </div>
                             </div>
                             <hr />
@@ -139,6 +139,34 @@
     }
 </div>
 
+<!-- Toast Container -->
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+    <div class="toast-container" style="position: absolute; top: 0; right: 0; z-index: 1080;">
+        <div id="toastSuccess" class="toast bg-success text-white" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="mr-auto">Success</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                Giỏ hàng đã được xóa.
+            </div>
+        </div>
+        <div id="toastError" class="toast bg-danger text-white" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="mr-auto">Error</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                Có lỗi xảy ra khi xóa giỏ hàng.
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
         document.getElementById('voucherSelect').addEventListener('change', function () {
@@ -170,7 +198,6 @@
             document.getElementById('hiddenFinalPrice').value = finalPrice;
         });
 
-
         function validateQuantity(input) {
             var max = parseInt(input.max);
             var value = parseInt(input.value);
@@ -181,9 +208,91 @@
 
         function clearCart() {
             if (confirm('Bạn có chắc muốn xóa tất cả sản phẩm khỏi giỏ hàng không?')) {
-                // Implement your clear cart logic here
-                // For example, redirect to a page that clears the cart or make an AJAX call to clear it
+                fetch('/UserMenu/Cart?handler=ClearCart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Show success toast
+                            Toastify({
+                                text: "Giỏ hàng đã được xóa.",
+                                backgroundColor: "green",
+                                duration: 3000
+                            }).showToast();
+                            setTimeout(() => location.reload(), 3000); // Refresh page after toast
+                        } else {
+                            // Show error toast
+                            Toastify({
+                                text: "Có lỗi xảy ra khi xóa giỏ hàng.",
+                                backgroundColor: "red",
+                                duration: 3000
+                            }).showToast();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Lỗi:', error);
+                        Toastify({
+                            text: "Có lỗi xảy ra khi xóa giỏ hàng.",
+                            backgroundColor: "red",
+                            duration: 3000
+                        }).showToast();
+                    });
             }
+        }
+
+        function removeItem(productId) {
+            if (confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng không?')) {
+                fetch('/UserMenu/Cart?handler=RemoveItem', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({ ProductId: productId })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Show success toast
+                            Toastify({
+                                text: "Sản phẩm đã được xóa khỏi giỏ hàng.",
+                                backgroundColor: "green",
+                                duration: 3000
+                            }).showToast();
+                            document.getElementById('cart-item-' + productId).remove(); // Remove item from DOM
+                            updateCartSummary(data.cartSummary); // Update cart summary
+                        } else {
+                            // Show error toast
+                            Toastify({
+                                text: "Có lỗi xảy ra khi xóa sản phẩm.",
+                                backgroundColor: "red",
+                                duration: 3000
+                            }).showToast();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Lỗi:', error);
+                        Toastify({
+                            text: "Có lỗi xảy ra khi xóa sản phẩm.",
+                            backgroundColor: "red",
+                            duration: 3000
+                        }).showToast();
+                    });
+                return false; // Prevent form submission
+            }
+            return false; // Prevent form submission
+        }
+
+        function updateCartSummary(cartSummary) {
+            document.getElementById('total-price').innerText = cartSummary.totalPrice;
+            document.getElementById('voucher-discount').innerText = cartSummary.voucherDiscount;
+            document.getElementById('final-price').innerText = cartSummary.finalPrice;
+            document.getElementById('hiddenFinalPrice').value = cartSummary.finalPrice;
         }
     </script>
 }

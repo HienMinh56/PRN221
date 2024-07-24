@@ -6,34 +6,31 @@
     bool isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
     var message = Request.Query["message"].ToString();
     var messageType = Request.Query["messageType"].ToString();
+    var cultureInfo = new System.Globalization.CultureInfo("vi-VN");
 }
 
 <style>
-    .modal {
+    .toast {
         display: none;
         position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0,0,0);
-        background-color: rgba(0,0,0,0.4);
+        right: 20px;
+        top: 20px;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        z-index: 1050; /* Ensure it is above other elements */
     }
 
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
+    .toast-message {
+        margin: 0;
     }
 
     .close {
         color: #aaa;
         float: right;
-        font-size: 28px;
+        font-size: 20px; /* Smaller close button */
         font-weight: bold;
     }
 
@@ -45,49 +42,46 @@
         }
 </style>
 
-<div class="container-fluid mt-5" >
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <img src="@Model.Product.Image" class="img-fluid" alt="@Model.Product.Name" />
-                        </div>
-                        <div class="col-md-6">
-                            <h2 class="text-primary">@Model.Product.Name</h2>
-                            <p class="text-muted">@Model.Product.Title</p>
-                            <h4 class="text-danger">@Model.Product.Price.ToString("C")</h4>
 
-                            <div class="my-4">
-                                @if (Model.Product.Quantity > 0)
-                                {
-                                    <form method="post" asp-page-handler="AddToCart" asp-route-productId="@Model.Product.ProductId" asp-route-productName="@Model.Product.Name" asp-route-price="@Model.Product.Price" asp-route-productImage="@Model.Product.Image" asp-route-availableQuantity="@Model.Product.Quantity" class="full-width-form">
-                                        <button type="submit" class="btn btn-primary full-width-button @(!isAuthenticated ? "login-required" : "")">
-                                            <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
-                                        </button>
-                                    </form>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-secondary btn-lg" disabled>
-                                        Sản phẩm này đã hết
-                                    </button>
-                                }
-                            </div>
-                        </div>
-                    </div>
+<div class="center-screen">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="@Model.Product.Image" class="img-fluid" alt="@Model.Product.Name" />
+                </div>
+                <div class="col-md-6">
+                    <h2 class="text-primary">@Model.Product.Name</h2>
+                    <p class="text-muted">@Model.Product.Title</p>
+                    <h4 class="text-danger">@Model.Product.Price.ToString("C0", cultureInfo)</h4>
 
-                    <div class="row mt-5">
-                        <div class="col-12">
-                            <h3>Thông tin chi tiết</h3>
-                            <ul class="list-group">
-                                <li class="list-group-item"><strong>Mã sản phẩm:</strong> @Model.Product.ProductId</li>
-                                <li class="list-group-item"><strong>Mô tả:</strong> @Model.Product.Description</li>
-                                <li class="list-group-item"><strong>Số lượng còn:</strong> @Model.Product.Quantity</li>
-                            </ul>
-                        </div>
+                    <div class="my-4">
+                        @if (Model.Product.Quantity > 0)
+                        {
+                            <form method="post" asp-page-handler="AddToCart" asp-route-productId="@Model.Product.ProductId" asp-route-productName="@Model.Product.Name" asp-route-price="@Model.Product.Price" asp-route-productImage="@Model.Product.Image" asp-route-availableQuantity="@Model.Product.Quantity" class="full-width-form">
+                                <button type="submit" class="btn btn-primary full-width-button @(!isAuthenticated ? "login-required" : "")">
+                                    <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <button class="btn btn-secondary btn-lg" disabled>
+                                Sản phẩm này đã hết
+                            </button>
+                        }
                     </div>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h3>Thông tin chi tiết</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Mã sản phẩm:</strong> @Model.Product.ProductId</li>
+                        <li class="list-group-item"><strong>Mô tả:</strong> @Model.Product.Description</li>
+                        <li class="list-group-item"><strong>Số lượng còn:</strong> @Model.Product.Quantity</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -95,60 +89,38 @@
 </div>
 
 <!-- Notification Modal -->
-<div id="notificationModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="modal-body">
-            <p id="notificationMessage"></p>
-        </div>
-    </div>
+<!-- Toast Notification -->
+<div id="toast" class="toast">
+    <div id="toastMessage" class="toast-message"></div>
 </div>
+
 
 @section Scripts {
     <script>
-        function showNotification(message, type) {
-            var modal = document.getElementById("notificationModal");
-            var notificationMessage = document.getElementById("notificationMessage");
-            notificationMessage.textContent = message;
+        function showToast(message, type) {
+            var toast = document.getElementById("toast");
+            var toastMessage = document.getElementById("toastMessage");
+            toastMessage.textContent = message;
 
             // Apply styles based on message type
             if (type === "success") {
-                notificationMessage.style.color = "green";
+                toast.style.backgroundColor = "green";
             } else if (type === "error") {
-                notificationMessage.style.color = "red";
+                toast.style.backgroundColor = "red";
             }
 
-            modal.style.display = "block";
+            toast.style.display = "block";
 
             setTimeout(function () {
-                modal.style.display = "none";
-
-                // Clear query parameters from the URL
-                var url = new URL(window.location.href);
-                url.searchParams.delete('message');
-                url.searchParams.delete('messageType');
-                window.history.replaceState({}, document.title, url.toString());
-            }, 1500); // Duration of 3 seconds
+                toast.style.display = "none";
+            }, 3000); // Duration of 3 seconds
         }
 
-        var modal = document.getElementById("notificationModal");
-        var span = document.getElementsByClassName("close")[0];
-
-        span.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        // Show notification if there are query parameters
+        // Show toast if there are query parameters
         var message = "@message";
         var messageType = "@messageType";
         if (message) {
-            showNotification(message, messageType);
+            showToast(message, messageType);
         }
     </script>
 }
