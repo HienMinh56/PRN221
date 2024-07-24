@@ -20,9 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Helper\" />
-    <Folder Include="Pages\Admin\OrderManagement\" />
-
-    <Folder Include="Pages\Admin\TransactionManagement\" />
 
   </ItemGroup>
 

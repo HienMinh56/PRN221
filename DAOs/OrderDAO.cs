@@ -36,7 +36,7 @@ namespace DAOs
         }
         public List<Order> GetOrders()
         {
-            return _context.Orders.ToList();
+            return _context.Orders.Include(u => u.User).ToList();
         }
         public Order GetOrderById(string orderId)
         {

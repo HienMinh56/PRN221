@@ -77,10 +77,8 @@ namespace BabyStore.Pages
                 {
                     if (user.Role == 1)
                     {
-                        // Nếu là admin
                         return RedirectToPage("/Admin/Dashboard");
                     }
-                    // Nếu là người dùng
                     return RedirectToPage("/UserMenu/ProductsMenu");
                 }
             }
@@ -93,15 +91,8 @@ namespace BabyStore.Pages
 
         public IActionResult OnPostRegister()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            // Hash the password using BCrypt
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(registerModel.Password);
 
-            // Create a user object and set properties
             var user = new User
             {
                 FullName = registerModel.FullName,
@@ -111,14 +102,12 @@ namespace BabyStore.Pages
                 Password = hashedPassword,
                 Address = registerModel.Address,
                 Role = 2,
-                Status = 1
+                Status = 1                
             };
 
-            // Add user to database using your UserService
             _userService.Add(user);
 
-            // Redirect to a success page or another page as needed
-            return RedirectToPage("Login");
+            return RedirectToPage("/Login");
         }
     }
 }

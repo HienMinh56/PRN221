@@ -267,11 +267,11 @@
                 <h2 class="title">Sign in</h2>
                 <div class="input-field">
                     <i class="fas fa-user"></i>
-                    <input type="text" asp-for="loginModel.Username" placeholder="Username" />
+                    <input type="text" asp-for="loginModel.Username" placeholder="Username" required />
                 </div>
                 <div class="input-field">
                     <i class="fas fa-lock"></i>
-                    <input type="password" asp-for="loginModel.Password" placeholder="Password" autocomplete="new-password" />
+                    <input type="password" asp-for="loginModel.Password" placeholder="Password" autocomplete="new-password" required />
                 </div>
                 <div class="form-group text-danger">
                     @ViewData["error"]
@@ -279,35 +279,36 @@
                 <input type="submit" class="btn" value="Sign in">
                 <p class="account-text">Don't have an account? <a href="#" id="sign-up-btn2">Sign up</a></p>
             </form>
+
             <form method="post" class="sign-up-form" asp-page-handler="Register">
                 <h2 class="title">Sign up</h2>
                 <div class="input-field">
                     <i class="fas fa-user"></i>
-                    <input type="text" asp-for="registerModel.FullName" placeholder="Fullname" />
+                    <input type="text" asp-for="registerModel.FullName" placeholder="Fullname" required />
                 </div>
                 <div class="input-field">
                     <i class="fas fa-user"></i>
-                    <input type="text" asp-for="registerModel.Username" placeholder="Username" />
+                    <input type="text" asp-for="registerModel.Username" placeholder="Username" required />
                 </div>
                 <div class="input-field">
                     <i class="fas fa-envelope"></i>
-                    <input type="text" asp-for="registerModel.Email" placeholder="Email" />
+                    <input type="text" asp-for="registerModel.Email" placeholder="Email" required />
                 </div>
                 <div class="input-field">
                     <i class="fas fa-home"></i>
-                    <input type="text" asp-for="registerModel.Address" placeholder="Address" />
+                    <input type="text" asp-for="registerModel.Address" placeholder="Address" required />
                 </div>
                 <div class="input-field">
                     <i class="fas fa-phone"></i>
-                    <input type="number" asp-for="registerModel.Phone" placeholder="Phone" />
+                    <input type="number" asp-for="registerModel.Phone" placeholder="Phone" required />
                 </div>
                 <div class="input-field">
                     <i class="fas fa-lock"></i>
-                    <input type="password" asp-for="registerModel.Password" placeholder="Password" />
+                    <input type="password" asp-for="registerModel.Password" placeholder="Password" required />
                 </div>
                 <div class="input-field">
                     <i class="fas fa-lock"></i>
-                    <input type="confirmPassword" asp-for="registerModel.ConfirmPassword" placeholder="Confirm Password" />
+                    <input type="password" asp-for="registerModel.ConfirmPassword" placeholder="Confirm Password" required />
                 </div>
                 <input type="submit" value="Sign up" class="btn">
                 <p class="account-text">Already have an account? <a href="#" id="sign-in-btn2">Sign in</a></p>
@@ -317,7 +318,7 @@
             <div class="panel left-panel">
                 <div class="content">
                     <h3>Member of Brand?</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque accusantium dolor, eos incidunt minima iure?</p>
+                    <p>Why not login right now and have a good working day?</p>
                     <button class="btn" id="sign-in-btn">Sign in</button>
                 </div>
                 <img src="~/images/signin.svg" alt="" class="image">
@@ -325,7 +326,7 @@
             <div class="panel right-panel">
                 <div class="content">
                     <h3>New to Brand?</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque accusantium dolor, eos incidunt minima iure?</p>
+                    <p>Register right now to buy new and custom clothes and more for mom and kids?</p>
                     <button class="btn" id="sign-up-btn">Sign up</button>
                 </div>
                 <img src="~/images/password.svg" alt="" class="image">

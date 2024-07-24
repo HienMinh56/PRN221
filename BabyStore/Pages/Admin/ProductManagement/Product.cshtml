@@ -264,7 +264,13 @@
                                     @for (var i = 1; i <= Model.TotalPages; i++)
                                     {
                                         <li class="page-item @(i == Model.PageIndex ? "active" : "")" style="margin-right: 5px;">
-                                            <a asp-page="./Product" asp-route-pageIndex="@i" class="page-link" style="color: white;">@i</a>
+                                            <a asp-page="./Product"
+                                               asp-route-pageIndex="@i"
+                                               asp-route-CateId="@Model.CateId"
+                                               asp-route-Status="@Model.Status"
+                                               asp-route-ProductId="@Model.ProductId"
+                                               asp-route-ProductName="@Model.ProductName"
+                                               class="page-link" style="color: white;">@i</a>
                                         </li>
                                     }
                                 </ul>

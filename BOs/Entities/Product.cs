@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BOs.Entities;
 
@@ -24,7 +25,7 @@ public partial class Product
     public int Quantity { get; set; }
 
     public int Status { get; set; }
-
+    [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
     public DateTime? CreatedDate { get; set; }
 
     public string? CreatedBy { get; set; }
