@@ -196,16 +196,11 @@
                 </div>
                 <div class="col-md-2">
                     <fieldset class="group-box">
-                        <legend>Categories</legend>
+                        <legend>Revenue</legend>
+                        <p>@Model.RevenueFormatted</p>
                         <p></p>
                     </fieldset>
-                </div>
-                <div class="col-md-2">
-                    <fieldset class="group-box">
-                        <legend>Stockouts</legend>
-                        <p></p>
-                    </fieldset>
-                </div>
+                </div>              
             </div>
             <div class="row">
                 <div class="row justify-content-center">
@@ -283,7 +278,7 @@
             labels: ['StockOut', 'Lot'],
             datasets: [{
                 label: 'Compare StockOut & Lot',
-                data: [@Model.TransactionCount, @Model.OrderCount],
+                data: [@Model.TransactionCount, @Model.OrderCountSucess],
                 backgroundColor: [
                     '#ff469e'
                 ],
