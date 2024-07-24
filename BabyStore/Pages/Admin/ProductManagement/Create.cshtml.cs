@@ -54,6 +54,13 @@ namespace BabyStore.Pages.Admin.ProductManagement
                     Product.Image = await _cloudStorageService.UploadFileAsync(Image, fileName, 100, 100);
                 }
 
+                // Lưu trữ giá trị trong session
+                var productadd =  HttpContext.Session.GetString("username");
+
+                // Gán giá trị trực tiếp cho Product.CreatedBy
+                Product.CreatedBy = productadd;
+                Product.CreatedDate = DateTime.Now;
+
                 await _product.AddProduct(Product);
                 return RedirectToPage("./Product", new
                 {
