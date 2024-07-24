@@ -32,7 +32,7 @@ namespace DAOs
         }
         public List<Order> GetOrderbyUserId(string userId)
         {
-            return _context.Orders.Where(o => o.UserId==userId).ToList();
+            return _context.Orders.Where(o => o.UserId==userId).OrderByDescending(o=>o.OrderId).ToList();
         }
         public List<Order> GetOrders()
         {
@@ -62,6 +62,23 @@ namespace DAOs
                 order.Status = status;
                 _context.Entry(order).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
+            }
+        }
+        public async Task CancelOrder()
+        {
+            var twelveHoursAgo = DateTime.Now.AddHours(-12);
+            var orders = _context.Orders
+                                 .Where(o => o.Status == 2 && o.CreatedDate < twelveHoursAgo)
+                                 .ToList();
+
+            if (orders.Any())
+            {
+                foreach (var order in orders)
+                {
+                    order.Status = 3; // Cập nhật trạng thái đơn hàng
+                }
+
+                await _context.SaveChangesAsync(); // Lưu thay đổi vào cơ sở dữ liệu
             }
         }
         public async Task<string> GenerateOrderId()

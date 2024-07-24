@@ -75,5 +75,9 @@ namespace Services
             return _orderRepo.GetOrderById(OrderId);
         }
 
+        public async Task CancelOrder()
+        {
+            await _orderRepo.CancelOrder();
+        }
     }
 }

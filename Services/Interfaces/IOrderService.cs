@@ -13,6 +13,8 @@ namespace Services.Interfaces
 
         Task<string> CreateOrder(string userId, int totalAmount, List<CartItem> cartItems, string voucherCode = null);
         Task UpdateOrderStatus(string orderId, int status);
+
+        Task CancelOrder();
         List<Order> GetOrders();
         Order GetOrderById(string OrderId);
         List<Order> GetOrderbyUserId(string userId);
