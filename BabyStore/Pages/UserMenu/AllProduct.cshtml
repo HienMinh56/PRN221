@@ -76,6 +76,7 @@
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">@product.Name</h3>
+                        <h2 class="product-description">@product.Description</h2>
                         <div class="product-details">
                             <p class="product-quantity">Số lượng: @product.Quantity</p>
                             <p class="product-price">@string.Format("{0:n0} VNĐ", product.Price)</p>
@@ -182,6 +183,15 @@
         margin: 5px 0;
     }
 
+    .product-description {
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Giới hạn hiển thị tối đa 2 dòng */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.9em; /* Kích thước font nhỏ hơn */
+        color: #666; /* Màu sắc của mô tả */
+    }
     .product-quantity,
     .product-price {
         font-size: 14px;
