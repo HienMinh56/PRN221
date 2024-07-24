@@ -205,7 +205,20 @@ body {
 }
 
 .product-details {
-    text-align: center; /* Căn giữa chi tiết sản phẩm */
+    display: flex;
+    justify-content: space-between; /* Căn chỉnh khoảng cách giữa số lượng và giá */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    font-size: 0.9em; /* Kích thước font nhỏ hơn cho các thẻ */
+    color: #666;
+}
+.product-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Giới hạn hiển thị tối đa 2 dòng */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.9em; /* Kích thước font nhỏ hơn */
+    color: #666; /* Màu sắc của mô tả */
 }
 
 .product-quantity {

@@ -46,7 +46,6 @@ namespace BabyStore.Pages.UserMenu
                 return Page();
             }
 
-            // Assuming `User` already contains the updated data
             await _userService.Update(User.UserId, User);
 
             return RedirectToPage("UserProfileMenu", new { id = User.UserId });

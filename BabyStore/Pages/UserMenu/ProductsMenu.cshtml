@@ -23,11 +23,10 @@
 
 <div class="separator-line"></div>
 
-<!-- Featured Products Section -->
 <div class="featured-products-section">
-    <div class="section-title">Sản phẩm nổi bật</div>
+    <div class="section-title">Sản phẩm</div>
     <div class="featured-products">
-        @foreach (var product in Model.Product.Take(8)) // Assuming you want to display the first 8 products as featured
+        @foreach (var product in Model.Product.Take(8)) 
         {
             <div class="product-card">
                 <a href="@Url.Page("/UserMenu/ProductDetailsMenu", new { id = product.ProductId })">
@@ -36,6 +35,7 @@
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">@product.Name</h3>
+                        <h2 class="product-description">@product.Description</h2>
                         <div class="product-details">
                             <p class="product-quantity">Số lượng: @product.Quantity</p>
                             <p class="product-price">@string.Format("{0:n0} VNĐ", product.Price)</p>
@@ -101,6 +101,7 @@
                                 </div>
                                 <div class="product-info">
                                     <h3 class="product-title">@product.Name</h3>
+                                    <h2 class="product-description">@product.Description</h2>
                                     <div class="product-details">
                                         <p class="product-quantity">Số lượng: @product.Quantity</p>
                                         <p class="product-price">@string.Format("{0:n0} VNĐ", product.Price)</p>
@@ -131,7 +132,6 @@
     </div>
 }
 
-<!-- Notification Modal -->
 <div id="toast" class="toast">
     <div id="toastMessage" class="toast-message"></div>
 </div>
@@ -175,7 +175,6 @@
             var toastMessage = document.getElementById("toastMessage");
             toastMessage.textContent = message;
 
-            // Apply styles based on message type
             if (type === "success") {
                 toast.style.backgroundColor = "green";
             } else if (type === "error") {
@@ -186,10 +185,9 @@
 
             setTimeout(function () {
                 toast.style.display = "none";
-            }, 3000); // Duration of 3 seconds
+            }, 3000); 
         }
 
-        // Show toast if there are query parameters
         var message = "@message";
         var messageType = "@messageType";
         if (message) {
@@ -199,7 +197,6 @@
 }
 
 <style>
-    /* Add styles for featured products section */
     .featured-products-section {
         margin-bottom: 40px;
         text-align: center;
