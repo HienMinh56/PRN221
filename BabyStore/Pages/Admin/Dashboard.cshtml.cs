@@ -119,7 +119,7 @@ namespace BabyStore.Pages.Admin
             CalculateAmountDaily();
             CalculateRevenueByDate(7);
             CalculateOrderStatusCounts();
-            CalculateOrderStatusCounts();
+            TotalOrderAndTransactionByDaily();
             RevenueFormatted = $"{Revenue.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"))} VND";          
             return Page();
         }
