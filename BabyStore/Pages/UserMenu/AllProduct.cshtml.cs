@@ -45,22 +45,22 @@ namespace BabyStore.Pages.UserMenu
                 SearchQuery = null;
             }
 
-            // Get all products
+            
             var allProducts = _productService.GetProducts();
 
-            // Apply category filter if specified
+            
             if (!string.IsNullOrEmpty(CateId))
             {
                 allProducts = allProducts.Where(p => p.CateId == CateId).ToList();
             }
 
-            // Apply price range filter if specified
+            
             if (MinPrice.HasValue && MaxPrice.HasValue)
             {
                 allProducts = allProducts.Where(p => p.Price >= MinPrice.Value && p.Price <= MaxPrice.Value).ToList();
             }
 
-            // Apply search query filter if specified
+            
             if (!string.IsNullOrEmpty(SearchQuery))
             {
                 allProducts = allProducts.Where(p => p.Name.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -74,7 +74,7 @@ namespace BabyStore.Pages.UserMenu
             var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
             if (!isAuthenticated)
             {
-                // Redirect to the AllProduct page with a login required message
+                
                 return RedirectToPage("/UserMenu/AllProduct", new
                 {
                     message = "Please log in to add items to your cart",
@@ -106,7 +106,7 @@ namespace BabyStore.Pages.UserMenu
 
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
 
-                // Redirect to the AllProduct page with a success message
+               
                 return RedirectToPage("/UserMenu/AllProduct", new
                 {
                     message = "Add Successful",
@@ -115,7 +115,7 @@ namespace BabyStore.Pages.UserMenu
             }
             catch
             {
-                // Redirect to the AllProduct page with an error message
+                
                 return RedirectToPage("/UserMenu/AllProduct", new
                 {
                     message = "Add failed",

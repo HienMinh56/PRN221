@@ -47,7 +47,6 @@ namespace BabyStore.Pages.UserMenu
             var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
             if (!isAuthenticated)
             {
-                // Redirect to the same page with a message indicating login is required
                 return RedirectToPage("/UserMenu/ProductDetailsMenu", new { id = productId, message = "Please log in to add items to your cart", messageType = "error" });
             }
 

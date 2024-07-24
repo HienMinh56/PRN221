@@ -20,7 +20,7 @@
         padding: 10px 20px;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        z-index: 1050; /* Ensure it is above other elements */
+        z-index: 1050;
     }
 
     .toast-message {
@@ -30,7 +30,7 @@
     .close {
         color: #aaa;
         float: right;
-        font-size: 20px; /* Smaller close button */
+        font-size: 20px; 
         font-weight: bold;
     }
 
@@ -88,8 +88,6 @@
     </div>
 </div>
 
-<!-- Notification Modal -->
-<!-- Toast Notification -->
 <div id="toast" class="toast">
     <div id="toastMessage" class="toast-message"></div>
 </div>
@@ -102,7 +100,6 @@
             var toastMessage = document.getElementById("toastMessage");
             toastMessage.textContent = message;
 
-            // Apply styles based on message type
             if (type === "success") {
                 toast.style.backgroundColor = "green";
             } else if (type === "error") {
@@ -113,10 +110,9 @@
 
             setTimeout(function () {
                 toast.style.display = "none";
-            }, 3000); // Duration of 3 seconds
+            }, 3000); 
         }
 
-        // Show toast if there are query parameters
         var message = "@message";
         var messageType = "@messageType";
         if (message) {

@@ -72,7 +72,7 @@
             </div>
 
             <div class="col-md-3">
-                <!-- Khuyến mãi card -->
+                
                 <div class="card mb-3">
                     <div class="card-header">
                         <span>Khuyến mãi</span>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
 
-                <!-- Địa chỉ giao hàng card -->
+                
                 <div class="card mb-3">
                     <div class="card-header">
                         <span>Địa chỉ giao hàng</span>
@@ -107,7 +107,7 @@
                     </div>
                 </div>
 
-                <!-- Tóm tắt đơn hàng card -->
+                
                 <div class="card">
                     <div class="card-header">
                         <span>Tóm tắt đơn hàng</span>
@@ -128,7 +128,7 @@
                     </div>
                 </div>
 
-                <!-- Checkout button -->
+               
                 <form method="post" asp-page-handler="Checkout">
                     <input type="hidden" id="hiddenVoucherCode" name="AppliedVoucherCode" value="@Model.AppliedVoucherCode" />
                     <input type="hidden" id="hiddenFinalPrice" name="FinalPrice" value="@Model.FinalPrice" />
@@ -139,7 +139,7 @@
     }
 </div>
 
-<!-- Toast Container -->
+
 <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
     <div class="toast-container" style="position: absolute; top: 0; right: 0; z-index: 1080;">
         <div id="toastSuccess" class="toast bg-success text-white" role="alert" aria-live="assertive" aria-atomic="true">
@@ -173,10 +173,10 @@
             var select = this;
             var selectedVoucherCode = select.value;
 
-            // Update the hidden field with the selected voucher code
+            
             document.getElementById('hiddenVoucherCode').value = selectedVoucherCode;
 
-            // Update the discount and final price
+           
             var minAmount = parseFloat(select.options[select.selectedIndex].getAttribute('data-minamount'));
             var discount = parseFloat(select.options[select.selectedIndex].getAttribute('data-discount'));
             var totalPrice = parseFloat(document.getElementById('total-price').innerText.replace('₫', '').replace(/,/g, ''));
@@ -218,15 +218,15 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // Show success toast
+                           
                             Toastify({
                                 text: "Giỏ hàng đã được xóa.",
                                 backgroundColor: "green",
                                 duration: 3000
                             }).showToast();
-                            setTimeout(() => location.reload(), 3000); // Refresh page after toast
+                            setTimeout(() => location.reload(), 3000); 
                         } else {
-                            // Show error toast
+                            
                             Toastify({
                                 text: "Có lỗi xảy ra khi xóa giỏ hàng.",
                                 backgroundColor: "red",
@@ -258,16 +258,16 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // Show success toast
+                            
                             Toastify({
                                 text: "Sản phẩm đã được xóa khỏi giỏ hàng.",
                                 backgroundColor: "green",
                                 duration: 3000
                             }).showToast();
-                            document.getElementById('cart-item-' + productId).remove(); // Remove item from DOM
-                            updateCartSummary(data.cartSummary); // Update cart summary
+                            document.getElementById('cart-item-' + productId).remove(); 
+                            updateCartSummary(data.cartSummary); 
                         } else {
-                            // Show error toast
+                            
                             Toastify({
                                 text: "Có lỗi xảy ra khi xóa sản phẩm.",
                                 backgroundColor: "red",
@@ -283,9 +283,9 @@
                             duration: 3000
                         }).showToast();
                     });
-                return false; // Prevent form submission
+                return false; 
             }
-            return false; // Prevent form submission
+            return false; 
         }
 
         function updateCartSummary(cartSummary) {

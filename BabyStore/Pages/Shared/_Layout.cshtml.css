@@ -1,51 +1,47 @@
-﻿/* Basic styling for navbar elements */
-a.navbar-brand {
+﻿a.navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
-    color: hotpink; /* Added to match the style in HTML */
+    color: hotpink; 
 }
 
-/* Optional adjustments based on your provided CSS */
 .navbar {
-    padding: 10px 0; /* Khoảng cách ngoài bố cục thanh điều hướng */
+    padding: 10px 0; 
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
     background-color: white;
-    border-bottom: 1px solid #e5e5e5; /* Optional: border at the bottom for better visibility */
+    border-bottom: 1px solid #e5e5e5; 
 }
 
 .navbar-brand {
-    flex-grow: 0; /* Chia đều khoảng trống giữa các thành phần */
-    text-align: center; /* Căn giữa nút "BabyStore" */
-    margin-right: 10px; /* Adjust spacing */
+    flex-grow: 0; 
+    text-align: center; 
+    margin-right: 10px; 
 }
 
 .search-bar {
-    width: 100%; /* Adjust width as needed */
+    width: 100%;
 }
 
 .cart-icon {
-    width: 24px; /* Adjust width as needed */
-    height: auto; /* Maintain aspect ratio */
+    width: 24px; 
+    height: auto; 
 }
 
 .cart-link {
-    margin-left: 10px; /* Adjust spacing as needed */
+    margin-left: 10px; 
 }
 
 footer {
-    /*position: fixed;*/ /* Change to fixed */
-    bottom: 0; /* Stick to the bottom of the page */
-    width: 100%;
-    left: 0; /* Ensure it starts from the left edge */
+    bottom: 0; 
+    left: 0; 
     text-align: center;
-    line-height: 30px; /* Center content vertically */
-    background-color: #f8f9fa; /* Background color for footer */
-    border-top: 1px solid #e5e5e5; /* Border at the top */
-    z-index: 1000; /* Ensure it is above other elements if necessary */
+    line-height: 30px; 
+    background-color: #f8f9fa; 
+    border-top: 1px solid #e5e5e5; 
+    z-index: 1000; 
 }
 
 .dropdown-menu {
@@ -62,15 +58,15 @@ footer {
 }
 
 body {
-    padding-top: 60px; /* Adjust padding to avoid content being hidden under the fixed header */
+    padding-top: 60px; 
 }
 
 header {
     position: fixed;
     width: 100%;
-    z-index: 1000; /* Chọn một giá trị z-index cao hơn các phần tử khác */
-    background-color: #ffffff; /* Đảm bảo màu nền cho header */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Đổ bóng cho header */
+    z-index: 1000;
+    background-color: #ffffff; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
 }
 
 .notification {
@@ -94,20 +90,18 @@ header {
         background-color: #dc3545;
     }
 
-/* Đặt container cho thanh điều hướng */
 .navbar-container {
     display: flex;
-    align-items: center; /* Căn giữa theo chiều dọc */
-    justify-content: center; /* Phân bổ đều các phần tử */
-    width: 100%; /* Full width of the container */
-    gap: 90px; /* 10px gap between elements */
+    align-items: center; 
+    justify-content: center; 
+    width: 100%; 
+    gap: 90px; 
 }
 
-/* Ô tìm kiếm */
 .search-bar-container {
     display: flex;
-    align-items: center; /* Ensure items are aligned vertically */
-    gap: 30px; /* 10px gap between the search input and the button */
+    align-items: center;
+    gap: 30px; 
     flex-grow: 1;
     width: 400px
 }
@@ -119,6 +113,6 @@ header {
     gap: 30px;
 }
 .search-bar {
-    flex-grow: 1; /* Ô tìm kiếm mở rộng để chiếm không gian còn lại */
-    max-width: 800px; /* Đặt chiều rộng tối đa cho ô tìm kiếm */
+    flex-grow: 1; 
+    max-width: 800px; 
 }

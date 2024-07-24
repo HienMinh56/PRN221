@@ -39,7 +39,6 @@ namespace BabyStore.Pages.UserMenu
         {
             var allProducts = _productService.GetProducts();
 
-            // Filter products based on search query
             if (!string.IsNullOrWhiteSpace(SearchQuery))
             {
                 Product = allProducts.Where(p => p.Name.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -57,7 +56,6 @@ namespace BabyStore.Pages.UserMenu
             var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
             if (!isAuthenticated)
             {
-                // Redirect to the ProductsMenu page with a login required message
                 return RedirectToPage("/UserMenu/ProductsMenu", new
                 {
                     message = "Please log in to add items to your cart",
@@ -89,7 +87,6 @@ namespace BabyStore.Pages.UserMenu
 
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
 
-                // Redirect to the ProductsMenu page with a success message
                 return RedirectToPage("/UserMenu/ProductsMenu", new
                 {
                     message = "Add Successfull",
@@ -98,7 +95,6 @@ namespace BabyStore.Pages.UserMenu
             }
             catch
             {
-                // Redirect to the ProductsMenu page with an error message
                 return RedirectToPage("/UserMenu/ProductsMenu", new
                 {
                     message = "Add failed",

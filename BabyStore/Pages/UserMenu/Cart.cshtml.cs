@@ -75,7 +75,7 @@ namespace BabyStore.Pages.UserMenu
         }
         public IActionResult OnPostClearCart()
         {
-            // Xóa tất cả sản phẩm trong giỏ hàng
+            
             HttpContext.Session.Remove("Cart");
             _logger.LogInformation("All items removed from the cart.");
 
@@ -97,7 +97,7 @@ namespace BabyStore.Pages.UserMenu
             var cartSummary = new
             {
                 totalPrice = cart.Sum(item => item.Quantity * item.Price).ToString("n0") + "₫",
-                voucherDiscount = "0₫", // Adjust this if you handle vouchers dynamically
+                voucherDiscount = "0₫",
                 finalPrice = cart.Sum(item => item.Quantity * item.Price).ToString("n0") + "₫"
             };
 
@@ -161,7 +161,7 @@ namespace BabyStore.Pages.UserMenu
         public async Task<IActionResult> OnPostCheckout(double FinalPrice, string AppliedVoucherCode)
         {
             LoadCart();
-            LoadActiveVouchers(); // Ensure vouchers are loaded
+            LoadActiveVouchers(); 
 
             string userId = HttpContext.Session.GetString("id");
 
