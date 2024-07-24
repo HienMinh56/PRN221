@@ -38,24 +38,15 @@ namespace BabyStore.Pages.Admin.ProductManagement
         [BindProperty(SupportsGet = true)]
         public string? ProductName { get; set; }
 
-        public IActionResult OnGet(int? pageIndex)
+        public IActionResult OnGet(int? pageIndex, string? cateId, int? status, string? productId, string? productName)
         {
             Categories = _categoryService.GetCategories().ToList();
-            var ProductList = _productService.GetProducts();
-            PageIndex = pageIndex ?? 1;
 
-            // Paginate the list
-            var count = ProductList.Count();
-            TotalPages = (int)Math.Ceiling(count / (double)PageSize);
-            var items = ProductList.Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
+            CateId = cateId;
+            Status = status;
+            ProductId = productId;
+            ProductName = productName;
 
-            Product = items;
-            return Page();
-        }
-
-        public IActionResult OnPost(int? pageIndex)
-        {
-            Categories = _categoryService.GetCategories().ToList();
             var ProductList = _productService.GetProducts();
 
             if (!string.IsNullOrEmpty(ProductId))
@@ -88,5 +79,18 @@ namespace BabyStore.Pages.Admin.ProductManagement
             Product = items;
             return Page();
         }
+
+        public IActionResult OnPost(int? pageIndex)
+        {
+            return RedirectToPage(new
+            {
+                pageIndex,
+                cateId = CateId,
+                status = Status,
+                productId = ProductId,
+                productName = ProductName
+            });
+        }
+
     }
 }

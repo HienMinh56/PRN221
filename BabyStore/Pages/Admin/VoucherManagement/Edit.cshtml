@@ -178,49 +178,49 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="Voucher.VoucherCode" class="form-control-label">VoucherCode</label>
-                                        <input class="form-control" asp-for="Voucher.VoucherCode" />
+                                        <input class="form-control" asp-for="Voucher.VoucherCode" required />
                                         <span asp-validation-for="Voucher.VoucherCode" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="Voucher.Description" class="form-control-label">Description</label>
-                                        <textarea class="form-control" asp-for="Voucher.Description"></textarea>
+                                        <textarea class="form-control" asp-for="Voucher.Description" required></textarea>
                                         <span asp-validation-for="Voucher.Description" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="Voucher.Discount" class="form-control-label">Discount</label>
-                                        <input class="form-control" asp-for="Voucher.Discount" />
+                                        <input class="form-control" asp-for="Voucher.Discount" required />
                                         <span asp-validation-for="Voucher.Discount" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="Voucher.MinimumOrderAmount" class="form-control-label">MinimumOrderAmount</label>
-                                        <input class="form-control" asp-for="Voucher.MinimumOrderAmount" />
+                                        <input class="form-control" asp-for="Voucher.MinimumOrderAmount" required />
                                         <span asp-validation-for="Voucher.MinimumOrderAmount" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="Voucher.Quantity" class="form-control-label">Quantity</label>
-                                        <input class="form-control" asp-for="Voucher.Quantity" />
+                                        <input class="form-control" asp-for="Voucher.Quantity" required />
                                         <span asp-validation-for="Voucher.Quantity" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="Voucher.StartDate" class="form-control-label">StartDate</label>
-                                        <input class="form-control" asp-for="Voucher.StartDate" type="date" />
+                                        <input class="form-control" asp-for="Voucher.StartDate" type="date" required />
                                         <span asp-validation-for="Voucher.StartDate" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="Voucher.EndDate" class="form-control-label">EndDate</label>
-                                        <input class="form-control" asp-for="Voucher.EndDate" type="date" />
+                                        <input class="form-control" asp-for="Voucher.EndDate" type="date" required />
                                         <span asp-validation-for="Voucher.EndDate" class="text-danger"></span>
                                     </div>
                                 </div>

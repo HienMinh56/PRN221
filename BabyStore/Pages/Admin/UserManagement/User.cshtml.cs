@@ -32,22 +32,13 @@ namespace BabyStore.Pages.Admin.UserManagement
         [BindProperty]
         public int? Role { get; set; }
 
-        public IActionResult OnGet(int? pageIndex)
+        public IActionResult OnGet(int? pageIndex, string? userId, string? userName, int? status, int? role)
         {
-            var UserList = _userService.GetUsers();
-            PageIndex = pageIndex ?? 1;
+            UserId = userId;
+            UserName = userName;
+            Status = status;
+            Role = role;
 
-            // Paginate the list
-            var count = UserList.Count();
-            TotalPages = (int)Math.Ceiling(count / (double)PageSize);
-            var items = UserList.Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
-
-            User = items;
-            return Page();
-        }
-
-        public IActionResult OnPost(int? pageIndex)
-        {
             var UserList = _userService.GetUsers();
 
             if (!string.IsNullOrEmpty(UserId))
@@ -79,6 +70,18 @@ namespace BabyStore.Pages.Admin.UserManagement
 
             User = items;
             return Page();
+        }
+
+        public IActionResult OnPost(int? pageIndex)
+        {
+            return RedirectToPage(new
+            {
+                pageIndex,
+                userId = UserId,
+                userName = UserName,
+                status = Status,
+                role = Role
+            });
         }
     }
 }

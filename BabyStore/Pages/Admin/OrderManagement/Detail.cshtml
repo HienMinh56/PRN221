@@ -1,9 +1,9 @@
 ﻿@page
-@model BabyStore.Pages.Admin.VoucherManagement.CreateModel
+@model BabyStore.Pages.Admin.OrderManagement.DetailsModel
 
 @{
     Layout = "/Pages/Shared/_Layout_Admin.cshtml";
-    ViewData["Title"] = "CreateVoucher | Baby Store";
+    ViewData["Title"] = "OrderDetail | Baby Store";
 
     var httpContext = ViewContext.HttpContext;
 }
@@ -56,7 +56,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " asp-area="" asp-page="/Admin/OrderManagement/Order">
+                <a class="nav-link active" asp-area="" asp-page="/Admin/OrderManagement/Order">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-cart text-danger text-sm opacity-10"></i>
                     </div>
@@ -64,7 +64,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" asp-area="" asp-page="/Admin/VoucherManagement/Voucher">
+                <a class="nav-link " asp-area="" asp-page="/Admin/VoucherManagement/Voucher">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-folder-17 text-secondary text-sm opacity-10"></i>
                     </div>
@@ -100,9 +100,9 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                     <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Voucher</li>
+                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Order</li>
                 </ol>
-                <h6 class="font-weight-bolder text-white mb-0">Dashboard</h6>
+                <h6 class="font-weight-bolder text-white mb-0">OrderDetail</h6>
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -135,75 +135,91 @@
         </div>
     </nav>
 
+    <div class="card shadow-lg mx-4 card-profile-bottom">
+        <div class="card-body p-3">
+            <div class="row gx-4">
+                <div class="col-auto">
+                    <div class="avatar avatar-xl position-relative">
+                        <img src="~/images/order.png" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                    </div>
+                </div>
+                <div class="col-auto my-auto">
+                    <div class="h-100">
+                        <h5 class="mb-1">@Model.Order.OrderId</h5>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+                    <form method="post">
+                        <div class="row ps-4 align-items-center w-100">
+                            <div class="col-6">
+                                <input type="hidden" name="id" value="@Model.Order.OrderId" />
+                                <label for="status" class="form-label">Status</label>
+                                <select class="form-select" name="status" id="status">
+                                    <option value="1">Waiting for delivery</option>
+                                    <option value="2">Processing</option>
+                                    <option value="3">Canceled</option>
+                                    <option value="4">Shipped</option>
+                                </select>
+                            </div>
+                            <div class="col-4" style="margin: 45px 0 0 0 ; padding: 0;">
+                                <button type="submit" class="btn btn-primary w-100" style="height: 40px;">Update Status</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-md-8">
-                <form method="post">
-                    <div class="card">
-                        <div class="card-header pb-0">
-                            <div class="d-flex align-items-center">
-                                <p class="mb-0">Add voucher information:</p>
-                                <input type="submit" class="btn btn-primary btn-sm ms-auto" value="Create" />
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <p class="text-uppercase text-sm"></p>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Voucher.VoucherCode" class="form-control-label">VoucherCode</label>
-                                        <input class="form-control" asp-for="Voucher.VoucherCode" required />
-                                        <span asp-validation-for="Voucher.VoucherCode" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Voucher.Description" class="form-control-label">Description</label>
-                                        <textarea class="form-control" asp-for="Voucher.Description" required></textarea>
-                                        <span asp-validation-for="Voucher.Description" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Voucher.Discount" class="form-control-label">Discount</label>
-                                        <input class="form-control" asp-for="Voucher.Discount" required />
-                                        <span asp-validation-for="Voucher.Discount" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Voucher.MinimumOrderAmount" class="form-control-label">MinimumOrderAmount</label>
-                                        <input class="form-control" asp-for="Voucher.MinimumOrderAmount" required />
-                                        <span asp-validation-for="Voucher.MinimumOrderAmount" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Voucher.Quantity" class="form-control-label">Quantity</label>
-                                        <input class="form-control" asp-for="Voucher.Quantity" required />
-                                        <span asp-validation-for="Voucher.Quantity" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Voucher.StartDate" class="form-control-label">StartDate</label>
-                                        <input class="form-control" asp-for="Voucher.StartDate" type="date" required />
-                                        <span asp-validation-for="Voucher.StartDate" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Voucher.EndDate" class="form-control-label">EndDate</label>
-                                        <input class="form-control" asp-for="Voucher.EndDate" type="date" required />
-                                        <span asp-validation-for="Voucher.EndDate" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr class="horizontal dark">
+                <div class="card">
+                    <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                        <h6>OrderDetail's table</h6>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="col-3 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10 ps-7">Product</th>
+                                        <th class="col-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10">Price</th>
+                                        <th class="col-2 text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-10" style="padding: 12px;">Quantity</th>
+                                        <th class="col-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-10">CreatedDate</th>
+                                    </tr>
+                                </thead>
+                                @foreach (var item in Model.OrderDetails)
+                                {
+                                    <tbody id="foodTableBody">
+                                        <tr class="custom">
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                        <img src="~/images/order.png" class="avatar me-3" alt="stores" data-image-load-anim>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">@Html.DisplayFor(modelItem => item.OrderId)</h6>
+                                                        <p class="mb-0 font-weight-bold text-sm">@Html.DisplayFor(modelItem => item.ProductId)</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0 ps-3">@Html.DisplayFor(modelItem => item.Price)</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-bold mb-0">@Html.DisplayFor(modelItem => item.Quantity)</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-bold mb-0">@Html.DisplayFor(modelItem => item.CreatedDate)</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                }
+                            </table>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
 
             <div class="col-md-4">
@@ -213,7 +229,7 @@
                         <div class="col-4 col-lg-4 order-lg-2">
                             <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
                                 <a href="javascript:;">
-                                    <img src="~/images/voucher.png" class="rounded-circle img-fluid border border-2 border-white">
+                                    <img src="~/images/order.png" class="rounded-circle img-fluid border border-2 border-white">
                                 </a>
                             </div>
                         </div>
@@ -239,11 +255,11 @@
                         </div>
                         <div class="text-center mt-4">
                             <h5>
-                                <span class="font-weight-light"></span>
+                                <span class="font-weight-light">@Model.Order.OrderId</span>
                             </h5>
                             <div class="h6 font-weight-300">
                                 <i class="ni location_pin mr-2">
-                                    Create new Voucher
+                                    @Model.Order.CreatedBy
                                 </i>
                             </div>
                             <div class="h6 mt-4">
@@ -256,44 +272,38 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <footer class="footer pt-3  ">
-                <div class="container-fluid">
-                    <div class="row align-items-center justify-content-lg-between">
-                        <div class="col-lg-6 mb-lg-0 mb-4">
-                            <div class="copyright text-center text-sm text-muted text-lg-start">
-                                © <script>
-                                      document.write(new Date().getFullYear())
-                                </script>,
-                                -
-                                <a href="#" class="font-weight-bold" target="_blank">Baby Store</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                                <li class="nav-item">
-                                    <a href="https://github.com/HienMinh56" class="nav-link text-muted" target="_blank">Github</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" class="nav-link text-muted" target="_blank">About Us</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="https://www.apache.org/licenses/" class="nav-link text-muted" target="_blank">Licenses</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="https://hienminh56-contact.netlify.app/" class="nav-link pe-0 text-muted" target="_blank">Contact</a>
-                                </li>
-                            </ul>
+        <footer class="footer pt-3  ">
+            <div class="container-fluid">
+                <div class="row align-items-center justify-content-lg-between">
+                    <div class="col-lg-6 mb-lg-0 mb-4">
+                        <div class="copyright text-center text-sm text-muted text-lg-start">
+                            © <script>
+                                  document.write(new Date().getFullYear())
+                            </script>,
+                            -
+                            <a href="#" class="font-weight-bold" target="_blank">Baby Store</a>
                         </div>
                     </div>
+                    <div class="col-lg-6">
+                        <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                            <li class="nav-item">
+                                <a href="https://github.com/HienMinh56" class="nav-link text-muted" target="_blank">Github</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" class="nav-link text-muted" target="_blank">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.apache.org/licenses/" class="nav-link text-muted" target="_blank">Licenses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://hienminh56-contact.netlify.app/" class="nav-link pe-0 text-muted" target="_blank">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </footer>
-        </div>
+            </div>
+        </footer>
     </div>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
