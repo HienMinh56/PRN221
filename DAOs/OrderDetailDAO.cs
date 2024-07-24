@@ -1,5 +1,6 @@
 ﻿using BOs;
 using BOs.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace DAOs
         }
         public List<OrderDetail> GetOrderDetails(string orderId)
         {
-            return _context.OrderDetails.Where(o => o.OrderId == orderId).ToList();
+            return _context.OrderDetails.Where(o => o.OrderId == orderId).Include(o => o.Product).ToList();
         }
 
     }
