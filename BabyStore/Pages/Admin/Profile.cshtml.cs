@@ -24,7 +24,7 @@ namespace BabyStore.Pages.Admin
                 return NotFound();
             }
 
-            var user = _userService.getUserByid(id);
+            var user = _userService.GetUserById(id);
             if (user == null)
             {
                 return NotFound();

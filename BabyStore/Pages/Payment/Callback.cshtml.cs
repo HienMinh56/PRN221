@@ -47,7 +47,8 @@ namespace BabyStore.Pages.Payment
                     await _orderService.UpdateOrderStatus(orderId, 1); //Waiting for delivery
                     await _paymentService.HandleSuccessfulPayment(orderId);
                     HttpContext.Session.Remove("CartItems");
-                    return RedirectToPage("/Payment/Success");
+                    return RedirectToPage("/Payment/Success", new { orderId = orderId });
+
                 }
                 else
                 {

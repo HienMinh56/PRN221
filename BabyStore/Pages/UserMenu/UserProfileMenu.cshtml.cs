@@ -29,7 +29,7 @@ namespace BabyStore.Pages.UserMenu
                 return NotFound();
             }
 
-            User = _userService.getUserByid(id);
+            User = _userService.GetUserById(id);
 
             if (User == null)
             {
