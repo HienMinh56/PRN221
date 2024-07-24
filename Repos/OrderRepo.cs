@@ -29,6 +29,11 @@ namespace Repos
             await _orderDAO.UpdateOrderStatus(orderId, status);
         }
 
+        public async Task CancelOrder()
+        {
+            await _orderDAO.CancelOrder();
+        }
+
         public List<Order> GetOrderbyUserId(string userId)
         {
             return OrderDAO.Instance.GetOrderbyUserId(userId);

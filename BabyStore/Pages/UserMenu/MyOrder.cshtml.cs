@@ -38,7 +38,7 @@ namespace BabyStore.Pages.UserMenu
             }
 
             TotalOrders = Orders.Count;
-            TotalAmountDelivered = Orders.Where(o => o.Status == 1).Sum(o => o.TotalAmount);
+            TotalAmountDelivered = Orders.Where(o => o.Status == 4).Sum(o => o.TotalAmount);
         }
     }
 }
