@@ -37,7 +37,7 @@ namespace BabyStore.Pages.UserMenu
 
         public async Task OnGetAsync()
         {
-            var allProducts = _productService.GetProducts();
+            var allProducts = _productService.GetProducts().Where(p=>p.Status==1);
 
             if (!string.IsNullOrWhiteSpace(SearchQuery))
             {

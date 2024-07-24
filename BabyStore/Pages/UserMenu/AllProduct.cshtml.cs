@@ -68,7 +68,11 @@ namespace BabyStore.Pages.UserMenu
 
             Product = allProducts;
         }
-
+        public bool IsProductInCart(string productId)
+        {
+            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+            return cart.Any(item => item.ProductId == productId);
+        }
         public IActionResult OnPostAddToCart(string productId, string productName, int price, string productImage, int availableQuantity)
         {
             var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
