@@ -8,7 +8,8 @@
         { 1, "Waiting for delivery" },
         { 2, "Proccessing" },
         { 3, "Failed" },
-        { 4, "Shipped" }
+        { 4, "Shipped" },
+        { 5, "Cancel" },
     };
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
@@ -49,6 +50,8 @@
 
         #filter-section .badge-ping {
             background-color: orange;
+        }#filter-section .badge-cancel {
+            background-color: red;
         }
 
     .order-summary {
@@ -127,6 +130,9 @@
                             else if (order.Status == 4)
                             {
                                 <span class="badge badge-success" style="color: green">Shipped</span>
+                            }else if (order.Status == 5)
+                            {
+                                <span class="badge badge-cancel" style="color: red">Cancel</span>
                             }
                         </td>
                         <td>@order.CreatedDate?.ToString("dd/MM/yyyy")</td> <!-- Format date -->
@@ -153,7 +159,9 @@
             3 =>
             "badge-danger",
             4 =>
-            "badge-success",
+            "badge-success", 
+            5 =>
+            "badge-cancel",
             _ => "badge-secondary",
         };
     }

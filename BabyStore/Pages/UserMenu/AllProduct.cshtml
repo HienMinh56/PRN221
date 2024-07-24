@@ -1,0 +1,274 @@
+﻿@page
+@model BabyStore.Pages.UserMenu.AllProductModel
+
+@{
+    ViewData["Title"] = "All Products";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    bool isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
+    var message = Request.Query["message"];
+    var messageType = Request.Query["messageType"];
+}
+
+<div class="main-content">
+    <!-- Sidebar for filters -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Bộ lọc</h2>
+        </div>
+
+        <!-- Category Filter -->
+         <div class="filter-group">
+            <h3 class="filter-title">Danh mục</h3>
+            <form method="get" asp-page-handler="FilterByCategory">
+                <div class="filter-option">
+                    <input type="radio" id="category1" name="cateId" value="1" @(Model.CateId == "1" ? "checked" : "") />
+                    <label for="category1">Tã</label>
+                </div>
+                <div class="filter-option">
+                    <input type="radio" id="category2" name="cateId" value="2" @(Model.CateId == "2" ? "checked" : "") />
+                    <label for="category2">Đồ mặc</label>
+                </div>
+                <div class="filter-option">
+                    <input type="radio" id="category3" name="cateId" value="3" @(Model.CateId == "3" ? "checked" : "") />
+                    <label for="category3">Sữa</label>
+                </div>
+                <div class="filter-option">
+                    <input type="radio" id="category4" name="cateId" value="4" @(Model.CateId == "4" ? "checked" : "") />
+                    <label for="category4">Đồ chơi</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Lọc</button>
+            </form>
+        </div>
+
+        <!-- Price Filter -->
+        <div class="filter-group">
+            <h3 class="filter-title">Giá</h3>
+            <form method="get" asp-page-handler="FilterByPrice">
+                <div class="filter-option">
+                    <label for="minPrice">Giá tối thiểu</label>
+                    <input type="number" id="minPrice" name="minPrice" value="@Model.MinPrice" />
+                </div>
+                <div class="filter-option">
+                    <label for="maxPrice">Giá tối đa</label>
+                    <input type="number" id="maxPrice" name="maxPrice" value="@Model.MaxPrice" />
+                </div>
+                <button type="submit" class="btn btn-primary">Lọc</button>
+            </form>
+
+        </div>
+
+        <!-- Clear Filters Button -->
+        <div class="clear-filters">
+            <form method="get">
+                <button type="submit" class="btn btn-danger" name="clearFilters" value="true">Xóa bộ lọc</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Product cards -->
+    <div class="product-cards-container">
+        @foreach (var product in Model.Product)
+        {
+            <div class="product-card">
+                <a href="@Url.Page("/UserMenu/ProductDetailsMenu", new { id = product.ProductId })">
+                    <div class="product-image-container">
+                        <img src="@product.Image" alt="@product.Name" class="product-image" onerror="this.style.display='none'" />
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">@product.Name</h3>
+                        <div class="product-details">
+                            <p class="product-quantity">Số lượng: @product.Quantity</p>
+                            <p class="product-price">@string.Format("{0:n0} VNĐ", product.Price)</p>
+                        </div>
+                    </div>
+                </a>
+                @if (product.Quantity > 0)
+                {
+                    <form method="post" asp-page-handler="AddToCart" asp-route-productId="@product.ProductId" asp-route-productName="@product.Name" asp-route-price="@product.Price" asp-route-productImage="@product.Image" asp-route-availableQuantity="@product.Quantity" class="full-width-form">
+                        <button type="submit" class="btn btn-primary full-width-button @(!isAuthenticated ? "login-required" : "")">
+                            <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Thêm vào giỏ
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <p class="out-of-stock">Sản phẩm này đã hết</p>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .main-content {
+        display: flex;
+        margin: 20px;
+    }
+
+    .sidebar {
+        flex: 0 0 250px; /* Đặt độ rộng của sidebar */
+        background-color: #f4f4f4;
+        padding: 20px;
+        border-radius: 5px;
+        margin-right: 20px;
+    }
+
+    .sidebar-header {
+        margin-bottom: 20px;
+    }
+
+        .sidebar-header h2 {
+            margin: 0;
+        }
+
+    .filter-group {
+        margin-bottom: 20px;
+    }
+
+    .filter-title {
+        margin-bottom: 10px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .filter-option {
+        margin-bottom: 10px;
+    }
+
+        .filter-option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .filter-option label {
+            font-size: 14px;
+        }
+
+    .product-cards-container {
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .product-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        overflow: hidden;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .product-image-container {
+        text-align: center;
+        padding: 10px;
+    }
+
+    .product-image {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .product-info {
+        padding: 10px;
+    }
+
+    .product-title {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .product-details p {
+        margin: 5px 0;
+    }
+
+    .product-quantity,
+    .product-price {
+        font-size: 14px;
+    }
+
+    .full-width-form {
+        width: 100%;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        width: 100%;
+        display: inline-block;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .login-required {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+
+    .out-of-stock {
+        color: #dc3545;
+        text-align: center;
+        padding: 10px;
+        font-weight: bold;
+    }
+
+    .clear-filters {
+        margin-top: 20px;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        display: inline-block;
+        width: 100%;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+</style>
+<!-- Toast Notification -->
+<div id="toast" class="toast">
+    <div id="toastMessage" class="toast-message"></div>
+</div>
+
+@section Scripts {
+    <script>
+        function showToast(message, type) {
+            var toast = document.getElementById("toast");
+            var toastMessage = document.getElementById("toastMessage");
+            toastMessage.textContent = message;
+
+            if (type === "success") {
+                toast.style.backgroundColor = "green";
+            } else if (type === "error") {
+                toast.style.backgroundColor = "red";
+            }
+
+            toast.style.display = "block";
+
+            setTimeout(function () {
+                toast.style.display = "none";
+            }, 3000); // Duration of 3 seconds
+        }
+
+        var message = "@message";
+        var messageType = "@messageType";
+        if (message) {
+            showToast(message, messageType);
+        }
+    </script>
+}

@@ -18,5 +18,8 @@ namespace Repos
         public List<Product> GetProducts();
         Task UpdateProduct(string productId, Product product);
         Task UpdateProductQuantities(string productId, int quantities);
+        public List<Product> GetProductsByCate(string cateId);
+        public List<Product> GetProductsBySearch(string searchQuery);
+        public List<Product> GetProductsByPriceRange(int minPrice, int maxPrice);
     }
 }

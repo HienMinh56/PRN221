@@ -36,7 +36,20 @@ namespace Repos
 
         public List<Product> GetProducts() => _productDAO.GetProducts();
 
-       
+        public List<Product> GetProductsByCate(string cateId)
+        {
+            return _productDAO.GetProductsByCate(cateId);
+        }
+
+        public List<Product> GetProductsByPriceRange(int minPrice, int maxPrice)
+        {
+            return _productDAO.GetProductsByPriceRange(minPrice, maxPrice);
+        }
+
+        public List<Product> GetProductsBySearch(string searchQuery)
+        {
+            return _productDAO.GetProductsBySearch(searchQuery);
+        }
 
         public async Task UpdateProduct(string productId, Product product)
         {

@@ -40,5 +40,20 @@ namespace Services
         {
             await productRepo.UpdateProductQuantities(productId, quantities);
         }
+
+        public List<Product> GetProductsByCate(string cateId)
+        {
+            return productRepo.GetProductsByCate(cateId);
+        }
+
+        public List<Product> GetProductsBySearch(string searchQuery)
+        {
+            return productRepo.GetProductsBySearch(searchQuery);
+        }
+
+        public List<Product> GetProductsByPriceRange(int minPrice, int maxPrice)
+        {
+            return productRepo.GetProductsByPriceRange(minPrice, maxPrice);
+        }
     }
 }
