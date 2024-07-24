@@ -46,19 +46,33 @@ namespace BabyStore.Pages.Admin.UserManagement
 
         public async Task<IActionResult> OnPostAsync(string id, User user)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            if (!ModelState.IsValid)
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                await _userService.Update(id, user);
+
+                return RedirectToPage("./User", new
+                {
+                    message = "Update Successfull",
+                    messageType = "success"
+                });
+            } catch (Exception ex)
             {
-                return Page();
-            }
-
-            await _userService.Update(id, user);
-
-            return RedirectToPage("./User");
+                return RedirectToPage("./Edit", new
+                {
+                    message = "Update failed",
+                    messageType = "error"
+                });
+            }            
         }
     }
 }

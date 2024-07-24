@@ -50,19 +50,34 @@ namespace BabyStore.Pages.Admin.OrderManagement
 
         public async Task<IActionResult> OnPostAsync(string? id, int status)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            if (!ModelState.IsValid)
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                await _orderService.UpdateOrderStatus(id, status);
+
+                return RedirectToPage("./Order", new
+                {
+                    message = "Update Successfull",
+                    messageType = "success"
+                });
+            }
+            catch (Exception ex)
             {
-                return Page();
-            }
-
-            await _orderService.UpdateOrderStatus(id, status);
-
-            return Redirect("./Order");
+                return RedirectToPage("./Create", new
+                {
+                    message = "Update failed",
+                    messageType = "error"
+                });
+            }            
         }
     }
 }

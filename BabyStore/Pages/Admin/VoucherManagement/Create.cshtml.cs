@@ -30,18 +30,23 @@ namespace BabyStore.Pages.Admin.VoucherManagement
 
         public async Task<IActionResult> OnPostAsync()
         {
-
-
             try
             {
                 Voucher.CreatedBy = HttpContext.Session.GetString("username");
                 await _voucher.AddVoucher(Voucher);
-                return RedirectToPage("./Voucher");
+                return RedirectToPage("./Voucher", new
+                {
+                    message = "Add Successfull",
+                    messageType = "success"
+                });
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, ex.Message);
-                return Page();
+                return RedirectToPage("./Create", new
+                {
+                    message = "Add failed",
+                    messageType = "error"
+                });
             }
         }
     }

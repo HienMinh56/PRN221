@@ -45,18 +45,32 @@ namespace BabyStore.Pages.Admin.UserManagement
 
         public async Task<IActionResult> OnPostAsync(String? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var user = _userService.getUserByid(id);
-            if (user != null)
-            {                
-                _userService.Remove(id);
-            }
+                var user = _userService.getUserByid(id);
+                if (user != null)
+                {
+                    _userService.Remove(id);
+                }
 
-            return RedirectToPage("./User");
+                return RedirectToPage("./User", new
+                {
+                    message = "Delete Successfull",
+                    messageType = "success"
+                });
+            } catch (Exception ex)
+            {
+                return RedirectToPage("./Delete", new
+                {
+                    message = "Delete failed",
+                    messageType = "error"
+                });
+            }            
         }
     }
 }

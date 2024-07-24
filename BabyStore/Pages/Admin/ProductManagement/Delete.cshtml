@@ -4,10 +4,13 @@
 @{
     ViewData["Title"] = "DeleteProduct | BabyStore";
     Layout = "/Pages/Shared/_Layout_Admin.cshtml";
+    int? role = HttpContext.Session.GetInt32("RoleId");
 
     var httpContext = ViewContext.HttpContext;
 }
 
+@if (role == 1)
+{
 <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
     <span class="mask bg-primary opacity-6"></span>
 </div>
@@ -338,4 +341,11 @@
         };
         reader.readAsDataURL(input.files[0]);
     }
-</script>
+    </script>
+}
+else
+{
+    <script>
+         window.location.href = window.location.href = "/UserMenu/ProductsMenu";
+    </script>    
+}

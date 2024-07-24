@@ -14,11 +14,11 @@ namespace BabyStore.Pages.Admin.VoucherManagement
 {
     public class EditModel : PageModel
     {
-        private readonly IVoucherService _voucher;
+        private readonly IVoucherService _voucherService;
 
-        public EditModel(IVoucherService voucher)
+        public EditModel(IVoucherService voucherService)
         {
-            _voucher = voucher;
+            _voucherService = voucherService;
         }
 
         [BindProperty]
@@ -31,7 +31,7 @@ namespace BabyStore.Pages.Admin.VoucherManagement
                 return NotFound();
             }
 
-            var voucher =  _voucher.GetVoucher(id);
+            var voucher = _voucherService.GetVoucher(id);
             if (voucher == null)
             {
                 return NotFound();
@@ -44,30 +44,29 @@ namespace BabyStore.Pages.Admin.VoucherManagement
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-
-
             try
             {
-                await _voucher.UpdateVoucher(Voucher);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!VoucherExists(Voucher.Id))
+                var id = _voucherService.GetVoucher(Voucher.Id);
+                if (id == null)
                 {
                     return NotFound();
                 }
-                else
+
+                await _voucherService.UpdateVoucher(Voucher);
+                return RedirectToPage("./Voucher", new
                 {
-                    throw;
-                }
+                    message = "Update Successfull",
+                    messageType = "success"
+                });
             }
-
-            return RedirectToPage("./Voucher");
-        }
-
-        private bool VoucherExists(int id)
-        {
-            return _voucher.GetVouchers().Any(e => e.Id == id);
+            catch (DbUpdateConcurrencyException)
+            {
+                return RedirectToPage("./Edit", new
+                {
+                    message = "Update failed",
+                    messageType = "error"
+                });
+            }
         }
     }
 }
