@@ -6,7 +6,7 @@
     Layout = "/Pages/Shared/_Layout_Admin.cshtml";
     var message = Request.Query["message"];
     var messageType = Request.Query["messageType"];
-    int? role = HttpContext.Session.GetInt32("RoleId");
+    int? role = HttpContext.Session.GetInt32("role");
 
     var httpContext = ViewContext.HttpContext;
 }
