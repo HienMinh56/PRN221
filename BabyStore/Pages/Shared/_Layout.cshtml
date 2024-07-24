@@ -51,7 +51,7 @@
                 <a href="/UserMenu/ProductsMenu" class="navbar-brand">BabyStore</a>
                 <form method="get" action="/UserMenu/ProductsMenu" class="form-inline search-form">
                     <div class="input-group search-bar-container">
-                        <input class="form-control search-bar" type="search" name="SearchQuery" placeholder="Search..." aria-label="Search" />
+                        <input class="form-control search-bar" type="search" name="SearchQuery" placeholder="Tìm kiếm" aria-label="Search" />
                     </div>
                 </form>
                 <a href="/UserMenu/Cart" class="nav-link cart-link">
@@ -65,10 +65,10 @@
                             @httpContext.Session.GetString("username")
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/UserMenu/UserProfileMenu?id=@httpContext.Session.GetString("id")">Profile</a>
-                            <a class="dropdown-item" href="/UserMenu/MyOrder">MyOrders</a>
+                            <a class="dropdown-item" href="/UserMenu/UserProfileMenu?id=@httpContext.Session.GetString("id")">Hồ sơ</a>
+                            <a class="dropdown-item" href="/UserMenu/MyOrder">Đơn hàng</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Logout">Logout</a>
+                            <a class="dropdown-item" href="/Logout">Đăng xuất</a>
                         </div>
 
                         <script>
@@ -84,7 +84,7 @@
                 }
                 else
                 {
-                    <a href="/Login" class="nav-link">Login</a>
+                    <a href="/Login" class="nav-link">Đăng nhập</a>
                 }
             </div>
         </nav>
