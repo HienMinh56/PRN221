@@ -10,55 +10,38 @@
 }
 
 <style>
-    .modal {
+    .toast {
         display: none;
         position: fixed;
+        right: 20px;
+        top: 20px;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         z-index: 1050; /* Ensure it is above other elements */
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0, 0, 0);
-        background-color: rgba(0, 0, 0, 0.4);
     }
 
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
+    .toast-message {
+        margin: 0;
     }
 
     .close {
         color: #aaa;
         float: right;
-        font-size: 28px;
+        font-size: 20px; /* Smaller close button */
         font-weight: bold;
     }
 
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .center-screen {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-    }
-
-    .card {
-        width: 100%; /* Full width by default */
-        max-width: 1500px; /* Maximum width for smaller screen sizes */
-    }
-
-
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
 </style>
+
 
 <div class="center-screen">
     <div class="card">
@@ -106,60 +89,38 @@
 </div>
 
 <!-- Notification Modal -->
-<div id="notificationModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="modal-body">
-            <p id="notificationMessage"></p>
-        </div>
-    </div>
+<!-- Toast Notification -->
+<div id="toast" class="toast">
+    <div id="toastMessage" class="toast-message"></div>
 </div>
+
 
 @section Scripts {
     <script>
-        function showNotification(message, type) {
-            var modal = document.getElementById("notificationModal");
-            var notificationMessage = document.getElementById("notificationMessage");
-            notificationMessage.textContent = message;
+        function showToast(message, type) {
+            var toast = document.getElementById("toast");
+            var toastMessage = document.getElementById("toastMessage");
+            toastMessage.textContent = message;
 
             // Apply styles based on message type
             if (type === "success") {
-                notificationMessage.style.color = "green";
+                toast.style.backgroundColor = "green";
             } else if (type === "error") {
-                notificationMessage.style.color = "red";
+                toast.style.backgroundColor = "red";
             }
 
-            modal.style.display = "block";
+            toast.style.display = "block";
 
             setTimeout(function () {
-                modal.style.display = "none";
-
-                // Clear query parameters from the URL
-                var url = new URL(window.location.href);
-                url.searchParams.delete('message');
-                url.searchParams.delete('messageType');
-                window.history.replaceState({}, document.title, url.toString());
-            }, 1500); // Duration of 1.5 seconds
+                toast.style.display = "none";
+            }, 3000); // Duration of 3 seconds
         }
 
-        var modal = document.getElementById("notificationModal");
-        var span = document.getElementsByClassName("close")[0];
-
-        span.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        // Show notification if there are query parameters
+        // Show toast if there are query parameters
         var message = "@message";
         var messageType = "@messageType";
         if (message) {
-            showNotification(message, messageType);
+            showToast(message, messageType);
         }
     </script>
 }

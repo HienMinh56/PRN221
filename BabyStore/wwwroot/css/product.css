@@ -247,25 +247,21 @@ body {
 }
 
 /* Modal thông báo */
-.modal {
-    display: none; /* Ẩn theo mặc định */
-    position: fixed; /* Giữ nguyên vị trí */
-    z-index: 1; /* Nằm trên cùng */
-    left: 0;
-    top: 0;
-    width: 100%; /* Chiều rộng toàn màn hình */
-    height: 100%; /* Chiều cao toàn màn hình */
-    overflow: auto; /* Kích hoạt cuộn nếu cần */
-    background-color: rgb(0, 0, 0); /* Màu nền dự phòng */
-    background-color: rgba(0, 0, 0, 0.4); /* Đen với độ mờ */
+.toast {
+    display: none;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1050; /* Ensure it is above other elements */
 }
 
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* Cách 15% từ trên cùng và căn giữa */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Có thể nhiều hơn hoặc ít hơn, tùy thuộc vào kích thước màn hình */
+.toast-message {
+    margin: 0;
 }
 
 .close {
