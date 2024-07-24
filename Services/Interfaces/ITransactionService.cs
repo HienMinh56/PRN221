@@ -10,6 +10,7 @@ namespace Services.Interfaces
 {
     public interface ITransactionService
     {
+        Task<Transaction> CreateTransaction(string userId, int amount, string orderId);
         Task AddTransaction(Transaction transaction);
         Transaction GetTransactionById(string transactionId);
         List<Transaction> GetTransactions();

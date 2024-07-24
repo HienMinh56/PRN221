@@ -16,6 +16,24 @@ namespace Services
             _transactionRepo = transactionRepo;
         }
 
+        public async Task<Transaction> CreateTransaction(string userId, int amount, string orderId)
+        {
+            var transactionId = await _transactionRepo.GenerateTransactionId();
+            var transaction = new Transaction
+            {
+                TransactionId = transactionId,
+                UserId = userId,
+                Amount = amount,
+                Status = 2, // Pending
+                CreatedDate = DateTime.Now,
+                CreatedBy = userId,
+                OrderId = orderId
+            };
+            await _transactionRepo.AddTransaction(transaction);
+            return transaction;
+        }
+
+
         public async Task AddTransaction(Transaction transaction)
         {
             await _transactionRepo.AddTransaction(transaction);
