@@ -169,17 +169,34 @@
 
 @section Scripts {
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            filterVouchers();
+        });
+
+        function filterVouchers() {
+            var select = document.getElementById('voucherSelect');
+            var options = select.options;
+
+            // Iterate through the options and filter out invalid vouchers
+            for (var i = options.length - 1; i >= 0; i--) {
+                var option = options[i];
+                var minAmount = parseFloat(option.getAttribute('data-minamount'));
+                var totalPrice = parseFloat(document.getElementById('total-price').innerText.replace('₫', '').replace(/,/g, ''));
+
+                if (option.value !== "" && totalPrice < minAmount) {
+                    select.remove(i); // Remove voucher that doesn't meet the criteria
+                }
+            }
+        }
+
         document.getElementById('voucherSelect').addEventListener('change', function () {
             var select = this;
             var selectedVoucherCode = select.value;
-
-            
-            document.getElementById('hiddenVoucherCode').value = selectedVoucherCode;
-
-           
             var minAmount = parseFloat(select.options[select.selectedIndex].getAttribute('data-minamount'));
             var discount = parseFloat(select.options[select.selectedIndex].getAttribute('data-discount'));
             var totalPrice = parseFloat(document.getElementById('total-price').innerText.replace('₫', '').replace(/,/g, ''));
+
+            document.getElementById('hiddenVoucherCode').value = selectedVoucherCode;
 
             if (selectedVoucherCode === "" || totalPrice < minAmount) {
                 document.getElementById('voucher-feedback').innerHTML = `<span style="color: green; font-weight: bold;">Voucher không hợp lệ hoặc giá trị đơn hàng không đủ điều kiện.</span>`;
@@ -218,7 +235,6 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                           
                             Toastify({
                                 text: "Giỏ hàng đã được xóa.",
                                 backgroundColor: "green",
@@ -226,7 +242,6 @@
                             }).showToast();
                             setTimeout(() => location.reload(), 3000); 
                         } else {
-                            
                             Toastify({
                                 text: "Có lỗi xảy ra khi xóa giỏ hàng.",
                                 backgroundColor: "red",
@@ -258,7 +273,6 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            
                             Toastify({
                                 text: "Sản phẩm đã được xóa khỏi giỏ hàng.",
                                 backgroundColor: "green",
@@ -267,7 +281,6 @@
                             document.getElementById('cart-item-' + productId).remove(); 
                             updateCartSummary(data.cartSummary); 
                         } else {
-                            
                             Toastify({
                                 text: "Có lỗi xảy ra khi xóa sản phẩm.",
                                 backgroundColor: "red",
