@@ -188,7 +188,9 @@
                 var totalPrice = parseFloat(document.getElementById('total-price').innerText.replace('₫', '').replace(/,/g, ''));
 
                 if (option.value !== "" && totalPrice < minAmount) {
+
                     select.remove(i);
+
                 }
             }
         }

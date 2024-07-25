@@ -107,7 +107,7 @@ namespace BabyStore.Pages
                     Status = 1
                 };
 
-                await _userService.AddUser(user); // Ensure await is used
+                await _userService.AddUser(user);
 
                 TempData["message"] = "Sign Up Successful";
                 TempData["messageType"] = "success";
@@ -116,13 +116,11 @@ namespace BabyStore.Pages
             }
             catch (Exception ex)
             {
-                // Log the exception for debugging purposes
                 Console.WriteLine($"Exception: {ex.Message}");
                 TempData["message"] = "Please check you information, This information had already been used";
                 TempData["messageType"] = "error";
-
                 return RedirectToPage("/Login");
-            }
+            }         
         }
     }
 }
