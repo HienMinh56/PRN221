@@ -52,18 +52,25 @@ namespace BabyStore.Pages.Admin.ProductManagement
 
         public async Task<IActionResult> OnPostAsync(string? id, Product product)
         {
-            if (Image != null)
+            try
             {
-                var fileName = $"images/{Image.FileName}";
-                product.Image = await _cloudStorageService.UploadFileAsync(Image, fileName, 500, 500);
-            }
-            await _product.UpdateProduct(id, product);
+                if (Image != null)
+                {
+                    var fileName = $"images/{Image.FileName}";
+                    product.Image = await _cloudStorageService.UploadFileAsync(Image, fileName, 500, 500);
+                }
+                await _product.UpdateProduct(id, product);
 
-            return RedirectToPage("./Product", new
+                TempData["message"] = "Update Product Successful";
+                TempData["messageType"] = "success";
+                return RedirectToPage("./Product");
+            } catch (Exception ex)
             {
-                message = "Updated Successfull",
-                messageType = "success"
-            });
+                TempData["message"] = "Update Product Failed";
+                TempData["messageType"] = "error";
+                return RedirectToPage("./Product");
+            }
+            
         }
     }
 }

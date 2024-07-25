@@ -91,23 +91,36 @@ namespace BabyStore.Pages
 
         public IActionResult OnPostRegister()
         {
-            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(registerModel.Password);
-
-            var user = new User
+            try
             {
-                FullName = registerModel.FullName,
-                UserName = registerModel.Username,
-                Email = registerModel.Email,
-                Phone = registerModel.Phone,
-                Password = hashedPassword,
-                Address = registerModel.Address,
-                Role = 2,
-                Status = 1                
-            };
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(registerModel.Password);
 
-            _userService.AddUser(user);
+                var user = new User
+                {
+                    FullName = registerModel.FullName,
+                    UserName = registerModel.Username,
+                    Email = registerModel.Email,
+                    Phone = registerModel.Phone,
+                    Password = hashedPassword,
+                    Address = registerModel.Address,
+                    Role = 2,
+                    Status = 1
+                };
 
-            return RedirectToPage("/Login");
+                _userService.AddUser(user);
+
+                TempData["message"] = "Sign Up Successful";
+                TempData["messageType"] = "success";
+
+                return RedirectToPage("/Login");
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = "Sign Up Failed";
+                TempData["messageType"] = "error";
+
+                return RedirectToPage("/Login");
+            }
         }
     }
 }

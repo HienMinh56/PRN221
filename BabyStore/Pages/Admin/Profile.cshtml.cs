@@ -38,19 +38,30 @@ namespace BabyStore.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync(string id, User user)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            if (!ModelState.IsValid)
-            {
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                await _userService.UpdateUser(id, user);
+
+                TempData["message"] = "Update Profile Successful";
+                TempData["messageType"] = "success";
+
                 return Page();
-            }
-
-            await _userService.UpdateUser(id, user);
-
-            return Page();
+            } catch (Exception ex)
+            {
+                TempData["message"] = "Update Profile Failed";
+                TempData["messageType"] = "error";
+                return Page();
+            }            
         }
     }
 }

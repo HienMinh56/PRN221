@@ -57,7 +57,6 @@ namespace BabyStore.Pages.Admin.OrderManagement
 
             PageIndex = pageIndex ?? 1;
 
-            // Paginate the filtered list
             var count = OrderList.Count();
             TotalPages = (int)Math.Ceiling(count / (double)PageSize);
             var items = OrderList.Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
