@@ -10,16 +10,15 @@
 }
 
 <div class="main-content">
-    
+
     <div class="sidebar">
         <div class="sidebar-header">
             <h2>Bộ lọc</h2>
         </div>
 
-        
-         <div class="filter-group">
-            <h3 class="filter-title">Danh mục</h3>
-            <form method="get" asp-page-handler="FilterByCategory">
+        <form method="get" asp-page-handler="Filter">
+            <div class="filter-group">
+                <h3 class="filter-title">Danh mục</h3>
                 <div class="filter-option">
                     <input type="radio" id="category1" name="cateId" value="1" @(Model.CateId == "1" ? "checked" : "") />
                     <label for="category1">Tã</label>
@@ -36,14 +35,10 @@
                     <input type="radio" id="category4" name="cateId" value="4" @(Model.CateId == "4" ? "checked" : "") />
                     <label for="category4">Đồ chơi</label>
                 </div>
-                <button type="submit" class="btn btn-primary">Lọc</button>
-            </form>
-        </div>
+            </div>
 
-       
-        <div class="filter-group">
-            <h3 class="filter-title">Giá</h3>
-            <form method="get" asp-page-handler="FilterByPrice">
+            <div class="filter-group">
+                <h3 class="filter-title">Giá</h3>
                 <div class="filter-option">
                     <label for="minPrice">Giá tối thiểu</label>
                     <input type="number" id="minPrice" name="minPrice" value="@Model.MinPrice" />
@@ -52,22 +47,30 @@
                     <label for="maxPrice">Giá tối đa</label>
                     <input type="number" id="maxPrice" name="maxPrice" value="@Model.MaxPrice" />
                 </div>
-                <button type="submit" class="btn btn-primary">Lọc</button>
-            </form>
+            </div>
 
-        </div>
+            <div class="filter-group">
+                <h3 class="filter-title">Sắp xếp theo giá</h3>
+                <div class="filter-option">
+                    <input type="radio" id="price_asc" name="sortOrder" value="price_asc" @(Model.SortOrder == "price_asc" ? "checked" : "") />
+                    <label for="price_asc">Giá tăng dần</label>
+                </div>
+                <div class="filter-option">
+                    <input type="radio" id="price_desc" name="sortOrder" value="price_desc" @(Model.SortOrder == "price_desc" ? "checked" : "") />
+                    <label for="price_desc">Giá giảm dần</label>
+                </div>
+            </div>
 
-       
-        <div class="clear-filters">
-            <form method="get">
+            <button type="submit" class="btn btn-primary">Lọc</button>
+
+            <div class="clear-filters">
                 <button type="submit" class="btn btn-danger" name="clearFilters" value="true">Xóa bộ lọc</button>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 
-    
     <div class="product-cards-container">
-        @foreach (var product in Model.Product.OrderByDescending(p=>p.Quantity).Where(p=>p.Status==1))
+        @foreach (var product in Model.Product.Where(p => p.Status == 1))
         {
             <div class="product-card">
                 <a href="@Url.Page("/UserMenu/ProductDetailsMenu", new { id = product.ProductId })">
@@ -118,7 +121,7 @@
     }
 
     .sidebar {
-        flex: 0 0 250px; 
+        flex: 0 0 250px;
         background-color: #f4f4f4;
         padding: 20px;
         border-radius: 5px;
@@ -196,13 +199,14 @@
 
     .product-description {
         display: -webkit-box;
-        -webkit-line-clamp: 2; /* Giới hạn hiển thị tối đa 2 dòng */
+        -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-size: 0.9em; /* Kích thước font nhỏ hơn */
-        color: #666; /* Màu sắc của mô tả */
+        font-size: 0.9em;
+        color: #666;
     }
+
     .product-quantity,
     .product-price {
         font-size: 14px;
@@ -260,6 +264,12 @@
             background-color: #5a6268;
         }
 
+    .cart-icon {
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+        margin-right: 5px;
+    }
 </style>
 
 <div id="toast" class="toast">

@@ -182,14 +182,13 @@
             var select = document.getElementById('voucherSelect');
             var options = select.options;
 
-            // Iterate through the options and filter out invalid vouchers
             for (var i = options.length - 1; i >= 0; i--) {
                 var option = options[i];
                 var minAmount = parseFloat(option.getAttribute('data-minamount'));
                 var totalPrice = parseFloat(document.getElementById('total-price').innerText.replace('₫', '').replace(/,/g, ''));
 
                 if (option.value !== "" && totalPrice < minAmount) {
-                    select.remove(i); // Remove voucher that doesn't meet the criteria
+                    select.remove(i); 
                 }
             }
         }

@@ -72,12 +72,10 @@ namespace DAOs
         {
             try
             {
-                // Fetch the last product from the database
                 var lastProduct = await _dbprn221Context.Products
                     .OrderByDescending(p => p.ProductId)
                     .FirstOrDefaultAsync();
 
-                // Generate new ProductId
                 if (lastProduct != null)
                 {
                     string lastProductId = lastProduct.ProductId;
@@ -87,7 +85,7 @@ namespace DAOs
                 }
                 else
                 {
-                    product.ProductId = "PRODUCT001"; // Start with PRODUCT001 if there are no products
+                    product.ProductId = "PRODUCT001"; 
                 }
 
                 _dbprn221Context.Products.Add(product);
@@ -95,7 +93,6 @@ namespace DAOs
             }
             catch (Exception ex)
             {
-                // Log the exception
                 Console.WriteLine($"Error adding product: {ex.Message}");
                 throw;
             }
