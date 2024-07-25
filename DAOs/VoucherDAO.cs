@@ -42,7 +42,6 @@ namespace DAOs
         {
             try
             {
-                // Check if the voucher code already exists
                 var existingVoucher = _dbprn221Context.Vouchers
                     .Any(v => v.VoucherCode == voucher.VoucherCode);
 
@@ -51,10 +50,8 @@ namespace DAOs
                     throw new Exception("Voucher code already exists.");
                 }
 
-                // Get the current date
                 var currentDate = DateOnly.FromDateTime(DateTime.Now);
 
-                // Determine the status based on the current date
                 if (voucher.StartDate <= currentDate && voucher.EndDate >= currentDate)
                 {
                     voucher.Status = "Active";
@@ -78,13 +75,11 @@ namespace DAOs
         {
             try
             {
-                // Retrieve the voucher from the database
                 var existingVoucher = _dbprn221Context.Vouchers
                     .SingleOrDefault(v => v.Id == voucher.Id);
 
                 if (existingVoucher != null)
                 {
-                    // Check if another voucher with the same code exists
                     var duplicateVoucher = _dbprn221Context.Vouchers
                         .SingleOrDefault(v => v.VoucherCode == voucher.VoucherCode && v.Id != voucher.Id);
 
@@ -93,7 +88,6 @@ namespace DAOs
                         throw new Exception("Voucher with the same VoucherCode already exists.");
                     }
 
-                    // Update the voucher details
                     existingVoucher.VoucherCode = voucher.VoucherCode;
                     existingVoucher.Description = voucher.Description;
                     existingVoucher.Discount = voucher.Discount;
@@ -102,7 +96,6 @@ namespace DAOs
                     existingVoucher.MinimumOrderAmount = voucher.MinimumOrderAmount;
                     existingVoucher.Quantity = voucher.Quantity;
 
-                    // Determine the new status based on the current date
                     var currentDate = DateOnly.FromDateTime(DateTime.Now);
                     if (voucher.StartDate <= currentDate && voucher.EndDate >= currentDate)
                     {
@@ -113,7 +106,6 @@ namespace DAOs
                         existingVoucher.Status = "Inactive";
                     }
 
-                    // Save changes to the database
                     await _dbprn221Context.SaveChangesAsync();
                 }
                 else

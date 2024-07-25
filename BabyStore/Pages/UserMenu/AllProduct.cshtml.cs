@@ -35,6 +35,9 @@ namespace BabyStore.Pages.UserMenu
         [BindProperty(SupportsGet = true)]
         public string? SearchQuery { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public string SortOrder { get; set; }
+
         public async Task OnGetAsync(bool clearFilters = false)
         {
             if (clearFilters)
@@ -43,42 +46,55 @@ namespace BabyStore.Pages.UserMenu
                 MinPrice = null;
                 MaxPrice = null;
                 SearchQuery = null;
+                SortOrder = null;
             }
 
-            
             var allProducts = _productService.GetProducts();
 
-            
             if (!string.IsNullOrEmpty(CateId))
             {
                 allProducts = allProducts.Where(p => p.CateId == CateId).ToList();
             }
 
-            
-            if (MinPrice.HasValue && MaxPrice.HasValue)
+            if (MinPrice.HasValue)
             {
-                allProducts = allProducts.Where(p => p.Price >= MinPrice.Value && p.Price <= MaxPrice.Value).ToList();
+                allProducts = allProducts.Where(p => p.Price >= MinPrice.Value).ToList();
             }
 
-            
+            if (MaxPrice.HasValue)
+            {
+                allProducts = allProducts.Where(p => p.Price <= MaxPrice.Value).ToList();
+            }
+
             if (!string.IsNullOrEmpty(SearchQuery))
             {
                 allProducts = allProducts.Where(p => p.Name.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
+            switch (SortOrder)
+            {
+                case "price_asc":
+                    allProducts = allProducts.OrderBy(p => p.Price).ToList();
+                    break;
+                case "price_desc":
+                    allProducts = allProducts.OrderByDescending(p => p.Price).ToList();
+                    break;
+            }
+
             Product = allProducts;
         }
+
         public bool IsProductInCart(string productId)
         {
             var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
             return cart.Any(item => item.ProductId == productId);
         }
+
         public IActionResult OnPostAddToCart(string productId, string productName, int price, string productImage, int availableQuantity)
         {
             var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
             if (!isAuthenticated)
             {
-                
                 return RedirectToPage("/UserMenu/AllProduct", new
                 {
                     message = "Please log in to add items to your cart",
@@ -110,7 +126,6 @@ namespace BabyStore.Pages.UserMenu
 
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
 
-               
                 return RedirectToPage("/UserMenu/AllProduct", new
                 {
                     message = "Add Successful",
@@ -119,7 +134,6 @@ namespace BabyStore.Pages.UserMenu
             }
             catch
             {
-                
                 return RedirectToPage("/UserMenu/AllProduct", new
                 {
                     message = "Add failed",
@@ -140,6 +154,11 @@ namespace BabyStore.Pages.UserMenu
             MaxPrice = maxPrice;
             return RedirectToPage();
         }
-    }
 
+        public IActionResult OnGetSortByPrice(string sortOrder)
+        {
+            SortOrder = sortOrder;
+            return RedirectToPage();
+        }
+    }
 }
