@@ -85,7 +85,7 @@ namespace DAOs
                 }
                 else
                 {
-                    product.ProductId = "PRODUCT001"; 
+                    product.ProductId = "PRODUCT001";
                 }
 
                 _dbprn221Context.Products.Add(product);
@@ -98,6 +98,14 @@ namespace DAOs
             }
         }
 
+        public async Task<bool> ProductExists(string name, string excludeProductId = null)
+        {
+            var product = await _dbprn221Context.Products
+                .Where(p => (p.Name == name) && p.ProductId != excludeProductId)
+                .FirstOrDefaultAsync();
+
+            return product != null;
+        }
 
         public void DeleteProduct(string productId)
         {
@@ -120,12 +128,20 @@ namespace DAOs
                 p.Title = product.Title;
                 p.Description = product.Description;
                 p.Quantity = product.Quantity;
-                p.Image = product.Image;
+
+                // Kiểm tra xem product.Image có giá trị hay không
+                if (product.Image != null)
+                {
+                    p.Image = product.Image;
+                }
+
                 p.Status = product.Status;
+
                 _dbprn221Context.Update(p);
                 await _dbprn221Context.SaveChangesAsync();
             }
         }
+
         public async Task UpdateProductQuantities(string productId, int quantity)
         {
             Product p = GetProductById(productId);
