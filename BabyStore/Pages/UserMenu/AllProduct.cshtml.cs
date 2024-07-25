@@ -53,17 +53,22 @@ namespace BabyStore.Pages.UserMenu
 
             if (!string.IsNullOrEmpty(CateId))
             {
-                allProducts = _productService.GetProductsByCate(CateId);
+                allProducts = allProducts.Where(p => p.CateId == CateId).ToList();
             }
 
-            if (MinPrice.HasValue || MaxPrice.HasValue)
+            if (MinPrice.HasValue)
             {
-                allProducts = _productService.GetProductsByPriceRange(MinPrice, MaxPrice);
+                allProducts = allProducts.Where(p => p.Price >= MinPrice.Value).ToList();
+            }
+
+            if (MaxPrice.HasValue)
+            {
+                allProducts = allProducts.Where(p => p.Price <= MaxPrice.Value).ToList();
             }
 
             if (!string.IsNullOrEmpty(SearchQuery))
             {
-                allProducts = _productService.GetProductsBySearch(SearchQuery);
+                allProducts = allProducts.Where(p => p.Name.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             switch (SortOrder)
