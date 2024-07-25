@@ -41,14 +41,23 @@ namespace BabyStore.Pages.UserMenu
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return Page();
-            }
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
 
-            await _userService.UpdateUser(User.UserId, User);
-
-            return RedirectToPage("UserProfileMenu", new { id = User.UserId });
+                await _userService.UpdateUser(User.UserId, User);
+                TempData["message"] = "Update User Profile Successful";
+                TempData["messageType"] = "success";
+                return RedirectToPage("UserProfileMenu", new { id = User.UserId });
+            } catch (Exception ex)
+            {
+                TempData["message"] = "Update User Profile Failed";
+                TempData["messageType"] = "error";
+                return RedirectToPage("UserProfileMenu", new { id = User.UserId });
+            }            
         }
 
     }

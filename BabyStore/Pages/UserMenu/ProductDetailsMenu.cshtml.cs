@@ -78,12 +78,15 @@ namespace BabyStore.Pages.UserMenu
                 }
 
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
-
-                return RedirectToPage("/UserMenu/ProductDetailsMenu", new { id = productId, message = "Add Successful", messageType = "success" });
+                TempData["message"] = "Add product to cart Successful";
+                TempData["messageType"] = "success";
+                return RedirectToPage("/UserMenu/ProductDetailsMenu");
             }
             catch
             {
-                return RedirectToPage("/UserMenu/ProductDetailsMenu", new { id = productId, message = "Add Failed", messageType = "error" });
+                TempData["message"] = "Add product to cart Failed";
+                TempData["messageType"] = "success";
+                return RedirectToPage("/UserMenu/ProductDetailsMenu");
             }
         }
 

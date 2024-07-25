@@ -37,7 +37,6 @@ namespace BabyStore.Pages.Admin.UserManagement
                 User.CreatedBy = userAdd;
                 User.CreatedDate = DateTime.Now;
                 await _userService.AddUser(User);
-                _userService.AddUser(User);
 
                 TempData["message"] = "Add User Successful";
                 TempData["messageType"] = "success";

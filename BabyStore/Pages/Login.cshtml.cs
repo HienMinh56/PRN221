@@ -89,7 +89,7 @@ namespace BabyStore.Pages
             }
         }
 
-        public async Task<IActionResult> OnPostRegisterAsync()
+        public async Task<IActionResult> OnPostRegister()
         {
             try
             {
@@ -116,15 +116,8 @@ namespace BabyStore.Pages
             }
             catch (Exception ex)
             {
-                if (ex.Message == "User already exists")
-                {
-                    TempData["message"] = "User already exists";
-                }
-                else
-                {
-                    TempData["message"] = "Sign Up Failed";
-                }
-
+                Console.WriteLine($"Exception: {ex.Message}");
+                TempData["message"] = "Please check you information, This information had already been used";
                 TempData["messageType"] = "error";
                 return RedirectToPage("/Login");
             }         
