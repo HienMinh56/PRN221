@@ -63,20 +63,15 @@ namespace BabyStore.Pages.Admin.OrderManagement
                 }
 
                 await _orderService.UpdateOrderStatus(id, status);
-
-                return RedirectToPage("./Order", new
-                {
-                    message = "Update Successfull",
-                    messageType = "success"
-                });
+                TempData["message"] = "Update Status Successful";
+                TempData["messageType"] = "success";
+                return RedirectToPage("./Order");
             }
             catch (Exception ex)
             {
-                return RedirectToPage("./Order", new
-                {
-                    message = "Update failed",
-                    messageType = "error"
-                });
+                TempData["message"] = "Update Status Failed";
+                TempData["messageType"] = "error";
+                return RedirectToPage("./Order");
             }            
         }
     }

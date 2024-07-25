@@ -4,8 +4,8 @@
 @{
     Layout = "/Pages/Shared/_Layout_Admin.cshtml";
     ViewData["Title"] = "Order | Baby Store";
-    var message = Request.Query["message"];
-    var messageType = Request.Query["messageType"];
+    var message = TempData["message"] as string;
+    var messageType = TempData["messageType"] as string;
     int? role = HttpContext.Session.GetInt32("role");
 
     var httpContext = ViewContext.HttpContext;
@@ -141,10 +141,6 @@
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                        <!-- <div class="input-group">
-                          <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-                          <input type="text" class="form-control" placeholder="What are you looking for ?">
-                        </div> -->
                     </div>
                     <ul class="navbar-nav  justify-content-end">
                         <li class="nav-item d-flex align-items-center">
@@ -338,7 +334,6 @@
             var toastMessage = document.getElementById("toastMessage");
             toastMessage.textContent = message;
 
-            // Apply styles based on message type
             if (type === "success") {
                 toast.style.backgroundColor = "green";
             } else if (type === "error") {
@@ -349,10 +344,9 @@
 
             setTimeout(function () {
                 toast.style.display = "none";
-            }, 3000); // Duration of 3 seconds
+            }, 3000);
         }
 
-        // Show toast if there are query parameters
         var message = "@message";
         var messageType = "@messageType";
         if (message) {

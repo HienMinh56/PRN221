@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Login | Baby Store";
     Layout = "~/Pages/Shared/_Layout_Login.cshtml";
+    var message = TempData["message"] as string;
+    var messageType = TempData["messageType"] as string;
 }
 
 <!DOCTYPE html>
@@ -12,6 +14,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
+        .toast {
+            display: none;
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1050
+        }
+
+        .toast-message {
+            margin: 0;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -337,5 +356,36 @@
             </div>
         </div>
     </div>
+    <div id="toast" class="toast">
+        <div id="toastMessage" class="toast-message"></div>
+    </div>
+
+    <script>
+        function showToast(message, type) {
+            var toast = document.getElementById("toast");
+            var toastMessage = document.getElementById("toastMessage");
+            toastMessage.textContent = message;
+
+            // Apply styles based on message type
+            if (type === "success") {
+                toast.style.backgroundColor = "green";
+            } else if (type === "error") {
+                toast.style.backgroundColor = "red";
+            }
+
+            toast.style.display = "block";
+
+            setTimeout(function () {
+                toast.style.display = "none";
+            }, 3000); // Duration of 3 seconds
+        }
+
+        // Show toast if there are query parameters
+        var message = "@message";
+        var messageType = "@messageType";
+        if (message) {
+            showToast(message, messageType);
+        }
+    </script>
 </body>
 </html>

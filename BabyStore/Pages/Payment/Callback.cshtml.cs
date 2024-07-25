@@ -44,7 +44,7 @@ namespace BabyStore.Pages.Payment
                 if (responseCode == "00")
                 {
                     await _transactionService.UpdateTransactionStatus(transactionId, 1);
-                    await _orderService.UpdateOrderStatus(orderId, 1); //Waiting for delivery
+                    await _orderService.UpdateOrderStatus(orderId, 1);
                     await _paymentService.HandleSuccessfulPayment(orderId);
                     HttpContext.Session.Remove("CartItems");
                     return RedirectToPage("/Payment/Success", new { orderId = orderId });

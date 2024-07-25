@@ -55,18 +55,15 @@ namespace BabyStore.Pages.Admin.UserManagement
 
                 await _userService.UpdateUser(id, user);
 
-                return RedirectToPage("./User", new
-                {
-                    message = "Update Successfull",
-                    messageType = "success"
-                });
+                TempData["message"] = "Update User Successful";
+                TempData["messageType"] = "success";
+
+                return RedirectToPage("./User");
             } catch (Exception ex)
             {
-                return RedirectToPage("./User", new
-                {
-                    message = "Update failed",
-                    messageType = "error"
-                });
+                TempData["message"] = "Update User Failed";
+                TempData["messageType"] = "error";
+                return RedirectToPage("./User");
             }            
         }
     }

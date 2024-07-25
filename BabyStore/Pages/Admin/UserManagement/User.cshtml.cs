@@ -63,7 +63,6 @@ namespace BabyStore.Pages.Admin.UserManagement
 
             PageIndex = pageIndex ?? 1;
 
-            // Paginate the filtered list
             var count = UserList.Count();
             TotalPages = (int)Math.Ceiling(count / (double)PageSize);
             var items = UserList.Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();

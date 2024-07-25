@@ -38,18 +38,15 @@ namespace BabyStore.Pages.Admin.UserManagement
                 User.CreatedDate = DateTime.Now;
                 _userService.AddUser(User);
 
-                return RedirectToPage("./User", new
-                {
-                    message = "Add Successfull",
-                    messageType = "success"
-                });
+                TempData["message"] = "Add User Successful";
+                TempData["messageType"] = "success";
+
+                return RedirectToPage("./User");
             } catch (Exception ex)
             {
-                return RedirectToPage("./User", new
-                {
-                    message = "Add failed",
-                    messageType = "error"
-                });
+                TempData["message"] = "Add User Failed";
+                TempData["messageType"] = "error";
+                return RedirectToPage("./User");
             }            
         }
     }
