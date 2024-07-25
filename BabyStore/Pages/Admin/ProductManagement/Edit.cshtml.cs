@@ -64,20 +64,18 @@ namespace BabyStore.Pages.Admin.ProductManagement
                 }
                 await _product.UpdateProduct(id, product);
 
-                return RedirectToPage("./Product", new
-                {
-                    message = "Updated Successfull",
-                    messageType = "success"
-                });
-            }
-            catch (Exception ex)
+
+                TempData["message"] = "Update Product Successful";
+                TempData["messageType"] = "success";
+                return RedirectToPage("./Product");
+            } catch (Exception ex)
             {
-                return RedirectToPage("./Product", new
-                {
-                    message = "Updated Failed",
-                    messageType = "error"
-                });
+                TempData["message"] = "Update Product Failed";
+                TempData["messageType"] = "error";
+                return RedirectToPage("./Product");
             }
+            
+
         }
     }
 }

@@ -58,18 +58,15 @@ namespace BabyStore.Pages.Admin.UserManagement
                     _userService.Remove(id);
                 }
 
-                return RedirectToPage("./User", new
-                {
-                    message = "Delete Successfull",
-                    messageType = "success"
-                });
+                TempData["message"] = "Delete User Successful";
+                TempData["messageType"] = "success";
+
+                return RedirectToPage("./User");
             } catch (Exception ex)
             {
-                return RedirectToPage("./User", new
-                {
-                    message = "Delete failed",
-                    messageType = "error"
-                });
+                TempData["message"] = "Delete User Failed";
+                TempData["messageType"] = "error";
+                return RedirectToPage("./User");
             }            
         }
     }

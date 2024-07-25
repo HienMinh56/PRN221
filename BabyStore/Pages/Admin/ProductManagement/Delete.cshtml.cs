@@ -46,32 +46,33 @@ namespace BabyStore.Pages.Admin.ProductManagement
 
         public async Task<IActionResult> OnPostAsync(string? id, Product product)
         {
-            if (id == null || _product.GetProducts == null)
-            {
-                return NotFound();
-            }
+
             try
             {
+                if (id == null || _context.Products == null)
+                {
+                    return NotFound();
+                }
+
+                var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == id);
                 if (product != null)
                 {
                     product.Status = 0;
-                    await _product.UpdateProduct(id, product);
+                    _context.Products.Update(product);
+                    await _context.SaveChangesAsync();
                 }
 
-                return RedirectToPage("./Product", new
-                {
-                    message = "Delete Successfull",
-                    messageType = "success"
-                });
+                TempData["message"] = "Delete Product Successful";
+                TempData["messageType"] = "success";
+                return RedirectToPage("./Product");
             }
             catch (Exception ex)
             {
-                return RedirectToPage("./Delete", new
-                {
-                    message = "Delete Failed",
-                    messageType = "failed"
-                });
-            }
+                TempData["message"] = "Delete Product Failed";
+                TempData["messageType"] = "error";
+                return RedirectToPage("./Product");
+            }            
+
         }
     }
 }

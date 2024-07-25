@@ -45,7 +45,6 @@ namespace BabyStore.Pages.Admin
                                         && order.CreatedDate.Value.Date == today)
                                    .ToList();
             Revenue = ordersToday.Sum(order => order.TotalAmount);
-            //OrderCountSucess = ordersToday.Count;
         }
 
         private void CalculateRevenueByDate(int days)

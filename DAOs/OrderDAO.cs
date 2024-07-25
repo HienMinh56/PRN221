@@ -76,7 +76,7 @@ namespace DAOs
             {
                 foreach (var order in orders)
                 {
-                    order.Status = 3; // Cập nhật trạng thái đơn hàng
+                    order.Status = 3; 
                 }
 
                 await _context.SaveChangesAsync(); 
