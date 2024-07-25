@@ -59,18 +59,19 @@ namespace BabyStore.Pages.Admin.ProductManagement
                     var fileName = $"images/{Image.FileName}";
                     product.Image = await _cloudStorageService.UploadFileAsync(Image, fileName, 500, 500);
                 }
+
                 await _product.UpdateProduct(id, product);
 
                 TempData["message"] = "Update Product Successful";
                 TempData["messageType"] = "success";
                 return RedirectToPage("./Product");
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 TempData["message"] = "Update Product Failed";
                 TempData["messageType"] = "error";
                 return RedirectToPage("./Product");
             }
-            
         }
     }
 }

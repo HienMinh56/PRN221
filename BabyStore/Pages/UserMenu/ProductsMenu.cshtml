@@ -5,8 +5,8 @@
     ViewData["Title"] = "ProductsMenu";
     Layout = "~/Pages/Shared/_Layout.cshtml";
     bool isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
-    var message = Request.Query["message"];
-    var messageType = Request.Query["messageType"];
+    var message = TempData["message"] as string;
+    var messageType = TempData["messageType"] as string;
 }
 
 <link rel="stylesheet" href="~/css/products.css" />
@@ -26,7 +26,7 @@
 <div class="featured-products-section">
     <div class="section-title">Sản phẩm</div>
     <div class="featured-products">
-        @foreach (var product in Model.Product.Where(u=>u.Quantity>0).OrderByDescending(o=>o.Quantity).Take(8))
+        @foreach (var product in Model.Product.Where(u => u.Quantity > 0).OrderByDescending(o => o.Quantity).Take(8))
         {
             <div class="product-card">
                 <a href="@Url.Page("/UserMenu/ProductDetailsMenu", new { id = product.ProductId })">
@@ -89,7 +89,7 @@
     }
 }
 
-@foreach (var categoryGroup in Model.Product.OrderByDescending(p=>p.Quantity).GroupBy(p => p.CateId))
+@foreach (var categoryGroup in Model.Product.OrderByDescending(p => p.Quantity).GroupBy(p => p.CateId))
 {
     var categoryName = GetCategoryName(categoryGroup.Key);
 
@@ -123,7 +123,7 @@
                             {
                                 @if (Model.IsProductInCart(product.ProductId))
                                 {
-                                    <button  class="btn btn-primary full-width-button disabled" style="background-color:hotpink">
+                                    <button class="btn btn-primary full-width-button disabled" style="background-color:hotpink">
                                         <img src="~/images/cart-icon.png" alt="Cart" class="cart-icon" /> Đã thêm
                                     </button>
                                 }
@@ -197,6 +197,7 @@
             var toastMessage = document.getElementById("toastMessage");
             toastMessage.textContent = message;
 
+            // Apply styles based on message type
             if (type === "success") {
                 toast.style.backgroundColor = "green";
             } else if (type === "error") {
@@ -207,9 +208,10 @@
 
             setTimeout(function () {
                 toast.style.display = "none";
-            }, 3000);
+            }, 3000); // Duration of 3 seconds
         }
 
+        // Show toast if there are query parameters
         var message = "@message";
         var messageType = "@messageType";
         if (message) {

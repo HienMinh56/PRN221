@@ -89,7 +89,7 @@ namespace BabyStore.Pages
             }
         }
 
-        public IActionResult OnPostRegister()
+        public async Task<IActionResult> OnPostRegister()
         {
             try
             {
@@ -107,7 +107,7 @@ namespace BabyStore.Pages
                     Status = 1
                 };
 
-                _userService.AddUser(user);
+                await _userService.AddUser(user);
 
                 TempData["message"] = "Sign Up Successful";
                 TempData["messageType"] = "success";
@@ -116,11 +116,11 @@ namespace BabyStore.Pages
             }
             catch (Exception ex)
             {
-                TempData["message"] = "Sign Up Failed";
+                Console.WriteLine($"Exception: {ex.Message}");
+                TempData["message"] = "Please check you information, This information had already been used";
                 TempData["messageType"] = "error";
-
                 return RedirectToPage("/Login");
-            }
+            }         
         }
     }
 }
