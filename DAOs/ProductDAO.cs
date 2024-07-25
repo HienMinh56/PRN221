@@ -101,6 +101,14 @@ namespace DAOs
             }
         }
 
+        public async Task<bool> ProductExists(string name, string excludeProductId = null)
+        {
+            var product = await _dbprn221Context.Products
+                .Where(p => (p.Name == name) && p.ProductId != excludeProductId)
+                .FirstOrDefaultAsync();
+
+            return product != null;
+        }
 
         public void DeleteProduct(string productId)
         {
@@ -124,6 +132,7 @@ namespace DAOs
                 p.Description = product.Description;
                 p.Quantity = product.Quantity;
                 p.Image = product.Image;
+                p.Status = product.Status;
 
                 _dbprn221Context.Update(p);
                 await _dbprn221Context.SaveChangesAsync();

@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BOs;
 using BOs.Entities;
+using Services;
 
 namespace BabyStore.Pages.Admin.ProductManagement
 {
     public class DeleteModel : PageModel
     {
-        private readonly BOs.Dbprn221Context _context;
+        private readonly IProductService _product;
 
-        public DeleteModel(BOs.Dbprn221Context context)
+        public DeleteModel(IProductService product)
         {
-            _context = context;
+            _product = product;
         }
 
         [BindProperty]
@@ -25,12 +26,12 @@ namespace BabyStore.Pages.Admin.ProductManagement
 
         public async Task<IActionResult> OnGetAsync(string? id)
         {
-            if (id == null || _context.Products == null)
+            if (id == null || _product.GetProducts == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products.Include(x => x.Cate).FirstOrDefaultAsync(m => m.ProductId.Equals(id));
+            var product = _product.GetProductById(id);
 
             if (product == null)
             {
@@ -43,26 +44,34 @@ namespace BabyStore.Pages.Admin.ProductManagement
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string? id)
+        public async Task<IActionResult> OnPostAsync(string? id, Product product)
         {
-            if (id == null || _context.Products == null)
+            if (id == null || _product.GetProducts == null)
             {
                 return NotFound();
             }
-
-            var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == id);
-            if (product != null)
+            try
             {
-                product.Status = 0; // Corrected order
-                _context.Products.Update(product);
-                await _context.SaveChangesAsync();
+                if (product != null)
+                {
+                    product.Status = 0;
+                    await _product.UpdateProduct(id, product);
+                }
+
+                return RedirectToPage("./Product", new
+                {
+                    message = "Delete Successfull",
+                    messageType = "success"
+                });
             }
-
-            return RedirectToPage("./Product", new
+            catch (Exception ex)
             {
-                message = "Delete Successfull",
-                messageType = "success"
-            });
+                return RedirectToPage("./Delete", new
+                {
+                    message = "Delete Failed",
+                    messageType = "failed"
+                });
+            }
         }
     }
 }

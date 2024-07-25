@@ -30,6 +30,9 @@ namespace BabyStore.Pages.Admin.ProductManagement
         [BindProperty]
         public Product Product { get; set; } = default!;
         public Category Category { get; set; } = default!;
+        [Required(ErrorMessage = "Choose one File!")]
+        [DataType(DataType.Upload)]
+        [FileExtensions(Extensions = "jpg,jpeg,jpe,bmp,gif,png")]
         [BindProperty]
         public IFormFile? Image { get; set; }
 
@@ -52,18 +55,29 @@ namespace BabyStore.Pages.Admin.ProductManagement
 
         public async Task<IActionResult> OnPostAsync(string? id, Product product)
         {
-            if (Image != null)
+            try
             {
-                var fileName = $"images/{Image.FileName}";
-                product.Image = await _cloudStorageService.UploadFileAsync(Image, fileName, 500, 500);
-            }
-            await _product.UpdateProduct(id, product);
+                if (Image != null)
+                {
+                    var fileName = $"images/{Image.FileName}";
+                    product.Image = await _cloudStorageService.UploadFileAsync(Image, fileName, 500, 500);
+                }
+                await _product.UpdateProduct(id, product);
 
-            return RedirectToPage("./Product", new
+                return RedirectToPage("./Product", new
+                {
+                    message = "Updated Successfull",
+                    messageType = "success"
+                });
+            }
+            catch (Exception ex)
             {
-                message = "Updated Successfull",
-                messageType = "success"
-            });
+                return RedirectToPage("./Product", new
+                {
+                    message = "Updated Failed",
+                    messageType = "error"
+                });
+            }
         }
     }
 }
