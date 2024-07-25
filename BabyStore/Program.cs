@@ -7,6 +7,7 @@ using Repos.Interfaces;
 using Services;
 using Services.Interfaces;
 using Services.Utilities;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +16,10 @@ builder.Services.Configure<GCSConfigOptions>(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddHostedService<OrderStatusbackgroundService>();
+builder.Services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
 
 builder.Services.AddDbContext<Dbprn221Context>();
