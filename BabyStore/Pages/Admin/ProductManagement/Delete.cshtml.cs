@@ -7,17 +7,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BOs;
 using BOs.Entities;
-using Services;
 
 namespace BabyStore.Pages.Admin.ProductManagement
 {
     public class DeleteModel : PageModel
     {
-        private readonly IProductService _product;
+        private readonly BOs.Dbprn221Context _context;
 
-        public DeleteModel(IProductService product)
+        public DeleteModel(BOs.Dbprn221Context context)
         {
-            _product = product;
+            _context = context;
         }
 
         [BindProperty]
@@ -26,12 +25,12 @@ namespace BabyStore.Pages.Admin.ProductManagement
 
         public async Task<IActionResult> OnGetAsync(string? id)
         {
-            if (id == null || _product.GetProducts == null)
+            if (id == null || _context.Products == null)
             {
                 return NotFound();
             }
 
-            var product = _product.GetProductById(id);
+            var product = await _context.Products.Include(x => x.Cate).FirstOrDefaultAsync(m => m.ProductId.Equals(id));
 
             if (product == null)
             {
@@ -44,9 +43,8 @@ namespace BabyStore.Pages.Admin.ProductManagement
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string? id, Product product)
+        public async Task<IActionResult> OnPostAsync(string? id)
         {
-
             try
             {
                 if (id == null || _context.Products == null)
@@ -72,7 +70,6 @@ namespace BabyStore.Pages.Admin.ProductManagement
                 TempData["messageType"] = "error";
                 return RedirectToPage("./Product");
             }            
-
         }
     }
 }
