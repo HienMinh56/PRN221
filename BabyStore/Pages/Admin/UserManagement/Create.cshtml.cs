@@ -36,6 +36,7 @@ namespace BabyStore.Pages.Admin.UserManagement
                 User.Password = BCrypt.Net.BCrypt.HashPassword(User.Password);
                 User.CreatedBy = userAdd;
                 User.CreatedDate = DateTime.Now;
+                await _userService.AddUser(User);
                 _userService.AddUser(User);
 
                 TempData["message"] = "Add User Successful";
