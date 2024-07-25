@@ -5,8 +5,8 @@
     ViewData["Title"] = "All Products";
     Layout = "~/Pages/Shared/_Layout.cshtml";
     bool isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
-    var message = Request.Query["message"];
-    var messageType = Request.Query["messageType"];
+    var message = TempData["message"] as string;
+    var messageType = TempData["messageType"] as string;
 }
 
 <div class="main-content">
@@ -273,6 +273,7 @@
             var toastMessage = document.getElementById("toastMessage");
             toastMessage.textContent = message;
 
+            // Apply styles based on message type
             if (type === "success") {
                 toast.style.backgroundColor = "green";
             } else if (type === "error") {
@@ -283,9 +284,10 @@
 
             setTimeout(function () {
                 toast.style.display = "none";
-            }, 3000); 
+            }, 3000); // Duration of 3 seconds
         }
 
+        // Show toast if there are query parameters
         var message = "@message";
         var messageType = "@messageType";
         if (message) {

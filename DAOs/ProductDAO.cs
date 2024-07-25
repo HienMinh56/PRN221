@@ -124,7 +124,7 @@ namespace DAOs
                 p.Description = product.Description;
                 p.Quantity = product.Quantity;
                 p.Image = product.Image;
-
+                p.Status = product.Status;
                 _dbprn221Context.Update(p);
                 await _dbprn221Context.SaveChangesAsync();
             }
