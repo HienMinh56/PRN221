@@ -45,7 +45,7 @@ namespace BabyStore.Pages.Admin.UserManagement
                 });
             } catch (Exception ex)
             {
-                return RedirectToPage("./Create", new
+                return RedirectToPage("./User", new
                 {
                     message = "Add failed",
                     messageType = "error"

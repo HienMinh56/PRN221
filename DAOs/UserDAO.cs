@@ -82,7 +82,7 @@ namespace DAOs
 
         public async Task UpdateUser(string UserId, User user)
         {
-            User existingUser = await _context.Users.FindAsync(UserId);
+            User existingUser = getUserByid(UserId);
             if (existingUser != null)
             {
                 // Kiểm tra email và số điện thoại trùng lặp

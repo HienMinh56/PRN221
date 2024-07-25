@@ -72,7 +72,7 @@ namespace BabyStore.Pages.Admin.OrderManagement
             }
             catch (Exception ex)
             {
-                return RedirectToPage("./Create", new
+                return RedirectToPage("./Order", new
                 {
                     message = "Update failed",
                     messageType = "error"

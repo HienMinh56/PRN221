@@ -53,11 +53,6 @@ namespace BabyStore.Pages.Admin.UserManagement
                     return NotFound();
                 }
 
-                if (!ModelState.IsValid)
-                {
-                    return Page();
-                }
-
                 await _userService.Update(id, user);
 
                 return RedirectToPage("./User", new
@@ -67,7 +62,7 @@ namespace BabyStore.Pages.Admin.UserManagement
                 });
             } catch (Exception ex)
             {
-                return RedirectToPage("./Edit", new
+                return RedirectToPage("./User", new
                 {
                     message = "Update failed",
                     messageType = "error"

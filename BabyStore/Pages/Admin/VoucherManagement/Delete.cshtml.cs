@@ -65,7 +65,7 @@ namespace BabyStore.Pages.Admin.VoucherManagement
                 });
             } catch (Exception ex)
             {
-                return RedirectToPage("./Delete", new
+                return RedirectToPage("./Voucher", new
                 {
                     message = "Delete failed",
                     messageType = "error"
