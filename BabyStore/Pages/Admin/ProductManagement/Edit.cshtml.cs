@@ -30,6 +30,9 @@ namespace BabyStore.Pages.Admin.ProductManagement
         [BindProperty]
         public Product Product { get; set; } = default!;
         public Category Category { get; set; } = default!;
+        [Required(ErrorMessage = "Choose one File!")]
+        [DataType(DataType.Upload)]
+        [FileExtensions(Extensions = "jpg,jpeg,jpe,bmp,gif,png")]
         [BindProperty]
         public IFormFile? Image { get; set; }
 
@@ -61,6 +64,7 @@ namespace BabyStore.Pages.Admin.ProductManagement
                 }
                 await _product.UpdateProduct(id, product);
 
+
                 TempData["message"] = "Update Product Successful";
                 TempData["messageType"] = "success";
                 return RedirectToPage("./Product");
@@ -71,6 +75,7 @@ namespace BabyStore.Pages.Admin.ProductManagement
                 return RedirectToPage("./Product");
             }
             
+
         }
     }
 }
