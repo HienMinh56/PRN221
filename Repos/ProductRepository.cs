@@ -41,7 +41,7 @@ namespace Repos
             return _productDAO.GetProductsByCate(cateId);
         }
 
-        public List<Product> GetProductsByPriceRange(int minPrice, int maxPrice)
+        public List<Product> GetProductsByPriceRange(int? minPrice, int? maxPrice)
         {
             return _productDAO.GetProductsByPriceRange(minPrice, maxPrice);
         }

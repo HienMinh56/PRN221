@@ -51,7 +51,7 @@ namespace Services
             return productRepo.GetProductsBySearch(searchQuery);
         }
 
-        public List<Product> GetProductsByPriceRange(int minPrice, int maxPrice)
+        public List<Product> GetProductsByPriceRange(int? minPrice, int? maxPrice)
         {
             return productRepo.GetProductsByPriceRange(minPrice, maxPrice);
         }

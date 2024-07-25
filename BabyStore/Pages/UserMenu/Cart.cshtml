@@ -203,7 +203,7 @@
             document.getElementById('hiddenVoucherCode').value = selectedVoucherCode;
 
             if (selectedVoucherCode === "" || totalPrice < minAmount) {
-                document.getElementById('voucher-feedback').innerHTML = `<span style="color: green; font-weight: bold;">Voucher không hợp lệ hoặc giá trị đơn hàng không đủ điều kiện.</span>`;
+                document.getElementById('voucher-feedback').innerHTML = `<span style="color: red; font-weight: bold;">Voucher không hợp lệ hoặc giá trị đơn hàng không đủ điều kiện.</span>`;
                 document.getElementById('voucher-discount').innerText = "0₫";
                 document.getElementById('final-price').innerText = totalPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '₫';
                 document.getElementById('hiddenFinalPrice').value = totalPrice.toFixed(0);
