@@ -4,8 +4,8 @@
 @{
     ViewData["Title"] = "ProductDetailsMenu";
     bool isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
-    var message = Request.Query["message"].ToString();
-    var messageType = Request.Query["messageType"].ToString();
+    var message = TempData["message"] as string;
+    var messageType = TempData["messageType"] as string;
     var cultureInfo = new System.Globalization.CultureInfo("vi-VN");
 }
 
@@ -101,29 +101,31 @@
 </div>
 
 @section Scripts {
-    <script>
-        function showToast(message, type) {
-            var toast = document.getElementById("toast");
-            var toastMessage = document.getElementById("toastMessage");
-            toastMessage.textContent = message;
+        <script>
+            function showToast(message, type) {
+                var toast = document.getElementById("toast");
+                var toastMessage = document.getElementById("toastMessage");
+                toastMessage.textContent = message;
 
-            if (type === "success") {
-                toast.style.backgroundColor = "green";
-            } else if (type === "error") {
-                toast.style.backgroundColor = "red";
+                // Apply styles based on message type
+                if (type === "success") {
+                    toast.style.backgroundColor = "green";
+                } else if (type === "error") {
+                    toast.style.backgroundColor = "red";
+                }
+
+                toast.style.display = "block";
+
+                setTimeout(function () {
+                    toast.style.display = "none";
+                }, 3000); // Duration of 3 seconds
             }
 
-            toast.style.display = "block";
-
-            setTimeout(function () {
-                toast.style.display = "none";
-            }, 3000);
-        }
-
-        var message = "@message";
-        var messageType = "@messageType";
-        if (message) {
-            showToast(message, messageType);
-        }
-    </script>
+            // Show toast if there are query parameters
+            var message = "@message";
+            var messageType = "@messageType";
+            if (message) {
+                showToast(message, messageType);
+            }
+        </script>
 }

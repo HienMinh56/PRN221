@@ -90,7 +90,7 @@ namespace BabyStore.Pages.UserMenu
             var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("username"));
             if (!isAuthenticated)
             {
-                TempData["message"] = "Please log in to add items to your cart";
+                TempData["message"] = "Please Login to add product to cart";
                 TempData["messageType"] = "error";
                 return RedirectToPage("/UserMenu/AllProduct");
             }
@@ -118,14 +118,14 @@ namespace BabyStore.Pages.UserMenu
                 }
 
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
-
-                TempData["message"] = "Add Successful";
+                
+                TempData["message"] = "Add product to cart Successful";
                 TempData["messageType"] = "success";
                 return RedirectToPage("/UserMenu/AllProduct");
             }
             catch
             {
-                TempData["message"] = "Add failed";
+                TempData["message"] = "Add product to cart Failed";
                 TempData["messageType"] = "error";
                 return RedirectToPage("/UserMenu/AllProduct");
             }

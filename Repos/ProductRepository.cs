@@ -25,6 +25,10 @@ namespace Repos
         }
 
 
+        public async Task<bool> ProductExists(string name, string productId = null)
+        {
+            return await _productDAO.ProductExists(name, productId);
+        }
 
         public void DeleteProduct(string productId) => _productDAO.DeleteProduct(productId);
 

@@ -86,7 +86,7 @@ namespace BabyStore.Pages.UserMenu
             {
                 TempData["message"] = "Add product to cart Failed";
                 TempData["messageType"] = "success";
-                return RedirectToPage("/UserMenu/ProductDetailsMenu", new { id = productId });
+                return RedirectToPage("/UserMenu/ProductDetailsMenu", new {id = productId });
             }
         }
 
