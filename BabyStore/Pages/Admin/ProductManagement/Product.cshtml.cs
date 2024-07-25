@@ -71,7 +71,6 @@ namespace BabyStore.Pages.Admin.ProductManagement
 
             PageIndex = pageIndex ?? 1;
 
-            // Paginate the filtered list
             var count = ProductList.Count();
             TotalPages = (int)Math.Ceiling(count / (double)PageSize);
             var items = ProductList.Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
@@ -91,6 +90,5 @@ namespace BabyStore.Pages.Admin.ProductManagement
                 productName = ProductName
             });
         }
-
     }
 }

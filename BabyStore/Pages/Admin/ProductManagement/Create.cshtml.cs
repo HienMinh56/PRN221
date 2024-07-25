@@ -33,8 +33,6 @@ namespace BabyStore.Pages.Admin.ProductManagement
         public IActionResult OnGet()
         {
             ViewData["CateId"] = new SelectList(_category.GetCategories(), "CateId", "Name");
-            TempData.Remove("SuccessMessage");
-            TempData.Remove("ErrorMessage");
             return Page();
         }
 
@@ -43,7 +41,6 @@ namespace BabyStore.Pages.Admin.ProductManagement
         [BindProperty]
         public IFormFile? Image { get; set; }
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
             try
@@ -54,28 +51,21 @@ namespace BabyStore.Pages.Admin.ProductManagement
                     Product.Image = await _cloudStorageService.UploadFileAsync(Image, fileName, 100, 100);
                 }
 
-                // Lưu trữ giá trị trong session
                 var productadd =  HttpContext.Session.GetString("username");
 
-                // Gán giá trị trực tiếp cho Product.CreatedBy
                 Product.CreatedBy = productadd;
                 Product.CreatedDate = DateTime.Now;
 
                 await _product.AddProduct(Product);
-                return RedirectToPage("./Product", new
-                {
-                    message = "Add Successfull",
-                    messageType = "success"
-                });
+                TempData["message"] = "Create Product Successful";
+                TempData["messageType"] = "success";
+                return RedirectToPage("./Product");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = $"Failed to add product: {ex.Message}";
-                return RedirectToPage("./Product", new
-                {
-                    message = "Add failed",
-                    messageType = "error"
-                });
+                TempData["message"] = "Create Product Failed";
+                TempData["messageType"] = "error";
+                return RedirectToPage("./Product");
             }
         }
     }
