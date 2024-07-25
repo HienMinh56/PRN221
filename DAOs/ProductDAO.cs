@@ -160,9 +160,21 @@ namespace DAOs
         {
             return _dbprn221Context.Products.Where(p => p.Name.Contains(searchQuery)).ToList();
         }
-        public List<Product> GetProductsByPriceRange(int minPrice, int maxPrice)
+        public List<Product> GetProductsByPriceRange(int? minPrice, int? maxPrice)
         {
-            return _dbprn221Context.Products.Where(p => p.Price >= minPrice && p.Price <= maxPrice).ToList();
+            var query = _dbprn221Context.Products.AsQueryable();
+
+            if (minPrice.HasValue)
+            {
+                query = query.Where(p => p.Price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(p => p.Price <= maxPrice.Value);
+            }
+
+            return query.ToList();
         }
     }
 }

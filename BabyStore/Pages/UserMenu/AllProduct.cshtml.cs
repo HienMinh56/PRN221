@@ -33,7 +33,7 @@ namespace BabyStore.Pages.UserMenu
         public int? MaxPrice { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public string? SearchQuery { get; set; }
+        public string SearchQuery { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public string SortOrder { get; set; }
@@ -53,22 +53,17 @@ namespace BabyStore.Pages.UserMenu
 
             if (!string.IsNullOrEmpty(CateId))
             {
-                allProducts = allProducts.Where(p => p.CateId == CateId).ToList();
+                allProducts = _productService.GetProductsByCate(CateId);
             }
 
-            if (MinPrice.HasValue)
+            if (MinPrice.HasValue || MaxPrice.HasValue)
             {
-                allProducts = allProducts.Where(p => p.Price >= MinPrice.Value).ToList();
-            }
-
-            if (MaxPrice.HasValue)
-            {
-                allProducts = allProducts.Where(p => p.Price <= MaxPrice.Value).ToList();
+                allProducts = _productService.GetProductsByPriceRange(MinPrice, MaxPrice);
             }
 
             if (!string.IsNullOrEmpty(SearchQuery))
             {
-                allProducts = allProducts.Where(p => p.Name.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)).ToList();
+                allProducts = _productService.GetProductsBySearch(SearchQuery);
             }
 
             switch (SortOrder)
@@ -142,7 +137,7 @@ namespace BabyStore.Pages.UserMenu
             return RedirectToPage();
         }
 
-        public IActionResult OnGetFilterByPrice(int minPrice, int maxPrice)
+        public IActionResult OnGetFilterByPrice(int? minPrice, int? maxPrice)
         {
             MinPrice = minPrice;
             MaxPrice = maxPrice;

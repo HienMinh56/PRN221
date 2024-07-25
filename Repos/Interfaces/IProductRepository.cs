@@ -20,7 +20,7 @@ namespace Repos
         Task UpdateProductQuantities(string productId, int quantities);
         public List<Product> GetProductsByCate(string cateId);
         public List<Product> GetProductsBySearch(string searchQuery);
-        public List<Product> GetProductsByPriceRange(int minPrice, int maxPrice);
+        public List<Product> GetProductsByPriceRange(int? minPrice, int? maxPrice);
         public Task<bool> ProductExists(string name, string productId = null);
     }
 }
