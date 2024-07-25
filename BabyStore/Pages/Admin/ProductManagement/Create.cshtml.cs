@@ -71,7 +71,7 @@ namespace BabyStore.Pages.Admin.ProductManagement
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Failed to add product: {ex.Message}";
-                return RedirectToPage("./Create", new
+                return RedirectToPage("./Product", new
                 {
                     message = "Add failed",
                     messageType = "error"

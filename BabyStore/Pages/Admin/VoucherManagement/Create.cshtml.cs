@@ -42,7 +42,7 @@ namespace BabyStore.Pages.Admin.VoucherManagement
             }
             catch (Exception ex)
             {
-                return RedirectToPage("./Create", new
+                return RedirectToPage("./Voucher", new
                 {
                     message = "Add failed",
                     messageType = "error"

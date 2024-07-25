@@ -61,7 +61,7 @@ namespace BabyStore.Pages.Admin.VoucherManagement
             }
             catch (DbUpdateConcurrencyException)
             {
-                return RedirectToPage("./Edit", new
+                return RedirectToPage("./Voucher", new
                 {
                     message = "Update failed",
                     messageType = "error"

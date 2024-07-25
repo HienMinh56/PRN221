@@ -65,7 +65,7 @@ namespace BabyStore.Pages.Admin.UserManagement
                 });
             } catch (Exception ex)
             {
-                return RedirectToPage("./Delete", new
+                return RedirectToPage("./User", new
                 {
                     message = "Delete failed",
                     messageType = "error"
