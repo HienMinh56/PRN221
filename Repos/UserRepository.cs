@@ -31,16 +31,24 @@ namespace Repos
             return _userDAO.GetUsers();
         }
 
-        public async Task Add(User user)
+        public async Task AddUser(User user)
         {
-             await _userDAO.AddUser(user);
+            await _userDAO.AddUser(user);
         }
 
-        public async Task Update(string UserId, User user)
+        public async Task UpdateUser(User user)
         {
-            await _userDAO.UpdateUser(UserId, user);
+            await _userDAO.UpdateUser(user);
+        }
+        public async Task<bool> UserExists(string username, string phone, string email, string userid =null)
+        {
+            return await _userDAO.UserExists(username, phone, email, userid);
         }
 
+        public async Task<string> GetMaxUserIdAsync()
+        {
+            return await _userDAO.GetMaxUserIdAsync();
+        }
         public async Task Remove(string userId)
         {
             await _userDAO.RemoveUser(userId);

@@ -105,7 +105,7 @@ namespace BabyStore.Pages
                 Status = 1                
             };
 
-            _userService.Add(user);
+            _userService.AddUser(user);
 
             return RedirectToPage("/Login");
         }

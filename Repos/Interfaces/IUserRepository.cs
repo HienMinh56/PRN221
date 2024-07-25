@@ -12,8 +12,10 @@ namespace Repos.Interfaces
         User getUserByid(string UserId);
         List<User> GetUsers();
         User GetUser(string username, string password);
-        Task Add(User user);
-        Task Update(string UserId, User user);
+        public Task AddUser(User user);
+        public Task UpdateUser(User user);
+        public Task<bool> UserExists(string username, string phone, string email, string userId = null);
+        public Task<string> GetMaxUserIdAsync();
         Task Remove(string userId);
     }
 }

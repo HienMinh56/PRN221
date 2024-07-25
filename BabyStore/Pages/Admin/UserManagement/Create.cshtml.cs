@@ -36,7 +36,7 @@ namespace BabyStore.Pages.Admin.UserManagement
                 User.Password = BCrypt.Net.BCrypt.HashPassword(User.Password);
                 User.CreatedBy = userAdd;
                 User.CreatedDate = DateTime.Now;
-                _userService.Add(User);
+                _userService.AddUser(User);
 
                 return RedirectToPage("./User", new
                 {

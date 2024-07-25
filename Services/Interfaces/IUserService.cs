@@ -12,8 +12,8 @@ namespace Services.Interfaces
         User GetUserById(string UserId);
         User Login(string username, string password); 
         List<User> GetUsers();
-        Task Add(User user);
-        Task Update(string UserId, User user);
+        public Task AddUser(User user);
+        public Task UpdateUser(string userId, User user);
         Task Remove(string userId);
 
     }

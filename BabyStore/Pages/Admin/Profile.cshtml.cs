@@ -48,7 +48,7 @@ namespace BabyStore.Pages.Admin
                 return Page();
             }
 
-            await _userService.Update(id, user);
+            await _userService.UpdateUser(id, user);
 
             return Page();
         }

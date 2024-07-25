@@ -42,7 +42,7 @@ namespace DAOs
 
         public User GetUser(string username, string password)
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserName == username);
+            var user = _context.Users.FirstOrDefault(u => u.UserName == username&&u.Status==1);
             if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
                 return user;
@@ -52,74 +52,34 @@ namespace DAOs
 
         public async Task AddUser(User user)
         {
-            bool userExists = await _context.Users
-                .AnyAsync(u => u.UserName == user.UserName || u.Phone == user.Phone || u.Email == user.Email);
-
-            if (userExists)
-            {
-                throw new Exception("User Existed");
-            }
-
-            var maxUserIdStr = await _context.Users
-                .Where(u => u.UserId.StartsWith("BAMEM"))
-                .Select(u => u.UserId.Substring(5))
-                .OrderByDescending(id => id)
-                .FirstOrDefaultAsync();
-
-            int maxUserId = 0;
-            if (maxUserIdStr != null)
-            {
-                maxUserId = int.Parse(maxUserIdStr);
-            }
-
-            user.UserId = $"BAMEM{(maxUserId + 1).ToString().PadLeft(4, '0')}";
-
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
         }
 
 
 
-        public async Task UpdateUser(string UserId, User user)
+        public async Task UpdateUser(User user)
         {
-            User existingUser = getUserByid(UserId);
-            if (existingUser != null)
-            {
-                // Kiểm tra email và số điện thoại trùng lặp
-                bool emailExists = await _context.Users
-                    .AnyAsync(u => u.Email == user.Email && u.UserId != UserId);
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+        }
+        public async Task<bool> UserExists(string userName, string phone, string email, string excludeUserId = null)
+        {
+            var user = await _context.Users
+                .Where(u => (u.Email == email || u.Phone == phone) && u.UserId != excludeUserId)
+                .FirstOrDefaultAsync();
 
-                bool phoneExists = await _context.Users
-                    .AnyAsync(u => u.Phone == user.Phone && u.UserId != UserId);
-
-                if (emailExists)
-                {
-                    throw new Exception("Email Existed");
-                }
-
-                if (phoneExists)
-                {
-                    throw new Exception("Phone Existed");
-                }
-
-                // Cập nhật thông tin người dùng
-                existingUser.FullName = user.FullName;
-                existingUser.Password = user.Password;
-                existingUser.Phone = user.Phone;
-                existingUser.Address = user.Address;
-                existingUser.Email = user.Email;
-                existingUser.Role = user.Role;
-                existingUser.Status = user.Status;
-
-                _context.Update(existingUser);
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                throw new Exception("User Not Found");
-            }
+            return user != null;
         }
 
+        public async Task<string> GetMaxUserIdAsync()
+        {
+            return await _context.Users
+                .Where(u => u.UserId.StartsWith("BAMEM"))
+                .Select(u => u.UserId.Substring(5))
+                .OrderByDescending(id => id)
+                .FirstOrDefaultAsync();
+        }
         public async Task RemoveUser(string userId)
         {
             try

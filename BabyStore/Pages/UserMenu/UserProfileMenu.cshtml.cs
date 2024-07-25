@@ -46,7 +46,7 @@ namespace BabyStore.Pages.UserMenu
                 return Page();
             }
 
-            await _userService.Update(User.UserId, User);
+            await _userService.UpdateUser(User.UserId, User);
 
             return RedirectToPage("UserProfileMenu", new { id = User.UserId });
         }

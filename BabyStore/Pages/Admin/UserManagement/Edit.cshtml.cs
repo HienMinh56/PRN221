@@ -53,7 +53,7 @@ namespace BabyStore.Pages.Admin.UserManagement
                     return NotFound();
                 }
 
-                await _userService.Update(id, user);
+                await _userService.UpdateUser(id, user);
 
                 return RedirectToPage("./User", new
                 {
