@@ -57,19 +57,14 @@ namespace BabyStore.Pages.Admin.VoucherManagement
                 {
                     await _voucher.DeleteVoucher(id);
                 }
-
-                return RedirectToPage("./Voucher", new
-                {
-                    message = "Delete Successfull",
-                    messageType = "success"
-                });
+                TempData["message"] = "Delete Voucher Successful";
+                TempData["messageType"] = "success";
+                return RedirectToPage("./Voucher");
             } catch (Exception ex)
             {
-                return RedirectToPage("./Voucher", new
-                {
-                    message = "Delete failed",
-                    messageType = "error"
-                });
+                TempData["message"] = "Delete Voucher Failed";
+                TempData["messageType"] = "error";
+                return RedirectToPage("./Voucher");
             }            
         }
     }

@@ -34,19 +34,15 @@ namespace BabyStore.Pages.Admin.VoucherManagement
             {
                 Voucher.CreatedBy = HttpContext.Session.GetString("username");
                 await _voucher.AddVoucher(Voucher);
-                return RedirectToPage("./Voucher", new
-                {
-                    message = "Add Successfull",
-                    messageType = "success"
-                });
+                TempData["message"] = "Add Voucher Successful";
+                TempData["messageType"] = "success";
+                return RedirectToPage("./Voucher");
             }
             catch (Exception ex)
             {
-                return RedirectToPage("./Voucher", new
-                {
-                    message = "Add failed",
-                    messageType = "error"
-                });
+                TempData["message"] = "Add Voucher Failed";
+                TempData["messageType"] = "error";
+                return RedirectToPage("./Voucher");
             }
         }
     }

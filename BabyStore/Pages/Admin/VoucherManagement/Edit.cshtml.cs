@@ -51,21 +51,17 @@ namespace BabyStore.Pages.Admin.VoucherManagement
                 {
                     return NotFound();
                 }
-
                 await _voucherService.UpdateVoucher(Voucher);
-                return RedirectToPage("./Voucher", new
-                {
-                    message = "Update Successfull",
-                    messageType = "success"
-                });
+                TempData["message"] = "Update Voucher Successful";
+                TempData["messageType"] = "success";
+                
+                return RedirectToPage("./Voucher");
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                return RedirectToPage("./Voucher", new
-                {
-                    message = "Update failed",
-                    messageType = "error"
-                });
+                TempData["message"] = "Update Voucher Failed";
+                TempData["messageType"] = "error";
+                return RedirectToPage("./Voucher");
             }
         }
     }

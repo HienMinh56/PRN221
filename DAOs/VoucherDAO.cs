@@ -40,83 +40,14 @@ namespace DAOs
         }
         public async Task AddVoucher(Voucher voucher)
         {
-            try
-            {
-                var existingVoucher = _dbprn221Context.Vouchers
-                    .Any(v => v.VoucherCode == voucher.VoucherCode);
-
-                if (existingVoucher)
-                {
-                    throw new Exception("Voucher code already exists.");
-                }
-
-                var currentDate = DateOnly.FromDateTime(DateTime.Now);
-
-                if (voucher.StartDate <= currentDate && voucher.EndDate >= currentDate)
-                {
-                    voucher.Status = "Active";
-                }
-                else
-                {
-                    voucher.Status = "Inactive";
-                }
-
-                voucher.CreatedDate = DateTime.Now;
-                _dbprn221Context.Vouchers.Add(voucher);
-                await _dbprn221Context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            _dbprn221Context.Vouchers.Add(voucher);
+            await _dbprn221Context.SaveChangesAsync();
         }
 
         public async Task UpdateVoucher(Voucher voucher)
         {
-            try
-            {
-                var existingVoucher = _dbprn221Context.Vouchers
-                    .SingleOrDefault(v => v.Id == voucher.Id);
-
-                if (existingVoucher != null)
-                {
-                    var duplicateVoucher = _dbprn221Context.Vouchers
-                        .SingleOrDefault(v => v.VoucherCode == voucher.VoucherCode && v.Id != voucher.Id);
-
-                    if (duplicateVoucher != null)
-                    {
-                        throw new Exception("Voucher with the same VoucherCode already exists.");
-                    }
-
-                    existingVoucher.VoucherCode = voucher.VoucherCode;
-                    existingVoucher.Description = voucher.Description;
-                    existingVoucher.Discount = voucher.Discount;
-                    existingVoucher.StartDate = voucher.StartDate;
-                    existingVoucher.EndDate = voucher.EndDate;
-                    existingVoucher.MinimumOrderAmount = voucher.MinimumOrderAmount;
-                    existingVoucher.Quantity = voucher.Quantity;
-
-                    var currentDate = DateOnly.FromDateTime(DateTime.Now);
-                    if (voucher.StartDate <= currentDate && voucher.EndDate >= currentDate)
-                    {
-                        existingVoucher.Status = "Active";
-                    }
-                    else
-                    {
-                        existingVoucher.Status = "Inactive";
-                    }
-
-                    await _dbprn221Context.SaveChangesAsync();
-                }
-                else
-                {
-                    throw new Exception("Voucher not found.");
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"An error occurred while updating the voucher: {ex.Message}", ex);
-            }
+            _dbprn221Context.Vouchers.Update(voucher);
+            await _dbprn221Context.SaveChangesAsync();
         }
 
         public async Task DeleteVoucher(int VoucherId)

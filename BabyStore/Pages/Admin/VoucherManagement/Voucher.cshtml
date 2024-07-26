@@ -4,8 +4,8 @@
 @{
     ViewData["Title"] = "Voucher | BabyStore";
     Layout = "/Pages/Shared/_Layout_Admin.cshtml";
-    var message = Request.Query["message"];
-    var messageType = Request.Query["messageType"];
+    var message = TempData["message"] as string;
+    var messageType = TempData["messageType"] as string;
     int? role = HttpContext.Session.GetInt32("role");
 
     var httpContext = ViewContext.HttpContext;
