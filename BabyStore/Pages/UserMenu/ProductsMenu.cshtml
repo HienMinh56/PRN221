@@ -24,7 +24,7 @@
 <div class="separator-line"></div>
 
 <div class="featured-products-section">
-    <div class="section-title">Sản phẩm</div>
+    <div class="section-title">Sản phẩm mới về</div>
     <div class="featured-products">
         @foreach (var product in Model.Product.Where(u => u.Quantity > 0).OrderByDescending(o => o.Quantity).Take(8))
         {
