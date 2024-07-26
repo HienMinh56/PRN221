@@ -10,7 +10,7 @@ public partial class Product
 
     public string ProductId { get; set; } = null!;
 
-    [StringLength(100, MinimumLength = 5, ErrorMessage = "Product Name must be between 10 and 100 characters long.")]
+    [StringLength(500, MinimumLength = 5, ErrorMessage = "Product Name must be between 5 and 500 characters long.")]
     public string Name { get; set; } = null!;
 
     public string? CateId { get; set; }
@@ -18,15 +18,15 @@ public partial class Product
     [Range(10000, int.MaxValue, ErrorMessage = "Price must be >= 10.000 VND.")]
     public int Price { get; set; }
 
-    [StringLength(100, MinimumLength = 5, ErrorMessage = "Title must be between 20 and 100 characters long.")]
+    [StringLength(500, MinimumLength = 5, ErrorMessage = "Title must be between 5 and 500 characters long.")]
     public string Title { get; set; } = null!;
 
-    [StringLength(500, MinimumLength = 5,ErrorMessage = "Description must be between 50 and 500 characters long.")]
+    [StringLength(500, MinimumLength = 5,ErrorMessage = "Description must be between 5 and 500 characters long.")]
     public string Description { get; set; } = null!;
 
     public string? Image { get; set; }
 
-    [Range(0, int.MaxValue, ErrorMessage = "Price must be >= 0.")]
+    [Range(0, int.MaxValue, ErrorMessage = "Quantity must be >= 0.")]
     public int Quantity { get; set; }
 
     public int Status { get; set; }
