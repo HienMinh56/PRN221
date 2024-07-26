@@ -40,7 +40,7 @@ namespace DAOs
         }
         public Order GetOrderById(string orderId)
         {
-            return _context.Orders.FirstOrDefault(o => o.OrderId == orderId);
+            return _context.Orders.Include(u => u.User).FirstOrDefault(o => o.OrderId == orderId);
         }
         public async Task AddOrder(Order order)
         {
