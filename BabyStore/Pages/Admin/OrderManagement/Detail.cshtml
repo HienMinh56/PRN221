@@ -198,7 +198,7 @@
                                                             <img src="~/images/order.png" class="avatar me-3" alt="stores" data-image-load-anim>
                                                         </div>
                                                         <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-sm">@Html.DisplayFor(modelItem => item.OrderId)</h6>
+                                                            <h6 class="mb-0 text-sm">@Html.DisplayFor(modelItem => item.Product.Name)</h6>
                                                             <p class="mb-0 font-weight-bold text-sm">@Html.DisplayFor(modelItem => item.ProductId)</p>
                                                         </div>
                                                     </div>
@@ -258,7 +258,7 @@
                                 </h5>
                                 <div class="h6 font-weight-300">
                                     <i class="ni location_pin mr-2">
-                                        @Model.Order.CreatedBy
+                                        Order by @Model.Order.User.FullName
                                     </i>
                                 </div>
                                 <div class="h6 mt-4">
